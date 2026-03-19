@@ -9,6 +9,7 @@
   - [Steps to Set Up the Project](#steps-to-set-up-the-project)
   - [Summary](#summary)
 </details>
+- [Continuous Integration](#continuous-integration) 
 
 ## TEAM MEMBERS
 * Bradley Colbourne
@@ -143,3 +144,26 @@ Follow the prompts to create the admin account:
 6.  **Run** server
 
 7.  **Open** in browser
+
+
+---
+## Continuous Integration
+CI runs automatically on every:
+- `push` 
+- `pull_request`
+
+CI pipeline steps: 
+Formatter check: 
+```bash
+uv run ruff format --check
+```
+Linter: 
+```bash
+uv run ruff check
+```
+Tests: 
+```bash
+uv run pytest
+``` 
+Workflow file:
+- `.github/workflows/ci.yml`
