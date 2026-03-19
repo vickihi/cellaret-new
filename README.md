@@ -63,7 +63,10 @@ Before running the project, make sure you have the following installed:
 -   **Installation:**
 	-   **Windows:** Download and install from [Git for Windows](https://git-scm.com/download/win).
 	    
-	-   **macOS:** Install via Homebrew: `brew install git` or run `git --version` to trigger the auto-installer.
+	-   **macOS:** Install via Homebrew ([Homebrew](https://brew.sh/))
+		   ```bash
+			 brew install git
+		   ```
     
 -   **Verify installation:** 
 	```bash
