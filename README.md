@@ -27,19 +27,22 @@ Before running the project, make sure you have the following installed:
 
 -   **Installation:**
   
-	-   **Windows:** Download and install from [Python.org](https://www.python.org/downloads/)
+	-   **Windows:** Download and install from [Python.org](https://www.python.org/downloads/windows/)
 	   
-	-   **Mac:** Recommended to install via Homebrew  ([Homebrew](https://brew.sh/)):  `brew install python`
+	-   **Mac:** Recommended to install via Homebrew  ([Homebrew](https://brew.sh/))
+        ```bash
+	     brew install python
+	    ```
 	
 -   **Verify installation:**
-        
-    ```bash
-      # Windows
-      python --version
-      
-      # Mac
-      python3 --version
-    ```
+	-   **Windows:** 
+		```bash
+		 python --version
+		```
+	-   **Mac:**
+		```bash
+		 python3 --version
+		```
         
 #### 2.  **uv** (Python package manager)
 
@@ -90,7 +93,7 @@ This will create the necessary database tables.
  uv run manage.py migrate
 ```
 
-> SQLite is used by Django by default, so no extra setup is required.
+> SQLite is Django’s default database, so for this project no extra setup is required.
 
 #### 4. Create a Superuser 
 
