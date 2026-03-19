@@ -9,6 +9,7 @@
   - [Steps to Set Up the Project](#steps-to-set-up-the-project)
   - [Summary](#summary)
 </details>
+
 - [Continuous Integration](#continuous-integration) 
 
 ## TEAM MEMBERS
