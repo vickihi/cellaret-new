@@ -2,10 +2,13 @@
 ## TABLE OF CONTENTS
 
 - [Team Members](#team-members)
-- [Installation Guide](#installation-guide)
+- <details>
+  <summary>Installation Guide</summary>
+
   - [Prerequisites](#prerequisites)
   - [Steps to Set Up the Project](#steps-to-set-up-the-project)
   - [Summary](#summary)
+</details>
 
 ## TEAM MEMBERS
 * Bradley Colbourne
