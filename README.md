@@ -9,8 +9,7 @@ Cellaret is a bilingual web application that helps users manage their beverage c
 - [Models API documentation](https://docs.google.com/document/d/1QUqMycmabYId3sL8fyMwKQ5-qFpc2TMJUuoC3NFHl4A/edit?tab=t.0#heading=h.sd0q0penlayf)
 - [Continuous Integration](#continuous-integration)
 - [Personas]()
-- [Color palette]()
-- [Typography system]()
+- [Color palette & Typography system]()
 - [Mockups]()
 
 
@@ -38,9 +37,7 @@ Cellaret uses a lightweight, server-rendered Django stack to deliver a responsiv
 
   
 # INSTALLATION GUIDE
-
 ## Prerequisites
-
 Before running the project, make sure you have the following installed:
 
 #### 1.  **Python (3.8+)**
