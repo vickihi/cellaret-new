@@ -35,9 +35,12 @@ Cellaret uses a lightweight, server-rendered Django stack to deliver a responsiv
 ### DevOps & Tooling
 * Git + GitHub — Version control and collaboration
 * GitHub Actions — Continuous integration (linting, formatting, testing)
+
   
 # INSTALLATION GUIDE
+
 ## Prerequisites
+
 Before running the project, make sure you have the following installed:
 
 #### 1.  **Python (3.8+)**
