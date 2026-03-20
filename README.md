@@ -110,7 +110,7 @@ Follow the prompts to create the admin account:
 -   **Main site:** [http://127.0.0.1:8000/](http://127.0.0.1:8000/)  
 -   **Admin panel:** [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)  
     > Login using the superuser credentials you just created.
-### Summary
+## Summary
 1.  Install prerequisites (**Python + uv + Git**)
 2.  **Clone** repository
 3.  **Sync** dependencies 
