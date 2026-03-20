@@ -5,6 +5,7 @@ Cellaret is a bilingual web application that helps users manage their beverage c
 - [Team Members](#team-members)
 - [ER Model](https://app.diagrams.net/#G1uI5tPZXW0piwWYsHi4QuV0FyxZVa4p_w#%7B%22pageId%22%3A%22A44Uredbnt4s9DRfil-q%22%7D)
 - [Tech Stack](#tech-stack)
+  
 - <details>
   <summary>Installation Guide</summary>
   - [Prerequisites](#prerequisites)
