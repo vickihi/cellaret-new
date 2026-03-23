@@ -12,6 +12,7 @@ Cellaret is a bilingual web application that helps users manage their beverage c
 - [Personas](https://docs.google.com/document/d/17cUwxbMmA3eZTbWNBvBtgDdrrBJl1dGTN5et293tAes/edit?usp=sharing)
 - [Color palette & Typography system]()
 - [Mockups]()
+- [Milestone 1](#milestone-1)
 
 
 # TEAM MEMBERS
@@ -156,3 +157,16 @@ uv run pytest
 ``` 
 Workflow file:
 - `.github/workflows/ci.yml`
+
+# MILESTONE 1
+1. view the product catalog 
+2. view detailed information about a product 
+3. search the catalog by product name 
+4. sort the catalog or search results by price (lowest to highest, highest to lowest) or name (a to z, z to a) 
+5. create and sign into an account  
+6. manage their account 
+7. create and delete cellars 
+8. add a description to a cellar 
+9. add and remove bottles from a cellar
+10. view the website in French and English
+
