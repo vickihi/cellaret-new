@@ -1,5 +1,3 @@
-
-
 URL = "https://catalog-service.adobe.io/graphql"
 
 HEADERS = {
