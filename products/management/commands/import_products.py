@@ -52,7 +52,7 @@ class Command(BaseCommand):
                 sku=product_view["sku"],
                 defaults={
                     "name": product_view.get("name", ""),
-                    "description": product_view.get("description", ""),
+                    "description": attrs.get("argumentaire_vente_externe", ""),
                     "category": attrs.get("identite_produit", ""),
                     "image_url": _get_image_url(product_view),
                     "price": _get_price(item),

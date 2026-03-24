@@ -22,11 +22,11 @@ query ($phrase: String!, $pageSize: Int!, $currentPage: Int!) {
             productView {
                 name
                 sku
-                description
                 images {
-                url
+                    url
                 }
                 attributes(names: [
+                    "argumentaire_vente_externe",  # description
                     "identite_produit",    # product identity (used as category)
                     "pastille_gout",       # taste tag
                     "pays_origine",        # country
