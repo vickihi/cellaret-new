@@ -145,7 +145,7 @@ CI runs automatically on every:
 CI pipeline steps: 
 Formatter check: 
 ```bash
-uv run ruff format --check
+uv run ruff format
 ```
 Linter: 
 ```bash
