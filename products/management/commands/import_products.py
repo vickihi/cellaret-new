@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from products.models import Product
-from products.services.saq_api import fetch_products, fetch_products_pages
+from products.services.saq_api import fetch_products
 
 
 def _get_price(item):
@@ -14,6 +14,13 @@ def _join_if_list(value):
     if isinstance(value, list):
         return ", ".join(str(v) for v in value)
     return value or ""
+
+
+def _get_image_url(product_view):
+    images = product_view.get("images") or []
+    if not images:
+        return ""
+    return (images[0] or {}).get("url") or ""
 
 
 class Command(BaseCommand):
@@ -45,8 +52,9 @@ class Command(BaseCommand):
                 sku=product_view["sku"],
                 defaults={
                     "name": product_view.get("name", ""),
-                    "description": attrs.get("description", ""),
+                    "description": product_view.get("description", ""),
                     "category": attrs.get("identite_produit", ""),
+                    "image_url": _get_image_url(product_view),
                     "price": _get_price(item),
                     "grape_variety": _join_if_list(attrs.get("cepage")),
                     "taste_tag": _join_if_list(attrs.get("pastille_gout")),

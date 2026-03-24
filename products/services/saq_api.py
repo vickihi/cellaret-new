@@ -23,6 +23,9 @@ query ($phrase: String!, $pageSize: Int!, $currentPage: Int!) {
                 name
                 sku
                 description
+                images {
+                url
+                }
                 attributes(names: [
                     "identite_produit",    # product identity (used as category)
                     "pastille_gout",       # taste tag
@@ -55,12 +58,23 @@ def _execute_query(query, variables=None):
     """
     Execute a GraphQL query against the SAQ API.
     """
-    response = requests.post(
-        URL, json={"query": query, "variables": variables or {}}, headers=HEADERS
-    )
+    try:
+        response = requests.post(
+            URL,
+            json={"query": query, "variables": variables or {}},
+            headers=HEADERS,
+            timeout=20,
+        )
+    except requests.RequestException as exc:
+        raise Exception(f"GraphQL request failed: {exc}") from exc
+
     if response.status_code != 200:
-        raise Exception(f"GraphQL request failed: {response.text}")
+        raise Exception(
+            f"GraphQL request failed: HTTP {response.status_code} - {response.text}"
+        )
+
     data = response.json()
+
     if "errors" in data:
         raise Exception(f"GraphQL errors: {data['errors']}")
     return data["data"]
