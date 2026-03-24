@@ -4,30 +4,41 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sku', models.CharField(max_length=50, unique=True)),
-                ('name', models.CharField(max_length=200)),
-                ('description', models.TextField(blank=True)),
-                ('category', models.CharField(blank=True, max_length=100)),
-                ('price', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('taste_tag', models.CharField(blank=True, max_length=100)),
-                ('country', models.CharField(blank=True, max_length=100)),
-                ('region', models.CharField(blank=True, max_length=100)),
-                ('degree', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
-                ('producer', models.CharField(blank=True, max_length=200)),
-                ('size', models.CharField(blank=True, max_length=50)),
-                ('vintage', models.CharField(blank=True, max_length=10)),
-                ('grape_variety', models.CharField(blank=True, max_length=200)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("sku", models.CharField(max_length=50, unique=True)),
+                ("name", models.CharField(max_length=200)),
+                ("description", models.TextField(blank=True)),
+                ("category", models.CharField(blank=True, max_length=100)),
+                ("price", models.DecimalField(decimal_places=2, max_digits=8)),
+                ("taste_tag", models.CharField(blank=True, max_length=100)),
+                ("country", models.CharField(blank=True, max_length=100)),
+                ("region", models.CharField(blank=True, max_length=100)),
+                (
+                    "degree",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=5, null=True
+                    ),
+                ),
+                ("producer", models.CharField(blank=True, max_length=200)),
+                ("size", models.CharField(blank=True, max_length=50)),
+                ("vintage", models.CharField(blank=True, max_length=10)),
+                ("grape_variety", models.CharField(blank=True, max_length=200)),
             ],
         ),
     ]
