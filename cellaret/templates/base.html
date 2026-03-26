@@ -51,50 +51,7 @@
     </header>
     <main class="mx-auto">
         <div class="container">
-            <section class="products-section">
-                <div class="product-grid">
-                    <article class="product-card">
-                        <a href="#" class="card-link">
-                            <div class="card-image">
-                                <img src="https://www.saq.com/media/catalog/product/7/1/710780-1_1660239048.png?optimize=high&fit=bounds&height111&width=116&format=jpegg"
-                                    alt="Le Bonheur Chardonnay Stellenbosch">
-                            </div>
-                            <div class="card-content">
-                                <p class="card-product-details">White wine <i class="fa-solid fa-circle"></i> South Africa <i class="fa-solid fa-circle"></i> 750ml</p>
-                                <h3 class="card-title">Le Bonheur Chardonnay Stellenbosch</h3>
-                                <p class="card-taste-tag">Aromatic and Mellow</p>
-                                <footer class="card-footer">
-                                    <span class="card-price">$19.00</span>
-                                    <button class="btn-add"><i class="fa-solid fa-plus"></i></button>
-                                </footer>
-                            </div>
-                        </a>
-                    </article>
-                    {% for product in products %}
-                    <article class="product-card">
-                        <a href="#" class="card-link">
-                            <div class="card-image">
-                                <img src="{{ product.image_url }}"
-                                    alt="{{ product.name }}">
-                            </div>
-                            <div class="card-content">
-                                <p class="card-product-details">{{ product.category }} | {{ product.country }} | {{ product.size }}</p>
-                                <h3 class="card-title">{{ product.name }}</h3>
-                                <p class="card-taste-tag">{{ product.taste_tag }}</p>
-                                <footer class="card-footer">
-                                    <span class="card-price">{{ product.price }}</span>
-                                    <button class="btn-add"><i class="fa-solid fa-plus"></i></button>
-                                </footer>
-                            </div>
-                        </a>
-                    </article>
-                    {% empty %}
-                    <div class="no-results-container">
-                        <p class="no-results">No matching products found.</p>
-                    </div>
-                    {% endfor %}
-                </div>
-            </section>
+            {% block content %}{% endblock %}
         </div>
     </main>
     <footer class="site-footer">

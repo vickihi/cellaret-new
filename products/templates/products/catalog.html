@@ -1,29 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Cellaret | Catalog{% endblock %}
 
 {% block content %}
-    <section class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
-        <h1 class="text-3xl font-bold tracking-tight text-slate-900">
-            Django + Tailwind
-        </h1>
-        <p class="mt-3 text-slate-600">
-            Your Tailwind setup is working.
-        </p>
-
-        <div class="mt-6 flex gap-3">
-            <a
-                href="#"
-                class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:opacity-90"
-            >
-                Primary action
-            </a>
-            <a
-                href="#"
-                class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-            >
-                Secondary action
-            </a>
+    <section class="products-section">
+        <div class="product-grid">
+            {% for product in products %}
+            <article class="product-card">
+                <a href="#" class="card-link">
+                        <div class="card-image">
+                        <img src="{{ product.image_url }}"
+                            alt="{{ product.name }}">
+                    </div>
+                    <div class="card-content">
+                        <p class="card-product-details">{{ product.category }} <i class="fa-solid fa-circle"></i> {{ product.country }} <i class="fa-solid fa-circle"></i> {{ product.size }}</p>
+                        <h3 class="card-title">{{ product.name }}</h3>
+                        {% if product.taste_tag %}
+                            <p class="card-taste-tag">{{ product.taste_tag }}</p>
+                        {% endif %}
+                        <footer class="card-footer">
+                            <span class="card-price">{{ product.price }} $</span>
+                            <button class="btn-add"><i class="fa-solid fa-plus"></i></button>
+                        </footer>
+                    </div>
+                </a>
+            </article>
+            {% empty %}
+            <div class="no-results-container">
+                <p class="no-results">No matching products found.</p>
+            </div>
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

@@ -129,7 +129,7 @@ Follow the prompts to create the admin account:
 
 #### 7. Run the Development Server
 ```bash
- uv run manage.py runserver
+ uv run manage.py tailwind runserver
 ```
 
 #### 8. Access in Browser
