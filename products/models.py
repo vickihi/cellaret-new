@@ -17,5 +17,22 @@ class Product(models.Model):
     vintage = models.CharField(max_length=20, blank=True)
     grape_variety = models.CharField(max_length=500, blank=True)
 
+    @property
+    def size_display(self):
+        """Return the product size formatted as mL below 1000 and L at 1000 or above."""
+        if not self.size:
+            return ""
+
+        try:
+            ml = float(self.size)
+        except (TypeError, ValueError):
+            return self.size
+
+        if ml < 1000:
+            return f"{int(ml)} mL" if ml.is_integer() else f"{ml:g} mL"
+
+        liters = ml / 1000
+        return f"{liters:g} L"
+
     def __str__(self):
         return f"{self.name} ({self.sku})"
