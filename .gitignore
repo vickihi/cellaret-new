@@ -6,7 +6,7 @@ dist/
 wheels/
 *.egg-info
 
-# user uploaded files
+# User uploaded files
 media/
 
 # Virtual environments
@@ -22,3 +22,6 @@ db.sqlite3
 
 # Environment variables
 .env
+
+# Mac OS
+.DS_Store
