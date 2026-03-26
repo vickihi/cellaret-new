@@ -116,13 +116,23 @@ Follow the prompts to create the admin account:
 -   Username: (e.g., `admin`) 
 -   Email address: (e.g., `admin@test.com`)  
 -   Password: (enter twice, characters will not be visible)
-  
-#### 5. Run the Development Server
+
+#### 5. Fetch Initial Data from API
+```bash
+ uv run manage.py import_products
+```
+
+#### 6. Validate the Data in Local Database
+```bash
+ uv run manage.py shell -c "from products.models import Product; print(Product.objects.count())"
+```
+
+#### 7. Run the Development Server
 ```bash
  uv run manage.py runserver
 ```
 
-#### 6. Access in Browser
+#### 8. Access in Browser
 -   Main site: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)  
 -   Admin panel: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
   
@@ -134,8 +144,9 @@ Follow the prompts to create the admin account:
 3.  **Sync** dependencies 
 4.  **Apply** migrations
 5.  **Create** superuser
-6.  **Run** server
-7.  **Open** in browser
+6.  **Fetch** initial data from API 
+7.  **Run** server
+8.  **Open** in browser
    
 # CONTINUOUS INTEGRATION
 CI runs automatically on every:
