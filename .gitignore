@@ -25,3 +25,6 @@ db.sqlite3
 
 # Mac OS
 .DS_Store
+
+#Tailwind
+.django_tailwind_cli

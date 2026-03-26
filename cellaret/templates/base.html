@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load tailwind_cli %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>{% block title %}Cellaret{% endblock %}</title>
+    {% tailwind_css %}
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="container mx-auto flex justify-between w-full">
+
+            <a id="logo" href="#" class="brand">Cellaret</a>
+
+            <div class="header-primary-nav">
+                <a class="active" href="#">
+                    <span>Catalog</span>
+                </a>
+                <a class="" href="#">
+                    <span>Cellar</span>
+                </a>
+                <a class="" href="#">
+                    <span>Sommelier</span>
+                </a>
+            </div>
+
+            <div class="header-secondary-nav">
+                <a href="#">log in</a>
+                <a href="#">register</a>
+                <div class="lang-select">
+                    <a href="#" class="active">EN</a>
+                    |
+                    <a href="#">FR</a>
+                </div>
+            </div>
+
+        </nav>
+    </header>
+    <main class="mx-auto">
+        <div class="container">
+            <section class="products-section">
+                <div class="product-grid">
+                    <article class="product-card">
+                        <a href="#" class="card-link">
+                            <div class="card-image">
+                                <img src="https://www.saq.com/media/catalog/product/7/1/710780-1_1660239048.png?optimize=high&fit=bounds&height111&width=116&format=jpegg"
+                                    alt="Le Bonheur Chardonnay Stellenbosch">
+                            </div>
+                            <div class="card-content">
+                                <p class="card-product-details">White wine <i class="fa-solid fa-circle"></i> South Africa <i class="fa-solid fa-circle"></i> 750ml</p>
+                                <h3 class="card-title">Le Bonheur Chardonnay Stellenbosch</h3>
+                                <p class="card-taste-tag">Aromatic and Mellow</p>
+                                <footer class="card-footer">
+                                    <span class="card-price">$19.00</span>
+                                    <button class="btn-add"><i class="fa-solid fa-plus"></i></button>
+                                </footer>
+                            </div>
+                        </a>
+                    </article>
+                    {% for product in products %}
+                    <article class="product-card">
+                        <a href="#" class="card-link">
+                            <div class="card-image">
+                                <img src="{{ product.image_url }}"
+                                    alt="{{ product.name }}">
+                            </div>
+                            <div class="card-content">
+                                <p class="card-product-details">{{ product.category }} | {{ product.country }} | {{ product.size }}</p>
+                                <h3 class="card-title">{{ product.name }}</h3>
+                                <p class="card-taste-tag">{{ product.taste_tag }}</p>
+                                <footer class="card-footer">
+                                    <span class="card-price">{{ product.price }}</span>
+                                    <button class="btn-add"><i class="fa-solid fa-plus"></i></button>
+                                </footer>
+                            </div>
+                        </a>
+                    </article>
+                    {% empty %}
+                    <div class="no-results-container">
+                        <p class="no-results">No matching products found.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="container mx-auto py-5 text-center text-white">
+            <p>&copy; {% now "Y" %} Cellaret. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
