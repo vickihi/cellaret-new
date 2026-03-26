@@ -29,7 +29,7 @@ class Product(models.Model):
             return self.size
 
         if ml < 1000:
-            return f"{int(ml)} mL" if ml.is_integer() else f"{ml:g} mL"
+            return f"{int(ml)} ml" if ml.is_integer() else f"{ml:g} ml"
 
         liters = ml / 1000
         return f"{liters:g} L"
