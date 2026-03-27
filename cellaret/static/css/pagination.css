@@ -1,0 +1,62 @@
+/* ==== Pagination ==== */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 26px 0;
+}
+
+.per-page-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    color: var(--primary-text-dark);
+}
+
+.per-page-select {
+    padding: 0.4rem 0.6rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    border: 1px solid #DED7CE;
+    border-radius: 2px;
+    background-color: var(--primary-text-light);
+    cursor: pointer;
+    outline: none;
+}
+
+.pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.page-num, .page-arrow {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.page-num:hover, .page-arrow:hover {
+    opacity: 0.7;
+}
+
+.page-num.active {
+    border-bottom: 1px solid var(--primary-color);
+    cursor: pointer;
+}
+
+.page-arrow {
+    font-size: 1rem;
+}
+
+.page-ellipsis {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    padding: 0 0.2rem;
+    cursor: default;
+}

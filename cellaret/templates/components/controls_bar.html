@@ -1,0 +1,41 @@
+<div class="catalog-top-bar">
+    
+    <div class="results-text">
+        {% if is_cellar %}
+            {{ total_bottles }} Bottles in {{ cellar_name }}
+        {% elif page_obj and page_obj.paginator.count > 0 %}
+            Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} results
+        {% endif %}
+    </div>
+
+    <div class="controls-right">
+        
+        <form method="GET" action="{{ search_action|default:'' }}" class="search-form">
+            <input 
+                type="text" 
+                name="q" 
+                placeholder="{{ search_placeholder|default:'Search...' }}" 
+                value="{{ search_query }}"
+                class="search-input"
+            >
+            <button type="submit" aria-label="Search" class="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+
+        <div class="v-line"></div>
+        
+        <!-- Temporary Group for visual -->
+        <div class="sort-group">
+            <label for="sort-select">SORT:</label>
+            <select id="sort-select" name="sort" class="sort-select">
+                <option value="default">Relevance</option>
+                <option value="price_asc">Price (low to high)</option>
+                <option value="price_desc">Price (high to low)</option>
+                <option value="name_asc">Product Name [A-Z]</option>
+                <option value="name_desc">Product Name [Z-A]</option>
+            </select>
+        </div>
+
+    </div>
+</div>

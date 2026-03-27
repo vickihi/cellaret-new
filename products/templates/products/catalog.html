@@ -3,6 +3,9 @@
 {% block title %}Cellaret | Catalog{% endblock %}
 
 {% block content %}
+
+    {% include 'components/controls_bar.html' with search_placeholder="Search products..." %}
+
     <section class="products-section">
         <div class="product-grid">
             {% for product in products %}
@@ -32,4 +35,9 @@
             {% endfor %}
         </div>
     </section>
+
+    {% if page_obj.paginator.count > 0 %}
+        {% include 'components/pagination.html' %}
+    {% endif %}
+
 {% endblock %}

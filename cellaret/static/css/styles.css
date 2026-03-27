@@ -1,5 +1,7 @@
 @import "/static/css/tailwind.css";
 @import "/static/css/nav.css";
+@import "/static/css/controls.css";
+@import "/static/css/pagination.css";
 
 :root {
     /* --- COLORS --- */
@@ -9,6 +11,7 @@
     --primary-text-light: #FFFFFF;
     --primary-text-dark: #1B1B1F;
     --primary-link-dark: #6B2337;
+    --secondary-text: #55606A;
     --secondary-color: #3E4C59;
     font-synthesis: none;
 }
