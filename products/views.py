@@ -1,19 +1,21 @@
-from django.core.paginator import Paginator
 from django.shortcuts import render
 
-from .models import Product
+from .services import build_catalog_page
 
 
 def product_catalog(request):
-    products_qs = Product.objects.order_by("name", "id")
-    paginator = Paginator(products_qs, 20)
-    page_obj = paginator.get_page(request.GET.get("page"))
+    catalog_page = build_catalog_page(
+        data=request.GET or None,
+        page_number=request.GET.get("page"),
+    )
 
     return render(
         request,
         "products/catalog.html",
         {
-            "page_obj": page_obj,
-            "products": page_obj.object_list,
+            "form": catalog_page.form,
+            "page_obj": catalog_page.page_obj,
+            "products": catalog_page.products,
+            "search_query": catalog_page.search_query,
         },
     )
