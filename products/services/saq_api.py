@@ -13,10 +13,10 @@ HEADERS = {
 }
 
 
-# GraphQL query to fetch products with their name, sku, description,attributes and price
+# GraphQL query to fetch products with their name, sku, description, attributes and price
 QUERY = """
-query ($phrase: String!, $pageSize: Int!, $currentPage: Int!) {
-    productSearch(phrase: $phrase, page_size: $pageSize, current_page: $currentPage) {
+query ($phrase: String!, $pageSize: Int!, $currentPage: Int!, $filter: [SearchClauseInput!]) {
+    productSearch(phrase: $phrase, page_size: $pageSize, current_page: $currentPage, filter: $filter) {
         total_count
         items {
             productView {
@@ -27,15 +27,15 @@ query ($phrase: String!, $pageSize: Int!, $currentPage: Int!) {
                 }
                 attributes(names: [
                     "argumentaire_vente_externe",  # description
-                    "identite_produit",    # product identity (used as category)
-                    "pastille_gout",       # taste tag
-                    "pays_origine",        # country
-                    "region_origine",      # region
-                    "teneur_alcool",       # alcohol degree
-                    "nom_producteur",      # producer
-                    "format_contenant_ml", # bottle size
-                    "millesime_produit",   # vintage
-                    "cepage"               # grape variety
+                    "identite_produit",            # product identity (used as category)
+                    "pastille_gout",               # taste tag
+                    "pays_origine",                # country
+                    "region_origine",              # region
+                    "teneur_alcool",               # alcohol degree
+                    "nom_producteur",              # producer
+                    "format_contenant_ml",         # bottle size
+                    "millesime_produit",           # vintage
+                    "cepage"                       # grape variety
                 ]) {
                     name
                     value
@@ -53,25 +53,28 @@ query ($phrase: String!, $pageSize: Int!, $currentPage: Int!) {
 }
 """
 
+CATALOG_TYPE_1_PRICE_RANGES = [
+    (0, 20),
+    (20, 30),
+    (30, 60),
+    (60, 150),
+    (150, 999999),
+]
+
+
+OTHER_CATALOG_TYPES = ["2", "3", "4", "5", "6", "7"]
+
 
 def _execute_query(query, variables=None):
     """
     Execute a GraphQL query against the SAQ API.
     """
-    try:
-        response = requests.post(
-            URL,
-            json={"query": query, "variables": variables or {}},
-            headers=HEADERS,
-            timeout=20,
-        )
-    except requests.RequestException as exc:
-        raise Exception(f"GraphQL request failed: {exc}") from exc
-
-    if response.status_code != 200:
-        raise Exception(
-            f"GraphQL request failed: HTTP {response.status_code} - {response.text}"
-        )
+    response = requests.post(
+        URL,
+        json={"query": query, "variables": variables or {}},
+        headers=HEADERS,
+        timeout=20,
+    )
 
     data = response.json()
 
@@ -80,27 +83,63 @@ def _execute_query(query, variables=None):
     return data["data"]
 
 
-def fetch_products(page=1, page_size=50):
+def fetch_products_by_filter(page=1, page_size=500, filters=None):
     """
-    Fetch a single page of products from the SAQ API.
-    Default: 50 products per page
+    Fetch products by filter.
     """
-    variables = {"phrase": " ", "pageSize": page_size, "currentPage": page}
-    return _execute_query(QUERY, variables)["productSearch"]
+    variables = {
+        "phrase": " ",
+        "pageSize": page_size,
+        "currentPage": page,
+        "filter": filters or [],
+        "sort": [{"attribute": "price", "direction": "ASC"}],
+    }
+
+    products = _execute_query(QUERY, variables)["productSearch"]
+
+    return products
 
 
-def fetch_products_pages(max_pages=2, page_size=50):
+def fetch_all_products():
     """
-    Fetch multiple pages of products.
-    Default: 2 pages with 50 products per page
+    Fetch all products by querying catalog_type 1 with price ranges and catalog_types 2-7 directly.
     """
     all_products = []
-    for page in range(1, max_pages + 1):
-        print(f"Fetching page {page}...")
-        data = fetch_products(page=page, page_size=page_size)
-        items = data.get("items", [])
-        print(f"  Got {len(items)} items")
-        if not items:
-            break
-        all_products.extend(items)
+
+    # catalog_type = 1
+    for price_from, price_to in CATALOG_TYPE_1_PRICE_RANGES:
+        print(f"\nFetching catalog_type=1, price {price_from}-{price_to}...")
+        page = 1
+        while True:
+            items = fetch_products_by_filter(
+                page=page,
+                filters=[
+                    {"attribute": "catalog_type", "eq": "1"},
+                    {"attribute": "price", "range": {"from": price_from, "to": price_to}},
+                ]
+            ).get("items", [])
+
+            all_products.extend(items)
+            if len(items) < 500:
+                break
+            page += 1
+
+    # catalog_type 2-7
+    for catalog_type in OTHER_CATALOG_TYPES:
+        print(f"\nFetching catalog_type={catalog_type}...")
+        page = 1
+        while True:
+            items = fetch_products_by_filter(
+                page=page,
+                filters=[{"attribute": "catalog_type", "eq": catalog_type}]
+            ).get("items", [])
+            print(f"Found {len(items)} items for catalog_type={catalog_type}")
+
+            all_products.extend(items)
+            if len(items) < 500:
+                break
+            page += 1
+
     return all_products
+
+
