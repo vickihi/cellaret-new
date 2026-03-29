@@ -124,7 +124,7 @@ def fetch_all_products():
                 break
             page += 1
 
-    # catalog_type 2-7
+    # catalog_type 2-3
     for catalog_type in OTHER_CATALOG_TYPES:
         print(f"\nFetching catalog_type={catalog_type}...")
         page = 1
