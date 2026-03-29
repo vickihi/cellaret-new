@@ -62,7 +62,7 @@ CATALOG_TYPE_1_PRICE_RANGES = [
 ]
 
 
-OTHER_CATALOG_TYPES = ["2", "3", "4", "5", "6", "7"]
+OTHER_CATALOG_TYPES = ["2", "3"]
 
 
 def _execute_query(query, variables=None):
@@ -102,7 +102,7 @@ def fetch_products_by_filter(page=1, page_size=500, filters=None):
 
 def fetch_all_products():
     """
-    Fetch all products by querying catalog_type 1 with price ranges and catalog_types 2-7 directly.
+    Fetch all products by querying catalog_type 1 with price ranges and catalog_types 2-3 directly.
     """
     all_products = []
 
