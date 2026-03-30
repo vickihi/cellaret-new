@@ -1,5 +1,4 @@
 import requests
-import math
 
 URL = "https://catalog-service.adobe.io/graphql"
 
@@ -16,8 +15,8 @@ HEADERS = {
 
 # GraphQL query to fetch products with their name, sku, description, attributes and price
 QUERY = """
-query ($phrase: String!, $pageSize: Int!, $currentPage: Int!, $filter: [SearchClauseInput!]) {
-    productSearch(phrase: $phrase, page_size: $pageSize, current_page: $currentPage, filter: $filter) {
+query ($phrase: String!, $pageSize: Int!, $currentPage: Int!, $filter: [SearchClauseInput!], $sort: [ProductSearchSortInput!]) {
+    productSearch(phrase: $phrase, page_size: $pageSize, current_page: $currentPage, filter: $filter, sort: $sort) {
         total_count
         items {
             productView {
@@ -55,15 +54,12 @@ query ($phrase: String!, $pageSize: Int!, $currentPage: Int!, $filter: [SearchCl
 """
 
 CATALOG_TYPE_1_PRICE_RANGES = [
-    (0, 20),
-    (20, 30),
-    (30, 60),
-    (60, 150),
+    (0, 19.99),
+    (20, 29.99),
+    (30, 59.99),
+    (60, 149.99),
     (150, 999999),
 ]
-
-
-CATALOG_TYPE_2 = ["2"]
 
 
 def _execute_query(query, variables=None):
@@ -76,7 +72,8 @@ def _execute_query(query, variables=None):
         headers=HEADERS,
         timeout=20,
     )
-
+    response.raise_for_status()
+    
     data = response.json()
 
     if "errors" in data:
@@ -93,7 +90,10 @@ def fetch_products_by_filter(page=1, page_size=500, filters=None):
         "pageSize": page_size,
         "currentPage": page,
         "filter": filters or [],
-        "sort": [{"attribute": "price", "direction": "ASC"}],
+        "sort": [
+            {"attribute": "price", "direction": "ASC"}, 
+            {"attribute": "sku", "direction": "ASC"}
+        ],
     }
 
     products = _execute_query(QUERY, variables)["productSearch"]
@@ -103,69 +103,51 @@ def fetch_products_by_filter(page=1, page_size=500, filters=None):
 
 def fetch_all_products():
     """
-    Fetch all products using safe pagination (based on total_count).
+    Fetch all products by querying catalog_type 1 with price ranges and catalog_type 2 directly.
     """
     all_products = []
-    page_size = 500
 
     # catalog_type = 1
     for price_from, price_to in CATALOG_TYPE_1_PRICE_RANGES:
         print(f"\nFetching catalog_type=1, price {price_from}-{price_to}...")
-
         page = 1
         range_total = 0
-        total_count = None
-
         while True:
             result = fetch_products_by_filter(
                 page=page,
-                page_size=page_size,
                 filters=[
                     {"attribute": "catalog_type", "eq": "1"},
                     {"attribute": "price", "range": {"from": price_from, "to": price_to}},
                 ]
             )
-
             items = result.get("items", [])
-            total_count = result.get("total_count", 0)
-
-            all_products.extend(items)
             range_total += len(items)
-
-            print(f"Page {page} → {len(items)} items")
-
-            if page * page_size >= total_count:
-                break
-
-            page += 1
-
-        print(f"Total fetched: {range_total}")
-
-    # catalog_type 2
-    for catalog_type in CATALOG_TYPE_2:
-        print(f"\nFetching catalog_type={catalog_type}...")
-
-        page = 1
-        total_count = None
-
-        while True:
-            result = fetch_products_by_filter(
-                page=page,
-                page_size=page_size,
-                filters=[{"attribute": "catalog_type", "eq": catalog_type}]
-            )
-
-            items = result.get("items", [])
-            total_count = result.get("total_count", 0)
-
             all_products.extend(items)
-
-            print(f"Page {page} → {len(items)} items")
-
-            if page * page_size >= total_count:
+            
+            if len(items) < 500:
                 break
-
             page += 1
+        
+        print(f"Found {range_total} items for catalog_type=1 price range {price_from}-{price_to}")
 
-    print(f"\nTOTAL PRODUCTS: {len(all_products)}")
+    # catalog_type = 2
+    print(f"\nFetching catalog_type=2...")
+    page = 1
+    type_total = 0
+    while True:
+        result = fetch_products_by_filter(
+            page=page,
+            filters=[{"attribute": "catalog_type", "eq": "2"}]
+        )
+        items = result.get("items", [])
+        type_total += len(items)
+        all_products.extend(items)
+        
+        if len(items) < 500:
+            break
+        page += 1
+    
+    print(f"Found {type_total} items for catalog_type=2")
+
+    print(f"\n=== Total products fetched: {len(all_products)} ===")
     return all_products
