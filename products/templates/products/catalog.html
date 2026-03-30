@@ -10,7 +10,7 @@
         <div class="product-grid">
             {% for product in products %}
             <article class="product-card">
-                <a href="#" class="card-link">
+                <a href="{% url 'products:detail' product.sku %}" class="card-link">
                         <div class="card-image">
                         <img src="{{ product.image_url }}"
                             alt="{{ product.name }}">
