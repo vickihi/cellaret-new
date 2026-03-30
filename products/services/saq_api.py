@@ -62,7 +62,7 @@ CATALOG_TYPE_1_PRICE_RANGES = [
 ]
 
 
-OTHER_CATALOG_TYPES = ["2", "3"]
+CATALOG_TYPE_2 = ["2"]
 
 
 def _execute_query(query, variables=None):
@@ -124,8 +124,8 @@ def fetch_all_products():
                 break
             page += 1
 
-    # catalog_type 2-3
-    for catalog_type in OTHER_CATALOG_TYPES:
+    # catalog_type 2
+    for catalog_type in CATALOG_TYPE_2:
         print(f"\nFetching catalog_type={catalog_type}...")
         page = 1
         while True:
