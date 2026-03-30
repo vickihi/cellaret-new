@@ -1,4 +1,5 @@
 import requests
+import math
 
 URL = "https://catalog-service.adobe.io/graphql"
 
@@ -102,44 +103,69 @@ def fetch_products_by_filter(page=1, page_size=500, filters=None):
 
 def fetch_all_products():
     """
-    Fetch all products by querying catalog_type 1 with price ranges and catalog_types 2-3 directly.
+    Fetch all products using safe pagination (based on total_count).
     """
     all_products = []
+    page_size = 500
 
     # catalog_type = 1
     for price_from, price_to in CATALOG_TYPE_1_PRICE_RANGES:
         print(f"\nFetching catalog_type=1, price {price_from}-{price_to}...")
+
         page = 1
+        range_total = 0
+        total_count = None
+
         while True:
-            items = fetch_products_by_filter(
+            result = fetch_products_by_filter(
                 page=page,
+                page_size=page_size,
                 filters=[
                     {"attribute": "catalog_type", "eq": "1"},
                     {"attribute": "price", "range": {"from": price_from, "to": price_to}},
                 ]
-            ).get("items", [])
+            )
+
+            items = result.get("items", [])
+            total_count = result.get("total_count", 0)
 
             all_products.extend(items)
-            if len(items) < 500:
+            range_total += len(items)
+
+            print(f"Page {page} → {len(items)} items")
+
+            if page * page_size >= total_count:
                 break
+
             page += 1
+
+        print(f"Total fetched: {range_total}")
 
     # catalog_type 2
     for catalog_type in CATALOG_TYPE_2:
         print(f"\nFetching catalog_type={catalog_type}...")
+
         page = 1
+        total_count = None
+
         while True:
-            items = fetch_products_by_filter(
+            result = fetch_products_by_filter(
                 page=page,
+                page_size=page_size,
                 filters=[{"attribute": "catalog_type", "eq": catalog_type}]
-            ).get("items", [])
-            print(f"Found {len(items)} items for catalog_type={catalog_type}")
+            )
+
+            items = result.get("items", [])
+            total_count = result.get("total_count", 0)
 
             all_products.extend(items)
-            if len(items) < 500:
+
+            print(f"Page {page} → {len(items)} items")
+
+            if page * page_size >= total_count:
                 break
+
             page += 1
 
+    print(f"\nTOTAL PRODUCTS: {len(all_products)}")
     return all_products
-
-
