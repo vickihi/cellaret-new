@@ -22,9 +22,11 @@ def product_catalog(request):
         "products/catalog.html",
         {
             "form": catalog_page.form,
+            "sort_form": catalog_page.sort_form,
             "page_obj": catalog_page.page_obj,
             "products": catalog_page.products,
             "search_query": catalog_page.search_query,
+            "sort_key": catalog_page.sort_key,
             "page_range": catalog_page.page_range,
             "breadcrumbs": catalog_page.breadcrumbs,
         },
