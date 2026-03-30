@@ -170,10 +170,10 @@ Workflow file:
 - `.github/workflows/ci.yml`
 
 # MILESTONE 1
-* view the product catalog 
-* view detailed information about a product 
+* view the product catalog
 * search the catalog by product name 
-* sort the catalog or search results by price (lowest to highest, highest to lowest) or name (a to z, z to a) 
+* sort the catalog or search results by price (lowest to highest, highest to lowest) or name (a to z, z to a)
+* view detailed information about a product 
 * create and sign into an account  
 * manage their account 
 * create and delete cellars 
