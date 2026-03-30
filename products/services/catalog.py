@@ -23,7 +23,9 @@ def build_catalog_page(*, data, page_number, per_page: int = 24) -> CatalogPageD
     products_qs = get_catalog_products(search_query=search_query)
     paginator = Paginator(products_qs, per_page)
     page_obj = paginator.get_page(page_number)
-    elided_page_range = paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1) # type: ignore
+    elided_page_range = paginator.get_elided_page_range(
+        page_obj.number, on_each_side=1, on_ends=1
+    )  # type: ignore
 
     return CatalogPageData(
         form=form,
