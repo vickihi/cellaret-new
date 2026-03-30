@@ -26,5 +26,6 @@ def product_catalog(request):
             "products": catalog_page.products,
             "search_query": catalog_page.search_query,
             "page_range": catalog_page.page_range,
+            "breadcrumbs": catalog_page.breadcrumbs,
         },
     )
