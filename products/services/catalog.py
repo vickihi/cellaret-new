@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from django.core.paginator import Paginator
+from django.urls import reverse
 
 from products.forms import ProductCatalogSearchForm
 from products.selectors import get_catalog_products
@@ -13,6 +14,7 @@ class CatalogPageData:
     products: object
     search_query: str
     page_range: list
+    breadcrumbs: list[dict[str, str | None]]
 
 
 def build_catalog_page(*, data, page_number, per_page: int = 24) -> CatalogPageData:
@@ -26,6 +28,16 @@ def build_catalog_page(*, data, page_number, per_page: int = 24) -> CatalogPageD
     elided_page_range = paginator.get_elided_page_range(
         page_obj.number, on_each_side=1, on_ends=1
     )  # type: ignore
+    breadcrumbs = [
+        {"label": "Home", "url": reverse("products:catalog")},
+    ]
+    if search_query:
+        breadcrumbs.append(
+            {
+                "label": f"Search results for: {search_query}",
+                "url": None,
+            }
+        )
 
     return CatalogPageData(
         form=form,
@@ -33,4 +45,5 @@ def build_catalog_page(*, data, page_number, per_page: int = 24) -> CatalogPageD
         products=page_obj.object_list,
         search_query=search_query,
         page_range=elided_page_range,
+        breadcrumbs=breadcrumbs,
     )
