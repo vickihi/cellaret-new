@@ -73,7 +73,7 @@ def _execute_query(query, variables=None):
         timeout=20,
     )
     response.raise_for_status()
-    
+
     data = response.json()
 
     if "errors" in data:
@@ -91,8 +91,8 @@ def fetch_products_by_filter(page=1, page_size=500, filters=None):
         "currentPage": page,
         "filter": filters or [],
         "sort": [
-            {"attribute": "price", "direction": "ASC"}, 
-            {"attribute": "sku", "direction": "ASC"}
+            {"attribute": "price", "direction": "ASC"},
+            {"attribute": "sku", "direction": "ASC"},
         ],
     }
 
@@ -117,36 +117,40 @@ def fetch_all_products():
                 page=page,
                 filters=[
                     {"attribute": "catalog_type", "eq": "1"},
-                    {"attribute": "price", "range": {"from": price_from, "to": price_to}},
-                ]
+                    {
+                        "attribute": "price",
+                        "range": {"from": price_from, "to": price_to},
+                    },
+                ],
             )
             items = result.get("items", [])
             range_total += len(items)
             all_products.extend(items)
-            
+
             if len(items) < 500:
                 break
             page += 1
-        
-        print(f"Found {range_total} items for catalog_type=1 price range {price_from}-{price_to}")
+
+        print(
+            f"Found {range_total} items for catalog_type=1 price range {price_from}-{price_to}"
+        )
 
     # catalog_type = 2
-    print(f"\nFetching catalog_type=2...")
+    print("\nFetching catalog_type=2...")
     page = 1
     type_total = 0
     while True:
         result = fetch_products_by_filter(
-            page=page,
-            filters=[{"attribute": "catalog_type", "eq": "2"}]
+            page=page, filters=[{"attribute": "catalog_type", "eq": "2"}]
         )
         items = result.get("items", [])
         type_total += len(items)
         all_products.extend(items)
-        
+
         if len(items) < 500:
             break
         page += 1
-    
+
     print(f"Found {type_total} items for catalog_type=2")
 
     print(f"\n=== Total products fetched: {len(all_products)} ===")

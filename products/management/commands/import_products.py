@@ -29,60 +29,74 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write("Fetching all products...")
         items = fetch_all_products()
-        
+
         items_dict = {}
         for item in items:
             sku = self._get_sku(item)
             if sku:
                 items_dict[sku] = item
-        
+
         self.stdout.write(f"Processing {len(items_dict)} unique products...")
-        
-        existing_skus = set(Product.objects.values_list('sku', flat=True))
-        
+
+        existing_skus = set(Product.objects.values_list("sku", flat=True))
+
         to_create = []
         to_update = []
-        
+
         for sku, item in items_dict.items():
             if sku in existing_skus:
                 to_update.append((sku, item))
             else:
                 to_create.append(self._build_product(item, sku))
-        
+
         if to_create:
             self.stdout.write(f"Creating {len(to_create)} products...")
             Product.objects.bulk_create(to_create, batch_size=500)
-        
+
         updated_count = 0
         if to_update:
             self.stdout.write(f"Updating {len(to_update)} products...")
             for i in range(0, len(to_update), 500):
-                batch = to_update[i:i + 500]
+                batch = to_update[i : i + 500]
                 skus = [sku for sku, _ in batch]
-                
+
                 products = {p.sku: p for p in Product.objects.filter(sku__in=skus)}
-                
+
                 for sku, item in batch:
                     if sku in products:
                         self._update_product(products[sku], item)
-                
+
                 Product.objects.bulk_update(
                     products.values(),
-                    ['name', 'description', 'category', 'image_url', 'price',
-                     'grape_variety', 'taste_tag', 'country', 'region', 'degree',
-                     'producer', 'size', 'vintage'],
-                    batch_size=500
+                    [
+                        "name",
+                        "description",
+                        "category",
+                        "image_url",
+                        "price",
+                        "grape_variety",
+                        "taste_tag",
+                        "country",
+                        "region",
+                        "degree",
+                        "producer",
+                        "size",
+                        "vintage",
+                    ],
+                    batch_size=500,
                 )
                 updated_count += len(batch)
-        
-        self.stdout.write(self.style.SUCCESS(
-            f"Done. Created: {len(to_create)}, Updated: {updated_count}"
-        ))
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Done. Created: {len(to_create)}, Updated: {updated_count}"
+            )
+        )
 
     def _build_product(self, item, sku):
         product_view = item.get("productView") or {}
         attrs = {a["name"]: a["value"] for a in product_view.get("attributes", [])}
-        
+
         return Product(
             sku=sku,
             name=product_view.get("name", ""),
@@ -103,7 +117,7 @@ class Command(BaseCommand):
     def _update_product(self, product, item):
         product_view = item.get("productView") or {}
         attrs = {a["name"]: a["value"] for a in product_view.get("attributes", [])}
-        
+
         product.name = product_view.get("name", "")
         product.description = attrs.get("argumentaire_vente_externe", "")
         product.category = attrs.get("identite_produit", "")
