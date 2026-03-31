@@ -2,7 +2,26 @@
 
 {% block title %}Cellaret | Catalog{% endblock %}
 
+{% load static %}
+
 {% block content %}
+
+    {% block breadcrumbs %}
+        <section class="page-header">
+            <nav id="breadcrumbs">
+                <ul>
+                    <li>
+                        <a href="{% url 'products:catalog' %}">Catalog</a>
+                    </li>
+                    {% if search_query %}
+                        <li>Search results for “{{ search_query }}”</li>
+                    {% else %}
+                        <li>All Products</li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </section>
+    {% endblock %}
 
     {% include 'components/controls_bar.html' with search_placeholder="Search products by name" %}
 
@@ -11,15 +30,20 @@
             {% for product in products %}
             <article class="product-card">
                 <a href="{% url 'products:detail' product.sku %}" class="card-link">
-                        <div class="card-image">
-                        <img src="{{ product.image_url }}"
-                            alt="{{ product.name }}">
+                    <div class="card-image">
+                        <!-- <img src="{{ product.image_url }}" alt="{{ product.name }}"> -->
+                        {% if product.image_url %}
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="{% static 'images/product-placeholder.png' %}" alt="No image available for {{ product.name }}">
+                        {% endif %}
                     </div>
                     <div class="card-content">
-                        <p class="card-product-details">{{ product.category }} <i class="fa-solid fa-circle"></i> {{ product.country }} <i class="fa-solid fa-circle"></i> {{ product.size_display }}</p>
+                        <p class="card-product-details">{{ product.category }} <i class="fa-solid fa-circle"></i>
+                            {{ product.country }} <i class="fa-solid fa-circle"></i> {{ product.size_display }}</p>
                         <h3 class="card-title">{{ product.name }}</h3>
                         {% if product.taste_tag %}
-                            <p class="card-taste-tag">{{ product.taste_tag }}</p>
+                        <p class="card-taste-tag">{{ product.taste_tag }}</p>
                         {% endif %}
                         <footer class="card-footer">
                             <span class="card-price">{{ product.price }} $</span>
@@ -30,14 +54,14 @@
             </article>
             {% empty %}
             <div class="no-results-container">
-                <p class="no-results">No matching products found.</p>
+                <p class="no-results"></p>
             </div>
             {% endfor %}
         </div>
     </section>
 
     {% if page_obj.paginator.count > 0 %}
-        {% include 'components/pagination.html' %}
+    {% include 'components/pagination.html' %}
     {% endif %}
 
 {% endblock %}

@@ -57,13 +57,13 @@ ul {
 main {
     flex: 1;
     min-width: 1200px;
-    margin: 2rem auto;
+    margin: 0 auto;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: .5rem 1rem;
 }
 
 aside {
@@ -77,6 +77,51 @@ aside {
     color: var(--primary-text-light);
     margin-top: auto;
     font-size: 1.0rem;
+}
+
+/* --- BREADCRUMBS --- */
+
+.page-header {
+    display: flex;
+    background: 
+        linear-gradient(
+            rgba(27, 27, 31, 0.25),
+            rgba(27, 27, 31, 0.25)
+        ),
+        url('../images/wine.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    height: 240px;
+    width: 100%;
+    color: var(--primary-text-light);
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#breadcrumbs ul {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-size: 1rem;
+}
+
+#breadcrumbs a {
+    color: var(--primary-text-light);
+}
+
+#breadcrumbs a:hover {
+    color: var(--primary-text-light);
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-thickness: 10%;
+    text-underline-offset: 40%;
+}
+
+#breadcrumbs li + li:before {
+    content: ">";
+    color: var(--primary-text-light);
+    margin: 0 0.75rem;
 }
 
 /* --- PRODUCT SECTION --- */

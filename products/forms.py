@@ -20,8 +20,9 @@ class ProductSortForm(forms.Form):
     ]
 
     sort = forms.ChoiceField(
-        label="Sort",
+        label="Sort:",
         required=False,
         choices=SORT,
         initial="default",
+        widget=forms.Select(attrs={"class": "sort-select"}),
     )

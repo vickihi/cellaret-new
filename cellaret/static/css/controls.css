@@ -79,11 +79,18 @@
     font-family: inherit;
     font-size: 16px;
     font-weight: 500;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     cursor: pointer;
     outline: none;
     height: 38px;
     line-height: 38px;
+}
+
+.sort-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
 }
 
 /* -- Hidden on-screen but readable by screen readers -- */
