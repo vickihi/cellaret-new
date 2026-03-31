@@ -25,11 +25,7 @@ def build_catalog_page(*, data, page_number, per_page: int = 24) -> CatalogPageD
     is_valid = form.is_valid()
 
     search_query = form.cleaned_data.get("q", "") if is_valid else ""
-    sort_key = (
-        sort_form.cleaned_data.get("sort", "default")
-        if sort_form.is_valid()
-        else "default"
-    )
+    sort_key = sort_form.cleaned_data.get("sort", "") if sort_form.is_valid() else ""
     products_qs = get_catalog_products(search_query=search_query, sort_key=sort_key)
     paginator = Paginator(products_qs, per_page)
     page_obj = paginator.get_page(page_number)
