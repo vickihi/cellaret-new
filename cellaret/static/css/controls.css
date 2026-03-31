@@ -50,14 +50,15 @@
 .search-btn {
     background: transparent;
     border: none;
-    padding: 8px 12px;
+    padding: 8px 14px;
     cursor: pointer;
     color: var(--secondary-color);
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease-in-out;
 }
 
 .search-btn:hover {
-    color: var(--primary-color-hover);
+    color: var(--primary-text-light);
+    background: var(--primary-color);
 }
 
 /* --- Sort Group --- */
