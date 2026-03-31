@@ -12,7 +12,7 @@ class ProductCatalogSearchForm(forms.Form):
 
 class ProductSortForm(forms.Form):
     SORT = [
-        ("default", "Relevance"),
+        ("", "Default"),
         ("price_asc", "Price (low to high)"),
         ("price_desc", "Price (high to low)"),
         ("name_asc", "Name (A-Z)"),
@@ -23,6 +23,6 @@ class ProductSortForm(forms.Form):
         label="Sort:",
         required=False,
         choices=SORT,
-        initial="default",
+        initial="",
         widget=forms.Select(attrs={"class": "sort-select"}),
     )
