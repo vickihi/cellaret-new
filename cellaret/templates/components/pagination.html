@@ -4,6 +4,9 @@
         {% if search_query %}
             <input type="hidden" name="q" value="{{ search_query }}">
         {% endif %}
+        {% if sort_key %}
+            <input type="hidden" name="sort" value="{{ sort_key }}">
+        {% endif %}
         
         <label for="per_page">Show</label>
         <select name="per_page" id="per_page" class="per-page-select" onchange="this.form.submit()">
@@ -16,7 +19,7 @@
 
     <nav class="pagination-nav">
         {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" class="page-arrow">
+            <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}{% if sort_key %}&sort={{ sort_key|urlencode }}{% endif %}{% if request.GET.per_page %}&per_page={{ request.GET.per_page|urlencode }}{% endif %}" class="page-arrow">
                 <i class="fa-solid fa-chevron-left"></i>
             </a>
         {% endif %}
@@ -27,12 +30,12 @@
             {% elif page_obj.number == num %}
                 <span class="page-num active">{{ num }}</span>
             {% else %}
-                <a href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if request.GET.per_page %}&per_page={{ request.GET.per_page }}{% endif %}" class="page-num">{{ num }}</a>
+                <a href="?page={{ num }}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}{% if sort_key %}&sort={{ sort_key|urlencode }}{% endif %}{% if request.GET.per_page %}&per_page={{ request.GET.per_page|urlencode }}{% endif %}" class="page-num">{{ num }}</a>
             {% endif %}
         {% endfor %}
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" class="page-arrow">
+            <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query|urlencode }}{% endif %}{% if sort_key %}&sort={{ sort_key|urlencode }}{% endif %}{% if request.GET.per_page %}&per_page={{ request.GET.per_page|urlencode }}{% endif %}" class="page-arrow">
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
         {% endif %}
