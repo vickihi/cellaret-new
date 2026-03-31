@@ -68,7 +68,7 @@
     height: 40px;
     gap: 8px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 500;
     color: var(--secondary-text);
     border: 1px solid var(--secondary-text);
 }
@@ -78,10 +78,24 @@
     background: transparent;
     font-family: inherit;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 500;
     text-transform: uppercase;
     cursor: pointer;
     outline: none;
     height: 38px;
     line-height: 38px;
+}
+
+/* -- Hidden on-screen but readable by screen readers -- */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
 }
