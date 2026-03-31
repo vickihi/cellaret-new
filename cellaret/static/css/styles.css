@@ -2,6 +2,7 @@
 @import "/static/css/nav.css";
 @import "/static/css/controls.css";
 @import "/static/css/pagination.css";
+@import "/static/css/detail.css";
 
 :root {
     /* --- COLORS --- */

@@ -1,6 +1,7 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, get_object_or_404
 from .services import build_catalog_page
+
+from .models import Product
 
 
 def product_catalog(request):
@@ -22,10 +23,17 @@ def product_catalog(request):
         "products/catalog.html",
         {
             "form": catalog_page.form,
+            "sort_form": catalog_page.sort_form,
             "page_obj": catalog_page.page_obj,
             "products": catalog_page.products,
             "search_query": catalog_page.search_query,
+            "sort_key": catalog_page.sort_key,
             "page_range": catalog_page.page_range,
             "breadcrumbs": catalog_page.breadcrumbs,
         },
     )
+
+
+def product_detail(request, sku):
+    product = get_object_or_404(Product, sku=sku)
+    return render(request, "products/detail.html", {"product": product})
