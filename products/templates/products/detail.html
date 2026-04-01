@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cellaret | {{ product.name }}{% endblock %}
+
+{% block content %}
+
+    {% block breadcrumbs %}
+        <nav id="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="{% url 'products:catalog' %}">Catalog</a>
+                </li>
+                <li>
+                    {{ product.category }}
+                </li>
+                <li>
+                    <strong>{{ product.name }}</strong>
+                </li>
+            </ul>
+        </nav>
+    {% endblock %}
+
+    <section class="product-detail-container">
+        
+        <div class="detail-image-col">
+            {% if product.image_url %}
+                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'images/product-placeholder.png' %}" alt="No image available for {{ product.name }}">
+            {% endif %}
+        </div>
+
+        <div class="detail-info-col">
+            
+            <h1 class="detail-title">{{ product.name }}</h1>
+            <h4 class="detail-subtitle">
+                {{ product.category }} &nbsp;|&nbsp; 
+                {{ product.size_display|default:product.size }} &nbsp;|&nbsp; 
+                {{ product.country }}{% if product.region %}, {{ product.region }}{% endif %}
+            </h4>
+            
+            <h4 class="detail-price">{{ product.price }}$</h4>
+            
+            {% if product.taste_tag %}
+                <p class="detail-taste-tag">{{ product.taste_tag }}</p>
+            {% endif %}
+
+            <hr class="detail-divider">
+
+            <div class="detail-section">
+                <h4 class="section-title">Cellar stock</h4>
+                <div class="stock-controls">
+                    <div class="stock-box">4 Bottles</div>
+                    <button class="btn-primary">Edit</button>
+                </div>
+            </div>
+
+            <hr class="detail-divider">
+
+            <div class="detail-section">
+                <h4 class="section-title">Detailed info</h4>
+                
+                {% if product.description %}
+                    <div class="detail-description">
+                        {{ product.description }}
+                    </div>
+                {% endif %}
+
+                <div class="detail-specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Country:</span> 
+                        <span class="spec-value">{{ product.country|default:"-" }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Color:</span> 
+                        <span class="spec-value">{{ product.category|default:"-" }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Region:</span> 
+                        <span class="spec-value">{{ product.region|default:"-" }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Size:</span> 
+                        <span class="spec-value">{{ product.size_display|default:product.size|default:"-" }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Grape variety:</span> 
+                        <span class="spec-value">{{ product.grape_variety|default:"-" }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Producer:</span> 
+                        <span class="spec-value">{{ product.producer|default:"-" }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Degree of alcohol:</span> 
+                        <span class="spec-value">{{ product.degree|default:"-" }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">SAQ code:</span> 
+                        <span class="spec-value">{{ product.sku|default:"-" }}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

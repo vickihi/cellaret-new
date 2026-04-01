@@ -1,0 +1,123 @@
+/* === Product Detail Page === */
+
+.product-detail-container {
+    display: flex;
+    gap: 64px;
+    max-width: 1440px;
+    margin: 32px auto;
+}
+
+.detail-image-col {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.detail-image-col img {
+    max-width: 100%;
+    height: auto;
+    max-height: 550px;
+    object-fit: contain;
+}
+
+.detail-info-col {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-title {
+    font-weight: 500;
+    color: var(--primary-text-dark);
+    margin-bottom: 24px;
+}
+
+.detail-price {
+    margin: 24px 0;
+}
+
+.detail-taste-tag {
+    background-color: #FFF;
+    color: #2F3A2D;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid rgba(47, 58, 45, 0.20);
+    border-radius: 3px;
+    padding: 2px 8px;
+    align-self: flex-start;
+}
+
+.detail-divider {
+    border: none;
+    border-top: 1px solid rgba(27, 27, 31, 0.1);
+    margin: 24px 0;
+}
+
+.section-title {
+    font-weight: 600;
+    color: var(--primary-text-dark);
+    margin-bottom: 12px;
+}
+
+/* --- Cellar Stock --- */
+.stock-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.stock-box {
+    padding: 10px 32px;
+    border: 1px solid rgba(27, 27, 31, 0.2);
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--primary-text-dark);
+    font-size: 16px;
+}
+
+.btn-primary {
+    padding: 10px 32px;
+    background-color: var(--primary-color);
+    color: var(--primary-text-light);
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-hover);
+}
+
+/* --- Detailed Info --- */
+.detail-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--primary-text-dark);
+    margin-bottom: 2rem;
+}
+
+.detail-specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+    row-gap: 12px;
+}
+
+.spec-item {
+    font-size: 14px;
+    color: var(--primary-text-dark);
+}
+
+.spec-label {
+    color: var(--secondary-color);
+}
+
+.spec-value {
+    font-weight: 600;
+}

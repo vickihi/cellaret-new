@@ -39,6 +39,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 
@@ -56,12 +58,34 @@ ul {
 
 main {
     flex: 1;
-    min-width: 1200px;
+    min-width: 1440px;
     margin: 0 auto;
 }
 
+h1, h2, h3 {
+    font-family: "Playfair Display";
+}
+
+h1 {
+    font-size: 48px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+h4 {
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
 .container {
-    max-width: 1200px;
+    max-width: 1440px;
     margin: 0 auto;
     padding: .5rem 1rem;
 }
@@ -77,6 +101,7 @@ aside {
     color: var(--primary-text-light);
     margin-top: auto;
     font-size: 1.0rem;
+    height: 80px;
 }
 
 /* --- BREADCRUMBS --- */
@@ -92,7 +117,14 @@ aside {
     background-size: cover;
     background-position: center bottom;
     height: 240px;
-    width: 100%;
+    
+    /* 💡 기존 width: 100%; 를 지우고 아래 3줄로 교체하세요! */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    /* ------------------------------------------------ */
+
     color: var(--primary-text-light);
     flex-direction: column;
     justify-content: flex-end;
@@ -100,27 +132,29 @@ aside {
 
 #breadcrumbs ul {
     display: flex;
-    max-width: 1200px;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 2rem;
     font-size: 1rem;
 }
 
-#breadcrumbs a {
+.page-header #breadcrumbs a {
     color: var(--primary-text-light);
 }
 
 #breadcrumbs a:hover {
-    color: var(--primary-text-light);
     text-decoration: underline;
     text-decoration-style: solid;
     text-decoration-thickness: 10%;
     text-underline-offset: 40%;
 }
 
+.page-header #breadcrumbs a:hover {
+    color: var(--primary-text-light);
+}
+
 #breadcrumbs li + li:before {
     content: ">";
-    color: var(--primary-text-light);
     margin: 0 0.75rem;
 }
 

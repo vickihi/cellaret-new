@@ -4,24 +4,24 @@
 
 {% load static %}
 
-{% block content %}
+{% block banner %}
+    <section class="page-header">
+        <nav id="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="{% url 'products:catalog' %}">Catalog</a>
+                </li>
+                {% if search_query %}
+                    <li>Search results for “{{ search_query }}”</li>
+                {% else %}
+                    <li>All Products</li>
+                {% endif %}
+            </ul>
+        </nav>
+    </section>
+{% endblock %}
 
-    {% block breadcrumbs %}
-        <section class="page-header">
-            <nav id="breadcrumbs">
-                <ul>
-                    <li>
-                        <a href="{% url 'products:catalog' %}">Catalog</a>
-                    </li>
-                    {% if search_query %}
-                        <li>Search results for “{{ search_query }}”</li>
-                    {% else %}
-                        <li>All Products</li>
-                    {% endif %}
-                </ul>
-            </nav>
-        </section>
-    {% endblock %}
+{% block content %}
 
     {% include 'components/controls_bar.html' with search_placeholder="Search products by name" %}
 
