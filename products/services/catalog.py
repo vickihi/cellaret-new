@@ -33,7 +33,7 @@ def build_catalog_page(*, data, page_number, per_page: int = 24) -> CatalogPageD
         page_obj.number, on_each_side=1, on_ends=1
     )  # type: ignore
     breadcrumbs = [
-        {"label": "Home", "url": reverse("products:catalog")},
+        {"label": "Catalog", "url": reverse("products:catalog")},
     ]
     if search_query:
         breadcrumbs.append(
