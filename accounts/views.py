@@ -7,16 +7,16 @@ from accounts.forms import SignUpForm
 from accounts.services.auth_service import (
     create_user_account,
 )
-from accounts.utils import get_safe_redirect_target
+from accounts.utils import get_safe_redirect_target, store_signup_redirect_target
 
 
 def signup(request):
     if request.user.is_authenticated:
         return redirect("products:catalog")
 
+    store_signup_redirect_target(request, request.GET.get("next"))
     context = {
         "form": SignUpForm(),
-        "next": request.GET.get("next", ""),
     }
     return render(request, "accounts/signup.html", context)
 
@@ -24,6 +24,11 @@ def signup(request):
 def signup_submit(request):
     if request.user.is_authenticated:
         return redirect("products:catalog")
+
+    if request.method == "POST":
+        store_signup_redirect_target(request, request.POST.get("next"))
+    else:
+        store_signup_redirect_target(request, request.GET.get("next"))
 
     form = SignUpForm(request.POST or None)
 
@@ -33,7 +38,6 @@ def signup_submit(request):
             "accounts/signup.html",
             {
                 "form": form,
-                "next": request.POST.get("next", request.GET.get("next", "")),
             },
         )
 

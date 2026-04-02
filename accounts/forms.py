@@ -17,10 +17,6 @@ class SignUpForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            css_classes = field.widget.attrs.get("class", "")
-            field.widget.attrs["class"] = f"{css_classes} form-control".strip()
-
         self.fields["username"].widget.attrs.update(
             {"placeholder": _("Choose a username...")}
         )
