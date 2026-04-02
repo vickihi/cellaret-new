@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
@@ -26,3 +26,12 @@ class SignUpForm(UserCreationForm):
         self.fields["password2"].widget.attrs.update(
             {"placeholder": _("Confirm your password...")}
         )
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={"placeholder": _("Enter username...")})
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={"placeholder": _("Enter password...")})
+    )

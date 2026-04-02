@@ -1,9 +1,9 @@
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login as django_login
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
-from accounts.forms import SignUpForm
+from accounts.forms import SignUpForm, LoginForm
 from accounts.services.auth_service import (
     create_user_account,
 )
@@ -46,8 +46,33 @@ def signup_submit(request):
         email=form.cleaned_data.get("email", ""),
         password=form.cleaned_data["password1"],
     )
-    login(request, user)
+    django_login(request, user)
     messages.success(
         request, _("Your account has been created and you are now signed in.")
     )
+    return redirect(get_safe_redirect_target(request))
+
+
+def login(request):
+    """Show form for log in."""
+    if request.user.is_authenticated:
+        return redirect(get_safe_redirect_target(request))
+
+    form = LoginForm(request)
+    context = {"form": form}
+
+    return render(request, "accounts/login.html", context)
+
+
+def login_submit(request):
+    """Handle form for log in."""
+    form = LoginForm(request, data=request.POST)
+    context = {"form": form}
+
+    if not form.is_valid():
+        return render(request, "accounts/login.html", context)
+
+    user = form.get_user()
+    django_login(request, user)
+
     return redirect(get_safe_redirect_target(request))
