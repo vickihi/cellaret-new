@@ -175,9 +175,9 @@ Workflow file:
 * sort the catalog or search results by price (lowest to highest, highest to lowest) or name (a to z, z to a)
 * view detailed information about a product 
 * create and sign into an account  
-* manage their account 
 * create and delete cellars 
 * add a description to a cellar 
 * add and remove bottles from a cellar
+* manage their account 
 * view the website in French and English
 
