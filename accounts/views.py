@@ -80,6 +80,5 @@ def login_submit(request):
 
 def logout(request):
     """Handle logout for user."""
-    store_signup_redirect_target(request, request.POST.get("next"))
     django_logout(request)
-    return redirect(get_safe_redirect_target(request))
+    return redirect("products:catalog")
