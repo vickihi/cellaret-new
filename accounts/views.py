@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login as django_login
+from django.contrib.auth import login as django_login, logout as django_logout
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
@@ -75,4 +75,11 @@ def login_submit(request):
     user = form.get_user()
     django_login(request, user)
 
+    return redirect(get_safe_redirect_target(request))
+
+
+def logout(request):
+    """Handle logout for user."""
+    store_signup_redirect_target(request, request.POST.get("next"))
+    django_logout(request)
     return redirect(get_safe_redirect_target(request))
