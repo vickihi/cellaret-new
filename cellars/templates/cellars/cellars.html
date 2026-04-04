@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cellaret | My Cellars{% endblock %}
+
+{% block content %}
+<div class="cellars-layout">
+    
+    <aside class="cellars-sidebar">
+        <div class="sidebar-user-info">
+            <p class="user-name">{{ user.name|default:"USER NAME" }}</p>
+            <p class="user-tier">Premium Member</p>
+        </div>
+
+        <div class="sidebar-nav">
+            <h3 class="nav-title">Your Cellars</h3>
+            <ul class="nav-list">
+                {% for sidebar_cellar in cellars %}
+                <li>
+                    <a href="#" class="nav-link">
+                        <span class="cellar-name">{{ sidebar_cellar.name }}</span>
+                        <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottles</span>
+                    </a>
+                </li>
+                {% empty %}
+                <li class="nav-empty">No cellars yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+
+    <section class="cellars-main">
+        
+        <header class="cellars-header">
+            <div class="header-titles">
+                <span class="inventory-label">
+                    <i class="fa-regular fa-folder-open"></i> Inventory
+                </span>
+                <h1 class="main-title">Cellars</h1>
+            </div>
+            
+            <a href="{% url 'cellars:cellar_create' %}" class="btn-primary">
+                <i class="fa-solid fa-plus"></i> New cellar
+            </a>
+        </header>
+
+        <div class="cellars-grid">
+            {% for cellar in cellars %}
+            <article class="cellar-card">
+                <a href="#" class="cellar-card-link">
+                    <div class="cellar-image-wrapper">
+                        <img src="{% static 'images/product-placeholder.png' %}" alt="{{ cellar.name }}">
+                    </div>
+                    
+                    <div class="cellar-info">
+                        <span class="bottle-count">{{ cellar.bottle_count|default:"0" }} Bottles</span>
+                        <h2 class="cellar-name">{{ cellar.name }}</h2>
+                        <p class="cellar-desc">{{ cellar.description }}</p>
+                    </div>
+                </a>
+            </article>
+
+            {% empty %}
+            <div class="empty-state">
+                <i class="fa-solid fa-wine-glass-empty empty-icon"></i>
+                <h2 class="empty-title">Your inventory is empty</h2>
+                <p class="empty-desc">Start managing your collection by creating your first custom cellar space.</p>
+                <a href="{% url 'cellars:cellar_create' %}" class="btn-primary">Create your first cellar</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

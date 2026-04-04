@@ -6,6 +6,10 @@
     min-height: 80px;
 }
 
+.nav-container {
+    padding: 0 20px;;
+}
+
 .brand {
     color: var(--primary-color);
     font-family: "Playfair Display";

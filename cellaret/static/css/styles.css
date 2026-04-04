@@ -3,6 +3,7 @@
 @import "/static/css/controls.css";
 @import "/static/css/pagination.css";
 @import "/static/css/detail.css";
+@import "/static/css/cellars.css";
 
 :root {
     /* --- COLORS --- */
@@ -73,6 +74,7 @@ h1 {
 
 h2 {
     font-size: 24px;
+    font-weight: 600;
 }
 
 h3 {
@@ -88,7 +90,7 @@ h4 {
 .container {
     max-width: 1440px;
     margin: 0 auto;
-    padding: .5rem 1rem;
+    padding: .5rem 20px;
 }
 
 aside {

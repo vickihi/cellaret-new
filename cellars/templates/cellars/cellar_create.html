@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cellaret | Create a Cellar{% endblock %}
+
+{% block content %}
+<div class="create-wrapper">
+    <div class="form-header">
+        <h1>Create a cellar</h1>
+        <p>Tell us about your cellar</p>
+    </div>
+    
+    <form method="post" action="{% url 'cellars:cellar_create' %}" class="create-form">
+        {% csrf_token %}
+        
+        <p class="form-field">
+            <label for="id_name">Cellar name</label>
+            <input type="text" name="name" id="id_name" placeholder="Add a name" required>
+        </p>
+
+        <p class="form-field">
+            <label for="id_description">Description</label>
+            <textarea name="description" id="id_description" placeholder="Describe your cellar"></textarea>
+        </p>
+
+        <div class="checkbox-group">
+            <input type="checkbox" name="is_default" id="id_is_default">
+            <label for="id_is_default">Make this my default cellar</label>
+        </div>
+        
+        <button type="submit" class="btn-primary">Create</button>
+    </form>
+</div>
+{% endblock %}

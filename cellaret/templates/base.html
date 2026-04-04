@@ -21,38 +21,40 @@
 
 <body>
     <header class="site-header">
-        <nav class="container mx-auto flex justify-between w-full">
+        <div class="container">
+            <nav class="nav-container mx-auto flex justify-between w-full">
 
-            <a id="logo" href="{% url 'products:catalog' %}" class="brand">Cellaret</a>
+                <a id="logo" href="{% url 'products:catalog' %}" class="brand">Cellaret</a>
 
-            <div class="header-primary-nav">
-                <a class="active" href="{% url 'products:catalog' %}">
-                    <span>Catalog</span>
-                </a>
-                <a class="" href="#">
-                    <span>Cellar</span>
-                </a>
-                <a class="" href="#">
-                    <span>Sommelier</span>
-                </a>
-            </div>
-
-            <div class="header-secondary-nav">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'accounts:detail' %}" class="greeting">Hello, {{ user.name }}!</a>
-                    <a href="{% url 'accounts:logout' %}" class="auth-btn">Log out</a>
-                {% else %}
-                    <a href="{% url 'accounts:signup' %}?next={{ request.get_full_path|urlencode }}">Sign up</a>
-                    <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">Log in</a>
-                {% endif %}
-                <div class="lang-select">
-                    <a href="#" class="active">EN</a>
-                    |
-                    <a href="#">FR</a>
+                <div class="header-primary-nav">
+                    <a class="active" href="{% url 'products:catalog' %}">
+                        <span>Catalog</span>
+                    </a>
+                    <a class="" href="#">
+                        <span>Cellar</span>
+                    </a>
+                    <a class="" href="#">
+                        <span>Sommelier</span>
+                    </a>
                 </div>
-            </div>
 
-        </nav>
+                <div class="header-secondary-nav">
+                    {% if user.is_authenticated %}
+                        <a href="#" class="greeting">Hello, {{ user.name }}!</a>
+                        <a href="{% url 'accounts:logout' %}" class="auth-btn">Log out</a>
+                    {% else %}
+                        <a href="{% url 'accounts:signup' %}?next={{ request.get_full_path|urlencode }}">Sign up</a>
+                        <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">Log in</a>
+                    {% endif %}
+                    <div class="lang-select">
+                        <a href="#" class="active">EN</a>
+                        |
+                        <a href="#">FR</a>
+                    </div>
+                </div>
+
+            </nav>
+        </div>
     </header>
     <main class="mx-auto">
         {% block banner %}{% endblock %}
