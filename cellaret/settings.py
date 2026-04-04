@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django_tailwind_cli",
     "products.apps.ProductsConfig",
     "accounts.apps.AccountsConfig",
+    "cellars.apps.CellarsConfig",
 ]
 
 MIDDLEWARE = [
