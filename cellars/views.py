@@ -6,7 +6,17 @@ from .services import create_cellar
 
 @login_required
 def cellars(request):
-    """Get all cellars for a user."""
+    """
+    Get all cellars for a user.
+    If the user has no cellars, create one.
+    """
+    if not request.user.cellars.exists():
+        create_cellar(
+            name="My Cellar",
+            description="This is my first cellar ...",
+            user=request.user,
+        )
+
     cellars = get_user_cellars(user=request.user)
     return render(request, "cellars/cellars.html", {"cellars": cellars})
 
@@ -23,3 +33,7 @@ def cellar_create(request):
         return redirect("cellars:cellars")
 
     return render(request, "cellars/cellar_create.html")
+
+
+@login_required
+def cellar_update(): ...
