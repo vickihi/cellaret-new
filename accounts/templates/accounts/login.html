@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+
+<div class="auth-wrapper">
+    <div class="form-header">
+        <h1>Log in</h1>
+        <p>Manage your collection</p>
+    </div>
+    
+    <form method="post" action="{% url 'accounts:login_submit' %}" class="auth-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+
+        {{ form.as_p }} 
+        
+        <button type="submit" class="btn-primary">Log in</button>
+    </form>
+    
+    <div class="auth-links-bottom">
+        <p>Don't have an account?</p>
+        <p><a href="{% url 'accounts:signup' %}">Create account</a></p>
+    </div>
+</div>
+{% endblock %}

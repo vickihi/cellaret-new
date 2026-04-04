@@ -1,0 +1,81 @@
+/* static/css/accounts.css */
+.auth-wrapper {
+    max-width: 500px; 
+    margin: 40px auto 80px auto; 
+}
+
+.form-header {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.auth-wrapper h1 {
+    text-align: center;
+}
+
+.auth-form {
+    max-width: 400px; 
+    margin: 38px auto; 
+    padding: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.05);
+}
+
+.auth-form p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 36px;
+}
+
+.auth-form label {
+    margin-bottom: 16px;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid rgba(222, 215, 206, 0.5);
+    color: #1B1B1F;
+    background-color: #FAF8F5;
+    transition: all 0.3s ease;
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: rgb(222, 215, 206); 
+    background-color: #FFFFFF;
+}
+
+.auth-form li, .helptext {
+    font-size: 14px;
+    color: #7f8c8d;
+    line-height: 1.5;
+    margin-top: 6px;
+}
+
+.auth-form .btn-primary {
+    width: 100%;
+    height: 55px;
+}
+
+.auth-links-bottom {
+    margin-top: 38px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-links-bottom a {
+    color: var(--primary-link-dark);
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.auth-links-bottom a:hover {
+    color: var(--primary-link-dark-hover);
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-thickness: 10%;
+    text-underline-offset: 40%;}
