@@ -38,8 +38,13 @@
             </div>
 
             <div class="header-secondary-nav">
-                <a href="{% url 'accounts:signup' %}?next={{ request.get_full_path|urlencode }}">sign up</a>
-                <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">log in</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:detail' %}" class="greeting">Hello, {{ user.name }}!</a>
+                    <a href="{% url 'accounts:logout' %}" class="auth-btn">Log out</a>
+                {% else %}
+                    <a href="{% url 'accounts:signup' %}?next={{ request.get_full_path|urlencode }}">Sign up</a>
+                    <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">Log in</a>
+                {% endif %}
                 <div class="lang-select">
                     <a href="#" class="active">EN</a>
                     |
