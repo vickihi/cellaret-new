@@ -35,7 +35,7 @@ body {
     font-family: 'Lato', sans-serif;
     line-height: 1.5;
     background-color: var(--primary-background);
-    color: #333;
+    color: #1B1B1F;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -68,6 +68,7 @@ h1, h2, h3 {
 
 h1 {
     font-size: 48px;
+    font-weight: bold;
 }
 
 h2 {
@@ -98,10 +99,9 @@ aside {
 
 .site-footer {
     background-color: var(--secondary-color);
-    color: var(--primary-text-light);
-    margin-top: auto;
+    color: rgba(255, 255, 255, 0.8);
     font-size: 1.0rem;
-    height: 80px;
+    padding: 1rem 0;
 }
 
 /* --- BREADCRUMBS --- */

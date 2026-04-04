@@ -3,6 +3,7 @@
 .site-header {
     background-color: var(--primary-background);
     color: var(--primary-text-color);
+    min-height: 80px;
 }
 
 .brand {

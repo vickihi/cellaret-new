@@ -83,7 +83,6 @@
     background-color: var(--primary-color);
     color: var(--primary-text-light);
     border: none;
-    border-radius: 4px;
     font-weight: 600;
     font-size: 16px;
     cursor: pointer;
