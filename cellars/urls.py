@@ -7,4 +7,10 @@ app_name = "cellars"
 urlpatterns = [
     path("", views.cellars, name="cellars"),
     path("create/", views.cellar_create, name="cellar_create"),
+    path("<int:cellar_id>/", views.cellar_detail, name="cellar_detail"),
+    path(
+        "<int:cellar_id>/bottles/<int:bottle_id>/",
+        views.single_bottle,
+        name="single_bottle",
+    ),
 ]
