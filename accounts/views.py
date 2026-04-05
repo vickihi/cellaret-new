@@ -1,9 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import login as django_login, logout as django_logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
-from accounts.forms import SignUpForm, LoginForm
+from accounts.forms import LoginForm, SignUpForm
 from accounts.services.auth_service import (
     create_user_account,
 )
@@ -55,6 +56,8 @@ def signup_submit(request):
 
 def login(request):
     """Show form for log in."""
+    store_signup_redirect_target(request, request.GET.get("next"))
+
     if request.user.is_authenticated:
         return redirect(get_safe_redirect_target(request))
 
@@ -82,3 +85,9 @@ def logout(request):
     """Handle logout for user."""
     django_logout(request)
     return redirect("products:catalog")
+
+
+@login_required
+def detail(request):
+    """Show account details for the current user."""
+    return render(request, "accounts/detail.html")
