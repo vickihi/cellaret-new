@@ -1,8 +1,13 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .selectors import get_user_cellars
+from django.shortcuts import render, redirect
+
+from .selectors import (
+    get_user_cellars,
+    get_cellar_bottles,
+    get_user_bottle_or_404,
+    get_user_cellar_or_404,
+)
 from .services import create_cellar
-from .models import Cellar, Bottle
 
 
 @login_required
@@ -42,8 +47,8 @@ def cellar_update(): ...
 
 @login_required
 def cellar_detail(request, cellar_id):
-    cellar = get_object_or_404(Cellar, id=cellar_id, user=request.user)
-    bottles = Bottle.objects.filter(cellar=cellar).select_related("product")
+    cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
+    bottles = get_cellar_bottles(cellar=cellar)
     return render(
         request,
         "cellars/cellar_detail.html",
@@ -56,10 +61,8 @@ def cellar_detail(request, cellar_id):
 
 @login_required
 def single_bottle(request, cellar_id, bottle_id):
-    cellar = get_object_or_404(Cellar, id=cellar_id, user=request.user)
-    bottle = get_object_or_404(
-        Bottle.objects.select_related("product"), id=bottle_id, cellar=cellar
-    )
+    cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
+    bottle = get_user_bottle_or_404(cellar=cellar, bottle_id=bottle_id)
 
     return render(
         request,
