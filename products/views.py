@@ -1,4 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
+
+from cellars.selectors import get_cellar_product_bottle, get_user_default_cellar
 from .services import build_catalog_page
 
 from .models import Product
@@ -36,4 +38,20 @@ def product_catalog(request):
 
 def product_detail(request, sku):
     product = get_object_or_404(Product, sku=sku)
-    return render(request, "products/detail.html", {"product": product})
+    default_cellar = None
+    bottle = None
+
+    if request.user.is_authenticated:
+        default_cellar = get_user_default_cellar(user=request.user)
+        if default_cellar:
+            bottle = get_cellar_product_bottle(cellar=default_cellar, product=product)
+
+    return render(
+        request,
+        "products/detail.html",
+        {
+            "product": product,
+            "default_cellar": default_cellar,
+            "cellar_bottle": bottle,
+        },
+    )
