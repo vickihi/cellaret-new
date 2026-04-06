@@ -17,11 +17,22 @@ def _set_locked_bottle_quantity(*, bottle_id, quantity):
     return bottle
 
 
-def create_cellar(*, name, description, user):
+def create_cellar(*, name, description, user):    
     """Create a cellar for a user."""
     cellar = Cellar.objects.create(name=name, description=description, user=user)
-
     return cellar
+
+
+def update_cellar(*, cellar, name, description):
+    """Update a cellar for a user."""
+    cellar.name = name
+    cellar.description = description
+    cellar.save()
+
+
+def delete_cellar(*, cellar):
+    """Delete a cellar for a user."""
+    cellar.delete()
 
 
 def get_or_create_default_cellar(*, user):

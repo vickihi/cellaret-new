@@ -10,13 +10,19 @@ class Cellar(models.Model):
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="cellars", on_delete=models.CASCADE
     )
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name", "user"], name="unique_cellar_name_per_user"
+            )
+        ]
 
     def __str__(self):
         return self.name
-
 
 class Bottle(models.Model):
     id = models.AutoField(primary_key=True)

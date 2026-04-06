@@ -30,4 +30,14 @@ urlpatterns = [
         views.cellar_bottle_save,
         name="cellar_bottle_save",
     ),
+    path(
+        "<int:cellar_id>/update/",
+        views.cellar_update,
+        name="cellar_update",
+    ),
+    path(
+        "<int:cellar_id>/delete/",
+        views.cellar_delete,
+        name="cellar_delete",
+    ),
 ]

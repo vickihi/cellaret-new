@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect, render
 
 from products.models import Product
+from .forms import CellarForm
 
 from .selectors import (
     get_cellar_bottle_or_404,
@@ -11,9 +13,12 @@ from .selectors import (
     get_cellar_bottles,
     get_user_cellar_or_404,
 )
+
 from .services import (
-    add_product_to_cellar,
     create_cellar,
+    update_cellar, 
+    delete_cellar,
+    add_product_to_cellar,
     decrease_product_quantity_in_cellar,
     delete_cellar_bottle,
     get_or_create_default_cellar,
@@ -30,8 +35,8 @@ def cellars(request):
     """
     if not request.user.cellars.exists():
         create_cellar(
-            name="My Cellar",
-            description="This is my first cellar ...",
+            name="Sample Cellar",
+            description="This is a sample cellar ...",
             user=request.user,
         )
 
@@ -42,15 +47,46 @@ def cellars(request):
 @login_required
 def cellar_create(request):
     """Create a cellar for a user."""
-    if request.method == "POST":
-        create_cellar(
-            name=request.POST["name"],
-            description=request.POST["description"],
-            user=request.user,
-        )
-        return redirect("cellars:cellars")
+    if request.method != "POST":
+        return render(request, "cellars/cellar_create.html", {"form": CellarForm(user=request.user)})
 
-    return render(request, "cellars/cellar_create.html")
+    form = CellarForm(request.POST, user=request.user)
+    if not form.is_valid():
+        return render(request, "cellars/cellar_create.html", {"form": form})
+
+    create_cellar(
+        name=form.cleaned_data["name"],
+        description=form.cleaned_data["description"],
+        user=request.user,
+    )
+    
+    return redirect("cellars:cellars")
+
+
+@login_required
+@require_POST
+def cellar_update(request, cellar_id):
+    """Update a cellar for a user."""
+    cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
+    form = CellarForm(request.POST, instance=cellar, user=request.user)
+
+    if form.is_valid():
+        update_cellar(
+            cellar=cellar,
+            name=form.cleaned_data["name"],
+            description=form.cleaned_data["description"],
+        )
+
+    return redirect("accounts:profile")
+    
+
+@login_required
+@require_POST
+def cellar_delete(request, cellar_id): 
+    """Delete a cellar for a user."""
+    cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
+    delete_cellar(cellar=cellar)
+    return redirect("accounts:profile")
 
 
 @login_required
