@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+
+<div class="dashboard-wrapper">
+    <h1>Manage My Account</h1>
+    <div class="dashboard-section">
+        <h2>Account Details</h2>
+        <hr>
+        <form method="post" action="" class="profile-form">
+            <div>
+                <label class="username">Username</label>
+                <p><input type="text" id="username" class="cellar-name" placeholder="Bob Smith"> <button type="submit" class="btn-link btn-edit"><i class="fa-solid fa-pencil"></i></button>
+</p>
+            </div>
+            <div>
+                <label class="username">Email Address</label>
+                <p><input type="text" id="user-email" class="cellar-name" placeholder="bob.smith@mail.com"> <button type="submit" class="btn-link btn-edit"><i class="fa-solid fa-pencil"></i></button></p>
+            </div>
+            <div>               
+                <label class="username">Password</label>
+                <p><input type="text" id="user-password" class="cellar-name" placeholder="••••••••••••"></p>
+            </div>
+            <a href="" class="btn-primary">Change Password</a>
+        </form>
+    </div>
+
+    <div class="dashboard-section">
+        <h2>Manage My Cellars</h2>
+        <hr>
+        <ul class="cellar-list">
+            <li>
+                <div class="cellar-details default-cellar">
+                    <form method="post" action="" class="cellar-form">
+                    <label for="cellar1-name" class="cellar-title">Cellar Name</label>
+                    <p><input type="text" id="cellar1-name" class="cellar-name" placeholder="Private Collection"></p>
+                    <label for="cellar1-desscription" class="cellar-title">Descripton</label>
+                    <p><textarea type="text" id="cellar1-desscription" class="cellar-desscription" rows="4" cols="50" wrap="soft">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id nisi eu libero convallis molestie sed vel lacus. Fusce sodales pretium diam, in pretium nibh. Integer tincidunt purus eu nisl consectetur, id malesuada quam mollis. Aenean sit amet elit blandit, pulvinar felis at, convallis odio. Aliquam eu urna libero.</textarea></p>
+                    <div class="cellar-edit">
+                        <span class="cellar-default-checkbox">Default cellar</span>
+                        <div class="cellar-buttons">
+                            <button type="submit" class="btn-link btn-delete"><i class="fa-solid fa-trash"></i>Delete</button>
+                            <button type="submit" class="btn-link btn-save"><i class="fa-solid fa-floppy-disk"></i>Save</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </li>
+            <li>
+                <div class="cellar-details">
+                    <form method="post" action="" class="cellar-form">
+                    <label for="cellar1-name" class="cellar-title">Cellar Name</label>
+                    <p><input type="text" id="cellar1-name" class="cellar-name" placeholder="Investment"></p>
+                    <label for="cellar1-desscription" class="cellar-title">Descripton</label>
+                    <p><textarea type="text" id="cellar1-desscription" class="cellar-desscription" rows="4" cols="50" wrap="soft">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vestibulum, turpis non.</textarea></p>
+                    <div class="cellar-edit">
+                        <span class="cellar-default-checkbox">
+                            <input type="checkbox" id="default-cellar" name="default-cellar">
+                            <label for="default-cellar">Make this my default cellar</label>
+                        </span>
+                        <div class="cellar-buttons">
+                            <button type="submit" class="btn-link btn-delete"><i class="fa-solid fa-trash"></i> Delete</button>
+                            <button type="submit" class="btn-link btn-save"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

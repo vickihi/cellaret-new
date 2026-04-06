@@ -33,7 +33,9 @@
 
 .auth-form input[type="text"],
 .auth-form input[type="email"],
-.auth-form input[type="password"] {
+.auth-form input[type="password"],
+.cellar-form input[type="text"],
+.cellar-form textarea {
     padding: 12px;
     font-size: 16px;
     border: 1px solid rgba(222, 215, 206, 0.5);
@@ -42,7 +44,7 @@
     transition: all 0.3s ease;
 }
 
-.auth-form input:focus {
+.auth-form input:focus, .cellar-form input:focus {
     outline: none;
     border-color: rgb(222, 215, 206); 
     background-color: #FFFFFF;
@@ -78,4 +80,155 @@
     text-decoration: underline;
     text-decoration-style: solid;
     text-decoration-thickness: 10%;
-    text-underline-offset: 40%;}
+    text-underline-offset: 40%;
+}
+
+
+/* --- ACCOUNT DETAILS --- */
+
+.dashboard-wrapper {
+    max-width: 700px;
+    margin: 3rem auto 5rem auto;
+}
+
+.dashboard-wrapper h1 {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.dashboard-section {
+    margin-bottom: 4rem;
+}
+
+.dashboard-section h2 {
+    margin-bottom: .5rem;
+}
+
+.dashboard-section hr {
+    border-width: 0 0 1px 0;
+    border-color: #DED7CE;
+    border-style: solid;
+    height: 0;
+}
+
+.profile-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.profile-form .btn-primary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="password"] {
+    width: 80%;
+    padding: .25rem 0;
+}
+
+.cellar-details {
+    padding: 2rem;
+    margin-top: 2rem;
+    background-color: var(--primary-light-background);
+    border-left: 3px solid rgba(107, 35, 55, 0.25);
+}
+
+.default-cellar {
+    border-left: 3px solid var(--primary-color);
+}
+
+.cellar-form {
+    margin-bottom: 1rem;
+}
+
+.cellar-form p {
+    margin-bottom: 1rem;
+}
+
+.cellar-form label, .profile-form label {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--secondary-text);
+    margin-bottom: .5rem;
+    display: block;
+}
+
+.cellar-form input, .cellar-form textarea {
+    width: 100%;
+    color: var(--secondary-text);
+}
+
+.cellar-form textarea {
+    resize: none;
+}
+
+.cellar-edit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cellar-buttons {
+    display:flex;
+    gap: 1.5rem
+}
+
+.cellar-buttons i {
+    margin-right: .4rem;
+}
+
+.btn-link {
+    text-transform: uppercase;
+    color: var(--secondary-text);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-edit {
+    margin-left: 1rem;
+}
+
+.btn-link:hover {
+    text-transform: uppercase;
+    color: var(--primary-link-dark-hover);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-thickness: 10%;
+    text-underline-offset: 40%;
+}
+
+.btn-delete {
+    color: var(--primary-link-dark-hover);
+}
+
+.cellar-default-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 0;
+    color: var(--secondary-text);
+}
+
+.cellar-default-checkbox input {
+    width: auto;
+    margin: 0;
+}
+
+.cellar-default-checkbox label {
+    display: inline;
+    margin-bottom: 0;
+    text-transform: none;
+    font-style: italic;
+    font-weight: normal;
+}
