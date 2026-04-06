@@ -5,15 +5,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('cellars', '0003_remove_bottle_name'),
+        ("cellars", "0003_remove_bottle_name"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddConstraint(
-            model_name='cellar',
-            constraint=models.UniqueConstraint(fields=('name', 'user'), name='unique_cellar_name_per_user'),
+            model_name="cellar",
+            constraint=models.UniqueConstraint(
+                fields=("name", "user"), name="unique_cellar_name_per_user"
+            ),
         ),
     ]

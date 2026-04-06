@@ -14,6 +14,7 @@ class Cellar(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="cellars", on_delete=models.CASCADE
     )
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -23,6 +24,7 @@ class Cellar(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Bottle(models.Model):
     id = models.AutoField(primary_key=True)

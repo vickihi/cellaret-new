@@ -48,7 +48,11 @@ def cellars(request):
 def cellar_create(request):
     """Create a cellar for a user."""
     if request.method != "POST":
-        return render(request, "cellars/cellar_create.html", {"form": CellarForm(user=request.user)})
+        return render(
+            request,
+            "cellars/cellar_create.html",
+            {"form": CellarForm(user=request.user)},
+        )
 
     form = CellarForm(request.POST, user=request.user)
     if not form.is_valid():
@@ -59,7 +63,7 @@ def cellar_create(request):
         description=form.cleaned_data["description"],
         user=request.user,
     )
-    
+
     return redirect("cellars:cellars")
 
 
@@ -78,11 +82,11 @@ def cellar_update(request, cellar_id):
         )
 
     return redirect("accounts:profile")
-    
+
 
 @login_required
 @require_POST
-def cellar_delete(request, cellar_id): 
+def cellar_delete(request, cellar_id):
     """Delete a cellar for a user."""
     cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
     delete_cellar(cellar=cellar)

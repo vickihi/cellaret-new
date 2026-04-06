@@ -6,7 +6,7 @@ from cellars.models import Cellar
 class CellarForm(forms.ModelForm):
     class Meta:
         model = Cellar
-        fields = ['name', 'description']
+        fields = ["name", "description"]
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user", None)
@@ -21,6 +21,3 @@ class CellarForm(forms.ModelForm):
         if queryset.exists():
             raise forms.ValidationError("Cellar with this name already exists.")
         return name
-
-        
-
