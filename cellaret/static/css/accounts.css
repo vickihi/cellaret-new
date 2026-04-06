@@ -118,14 +118,6 @@
     margin-top: 2rem;
 }
 
-.profile-form .btn-primary {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-}
-
 .profile-form input[type="text"],
 .profile-form input[type="email"],
 .profile-form input[type="password"] {

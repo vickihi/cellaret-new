@@ -33,7 +33,7 @@
                         <span>Catalog</span>
                     </a>
                 </li>
-                <li class="nav-item" {% if request.resolver_match.url_name == 'cellars' %}active{% endif %}>
+                <li class="nav-item {% if request.resolver_match.url_name == 'cellars' %}active{% endif %}">
                     <a href="{% url 'cellars:cellars' %}">
                         <span>Cellar</span>
                     </a>
@@ -48,7 +48,7 @@
             <ul class="header-secondary-nav">
                 {% if user.is_authenticated %}
                 <li class="nav-item {% if request.resolver_match.url_name == 'detail' %}active{% endif %}">
-                    <a href="{% url 'accounts:detail' %}" class="greeting">Hello, {{ user.name }}</a>!
+                    <a href="{% url 'accounts:detail' %}" class="greeting">Hello, {{ user.username }}</a>
                 </li>
                 <li>
                     <a href="{% url 'accounts:logout' %}" class="auth-btn">Log out</a>
