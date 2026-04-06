@@ -39,8 +39,20 @@
                         {% endif %}
                     </div>
                     <div class="card-content">
-                        <p class="card-product-details">{{ product.category }} <i class="fa-solid fa-circle"></i>
-                            {{ product.country }} <i class="fa-solid fa-circle"></i> {{ product.size_display }}</p>
+                        {% if product.category or product.country or product.size_display %}
+                            <p class="card-product-details">
+                                {% if product.category %}
+                                    {{ product.category }}
+                                {% endif %}
+                                {% if product.country %}
+                                    <span>{{ product.country }}</span>
+                                {% endif %}
+                                {% if product.size_display %}
+                                    <span>{{ product.size_display }}</span>
+                                {% endif %}
+                            </p>
+                        {% endif %}
+
                         <h3 class="card-title">{{ product.name }}</h3>
                         {% if product.taste_tag %}
                         <p class="card-taste-tag">{{ product.taste_tag }}</p>

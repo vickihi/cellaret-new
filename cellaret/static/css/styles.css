@@ -220,19 +220,16 @@ aside {
 }
 
 .card-product-details {
-    display: flex;
     color: rgba(27, 27, 31, 0.60);
     font-size: .75rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    gap: .5rem;
-    align-items: center;
 }
 
-.card-product-details i {
-    color: rgba(27, 27, 31, 0.60);
-    font-size: .25rem;
+.card-product-details span::before {
+    content: "·";
+    margin: 0 0.30rem;
 }
 
 .card-taste-tag {
