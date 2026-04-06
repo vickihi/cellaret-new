@@ -26,7 +26,7 @@ def get_cellar_bottles(*, cellar):
     )
 
 
-def get_user_bottle_or_404(*, cellar, bottle_id):
+def get_cellar_bottle_or_404(*, cellar, bottle_id):
     """Get a bottle for a cellar."""
     return get_object_or_404(
         Bottle.objects.select_related("product"),
