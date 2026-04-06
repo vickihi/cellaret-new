@@ -136,10 +136,12 @@
     font-size: 0.9rem;
     border: none;
     cursor: pointer;
-    transition: background-color 0.2s;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     gap: 0.5rem;
+    transition: background-color 0.2s;
 }
 
 .btn-primary:hover {

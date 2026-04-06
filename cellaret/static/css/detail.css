@@ -78,7 +78,7 @@
     font-size: 16px;
 }
 
-.btn-primary {
+/* .btn-primary {
     padding: 10px 32px;
     background-color: var(--primary-color);
     color: var(--primary-text-light);
@@ -91,7 +91,7 @@
 
 .btn-primary:hover {
     background-color: var(--primary-color-hover);
-}
+} */
 
 /* --- Detailed Info --- */
 .detail-description {
