@@ -3,6 +3,7 @@ from .cellars import (
     create_cellar,
     get_or_create_default_cellar,
     remove_bottle_from_cellar,
+    set_bottle_quantity,
 )
 
 __all__ = [
@@ -10,4 +11,5 @@ __all__ = [
     "get_or_create_default_cellar",
     "add_bottle_to_cellar",
     "remove_bottle_from_cellar",
+    "set_bottle_quantity",
 ]

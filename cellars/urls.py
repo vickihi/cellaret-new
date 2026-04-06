@@ -9,11 +9,41 @@ urlpatterns = [
     path("create/", views.cellar_create, name="cellar_create"),
     path("bottles/<str:sku>/add/", views.bottle_add, name="bottle_add"),
     path("bottles/<str:sku>/remove/", views.bottle_remove, name="bottle_remove"),
+    path(
+        "bottles/<str:sku>/set-quantity/",
+        views.bottle_set_quantity,
+        name="bottle_set_quantity",
+    ),
     path("<int:cellar_id>/", views.cellar_detail, name="cellar_detail"),
+    path(
+        "<int:cellar_id>/bottles/add/<str:sku>/",
+        views.cellar_bottle_add,
+        name="cellar_bottle_add",
+    ),
     path(
         "<int:cellar_id>/bottles/<int:bottle_id>/remove/",
         views.cellar_bottle_remove,
         name="cellar_bottle_remove",
+    ),
+    path(
+        "<int:cellar_id>/bottles/<int:bottle_id>/increase/",
+        views.cellar_bottle_increase,
+        name="cellar_bottle_increase",
+    ),
+    path(
+        "<int:cellar_id>/bottles/<int:bottle_id>/decrease/",
+        views.cellar_bottle_decrease,
+        name="cellar_bottle_decrease",
+    ),
+    path(
+        "<int:cellar_id>/bottles/<int:bottle_id>/delete/",
+        views.cellar_bottle_delete,
+        name="cellar_bottle_delete",
+    ),
+    path(
+        "<int:cellar_id>/bottles/<int:bottle_id>/save/",
+        views.cellar_bottle_save,
+        name="cellar_bottle_save",
     ),
     path(
         "<int:cellar_id>/bottles/<int:bottle_id>/",

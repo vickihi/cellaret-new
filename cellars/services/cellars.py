@@ -51,3 +51,17 @@ def remove_bottle_from_cellar(*, bottle, quantity=1):
     bottle.quantity -= quantity
     bottle.save(update_fields=["quantity"])
     return bottle
+
+
+@transaction.atomic
+def set_bottle_quantity(*, bottle, quantity):
+    """Set a bottle quantity directly and delete the row when quantity is zero."""
+    bottle = Bottle.objects.select_for_update().get(id=bottle.id)
+
+    if quantity <= 0:
+        bottle.delete()
+        return None
+
+    bottle.quantity = quantity
+    bottle.save(update_fields=["quantity"])
+    return bottle
