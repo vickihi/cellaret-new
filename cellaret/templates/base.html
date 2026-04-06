@@ -14,7 +14,7 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <title>{% block title %}Cellaret{% endblock %}</title>
@@ -61,11 +61,11 @@
                     <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">Log in</a>
                 </li>
                 {% endif %}
-                <div class="lang-select">
+                <li class="lang-select">
                     <a href="#" class="active">EN</a>
-                    |
+                    <span aria-hidden="true"> | </span>
                     <a href="#">FR</a>
-                </div>
+                </li>
             </ul>
 
         </nav>
