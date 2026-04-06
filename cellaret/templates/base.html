@@ -59,6 +59,15 @@
     <main class="mx-auto">
         {% block banner %}{% endblock %}
         <div class="container">
+            {% if messages %}
+                <div class="messages-stack">
+                    {% for message in messages %}
+                        <div class="site-message {{ message.tags|default:'info' }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
             {% block content %}{% endblock %}
         </div>
     </main>
