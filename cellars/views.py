@@ -65,6 +65,7 @@ def cellar_create(request):
         description=form.cleaned_data["description"],
         user=request.user,
     )
+    messages.success(request, "Your cellar has been created.")
 
     return redirect("cellars:cellars")
 
@@ -82,6 +83,7 @@ def cellar_update(request, cellar_id):
             name=form.cleaned_data["name"],
             description=form.cleaned_data["description"],
         )
+        messages.success(request, "Your cellar has been updated.")
 
     return redirect("accounts:detail")
 
@@ -92,6 +94,8 @@ def cellar_delete(request, cellar_id):
     """Delete a cellar for a user."""
     cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
     delete_cellar(cellar=cellar)
+    messages.success(request, f"Your cellar {cellar.name} has been deleted.")
+
     return redirect("accounts:detail")
 
 
@@ -174,6 +178,7 @@ def bottle_remove(request, sku):
     cellar = _get_requested_or_default_user_cellar(request=request)
     if cellar:
         decrease_product_quantity_in_cellar(cellar=cellar, product=product)
+        messages.success(request, f"Removed {product.name} from {cellar.name}.")
 
     redirect_to = request.POST.get("next")
     if redirect_to:
@@ -198,6 +203,7 @@ def bottle_set_quantity(request, sku):
 
     set_product_quantity_in_cellar(cellar=cellar, product=product, quantity=quantity)
 
+    
     redirect_to = request.POST.get("next")
     if redirect_to:
         return redirect(redirect_to)
@@ -213,6 +219,7 @@ def cellar_bottle_delete(request, cellar_id, bottle_id):
     cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
     bottle = get_cellar_bottle_or_404(cellar=cellar, bottle_id=bottle_id)
     delete_cellar_bottle(bottle=bottle)
+    messages.success(request, f"Removed {bottle.product.name} from {cellar.name}.")
 
     return _redirect_to_next_or_cellar_detail(request, cellar_id=cellar_id)
 
@@ -231,5 +238,6 @@ def cellar_bottle_save(request, cellar_id, bottle_id):
         quantity = bottle.quantity
 
     set_cellar_bottle_quantity(bottle=bottle, quantity=quantity)
+    messages.success(request, f"Updated {bottle.product.name} quantity in {cellar.name}.")
 
     return _redirect_to_next_or_cellar_detail(request, cellar_id=cellar_id)
