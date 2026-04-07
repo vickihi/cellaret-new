@@ -16,7 +16,7 @@ from .selectors import (
 
 from .services import (
     create_cellar,
-    update_cellar, 
+    update_cellar,
     delete_cellar,
     add_product_to_cellar,
     decrease_product_quantity_in_cellar,
