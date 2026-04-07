@@ -18,7 +18,7 @@
                 <label for="{{ profile_form.username.id_for_label }}" class="username">Username</label>
                 <p>
                     {{ profile_form.username }}
-                    <button type="submit" class="btn-link btn-edit">
+                    <button type="submit" class="btn-link account-btn-edit">
                         <i class="fa-solid fa-pencil"></i>
                     </button>
                 </p>
@@ -31,7 +31,7 @@
                 <label for="{{ profile_form.email.id_for_label }}" class="username">Email Address</label>
                 <p>
                     {{ profile_form.email }}
-                    <button type="submit" class="btn-link btn-edit">
+                    <button type="submit" class="btn-link account-btn-edit">
                         <i class="fa-solid fa-pencil"></i>
                     </button>
                 </p>
@@ -78,11 +78,11 @@
                         <div class="cellar-buttons">
                             <form method="post" action="{% url 'cellars:cellar_delete' cellar.id %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn-link btn-delete">
+                                <button type="submit" class="btn-link account-btn-delete">
                                     <i class="fa-solid fa-trash"></i>Delete
                                 </button>
                             </form>
-                            <button type="submit" class="btn-link btn-save">
+                            <button type="submit" class="btn-link account-btn-save">
                                 <i class="fa-solid fa-floppy-disk"></i>Save
                             </button>
                         </div>

@@ -184,7 +184,7 @@
     font-size: 14px;
 }
 
-.btn-edit {
+.account-btn-edit {
     margin-left: 1rem;
 }
 
@@ -198,7 +198,7 @@
     text-underline-offset: 40%;
 }
 
-.btn-delete {
+.account-btn-delete {
     color: var(--primary-link-dark-hover);
 }
 
