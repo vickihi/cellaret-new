@@ -28,12 +28,12 @@
             <a id="logo" href="{% url 'products:catalog' %}" class="brand">Cellaret</a>
 
             <ul class="header-primary-nav">
-                <li class="nav-item {% if request.resolver_match.url_name == 'catalog' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.namespace == 'catalog' %}active{% endif %}">
                     <a href="{% url 'products:catalog' %}">
                         <span>Catalog</span>
                     </a>
                 </li>
-                <li class="nav-item {% if request.resolver_match.url_name == 'cellars' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.namespace == 'cellars' %}active{% endif %}">
                     <a href="{% url 'cellars:cellars' %}">
                         <span>Cellar</span>
                     </a>
@@ -47,17 +47,17 @@
 
             <ul class="header-secondary-nav">
                 {% if user.is_authenticated %}
-                <li class="nav-item {% if request.resolver_match.url_name == 'detail' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.namespace == 'detail' %}active{% endif %}">
                     <a href="{% url 'accounts:detail' %}" class="greeting">Hello, {{ user.username }}</a>
                 </li>
                 <li>
                     <a href="{% url 'accounts:logout' %}" class="auth-btn">Log out</a>
                 </li>
                 {% else %}
-                <li class="nav-item {% if request.resolver_match.url_name == 'signup' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.namespace == 'signup' %}active{% endif %}">
                     <a href="{% url 'accounts:signup' %}?next={{ request.get_full_path|urlencode }}">Sign up</a>
                 </li>
-                <li class="nav-item {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.namespace == 'login' %}active{% endif %}">
                     <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">Log in</a>
                 </li>
                 {% endif %}
