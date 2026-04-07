@@ -57,11 +57,16 @@ def product_detail(request, sku):
     product = get_object_or_404(Product, sku=sku)
     selected_cellar = None
     user_cellars = []
-    bottle = None
+    product_bottles = []
 
     if request.user.is_authenticated:
         user_cellars = list(get_user_cellars(user=request.user))
         selected_cellar = get_user_default_cellar(user=request.user)
+
+        for cellar in user_cellars:
+            bottle = get_cellar_product_bottle(cellar=cellar, product=product)
+            if bottle:
+                product_bottles.append(bottle)
 
         cellar_id = request.GET.get("cellar_id")
         if cellar_id:
@@ -79,7 +84,7 @@ def product_detail(request, sku):
         {
             "product": product,
             "selected_cellar": selected_cellar,
-            "user_cellars": user_cellars,
-            "cellar_bottle": bottle,
+            "cellars": user_cellars,
+            "product_bottles": product_bottles,
         },
     )

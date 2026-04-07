@@ -74,14 +74,24 @@
         {% block banner %}{% endblock %}
         <div class="container">
             {% if messages %}
-                <div class="messages-stack">
+                <div class="toast-container" id="toast-container">
                     {% for message in messages %}
-                        <div class="site-message {{ message.tags|default:'info' }}">
-                            {{ message }}
+                    <div class="toast {{ message.tags }}" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            {% if message.tags == 'success' %}
+                                <i class="fas fa-check-circle toast-icon success-icon"></i>
+                            {% elif message.tags == 'error' %}
+                                <i class="fas fa-exclamation-circle toast-icon error-icon"></i>
+                            {% endif %}
+                            <p class="me-auto">{{ message.tags|capfirst }}</p>
                         </div>
+                        <div class="toast-body">
+                        {{ message }}
+                        </div>
+                    </div>
                     {% endfor %}
                 </div>
-            {% endif %}
+                {% endif %}
             {% block content %}{% endblock %}
         </div>
     </main>

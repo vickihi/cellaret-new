@@ -1,0 +1,32 @@
+<div id="add-to-cellar-modal" class="modal-overlay">
+    <div class="modal-content">
+        <header class="modal-header">
+            <h3>Add to Cellar</h3>
+            <button class="close-modal js-close-modal">&times;</button>
+        </header>
+        
+        <p class="modal-instruction">Select a cellar to add <span id="js-modal-product-name"></span>:</p>
+        
+        <form method="POST" id="catalog-add-form" action="" 
+              data-target-cellar="{{ target_cellar.id|default:'' }}" 
+              data-create-url="{% url 'cellars:cellar_create' %}">
+            
+            {% csrf_token %}
+            <input type="hidden" id="js-modal-product-sku">
+            
+            <ul class="cellar-selection-list">
+                {% for cellar in cellars %}
+                <li>
+                    <input type="radio" name="cellar_id" value="{{ cellar.id }}" id="cellar_{{ cellar.id }}" {% if forloop.first %}checked{% endif %}>
+                    <label for="cellar_{{ cellar.id }}">
+                        <span class="name">{{ cellar.name }}</span>
+                        <span class="count">{{ cellar.bottle_count|default:"0" }} Bottles</span>
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
+            
+            <button type="submit" class="btn-primary modal-submit">Add to Cellar</button>
+        </form>
+    </div>
+</div>

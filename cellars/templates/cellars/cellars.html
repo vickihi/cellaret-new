@@ -49,7 +49,11 @@
             <article class="cellar-card">
                 <a href="{% url 'cellars:cellar_detail' cellar_id=cellar.id %}" class="cellar-card-link">
                     <div class="cellar-image-wrapper">
-                        <img src="{% static 'images/product-placeholder.png' %}" alt="{{ cellar.name }}">
+                        
+                        {% cycle 'images/mockup1.jpg' 'images/mockup2.jpg' 'images/mockup3.jpg' 'images/mockup4.jpg' as current_image silent %}
+                        
+                        <img src="{% static current_image %}" alt="{{ cellar.name }}">
+                        
                     </div>
                     
                     <div class="cellar-info">

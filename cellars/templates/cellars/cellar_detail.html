@@ -44,7 +44,7 @@
                 <p class="detail-desc">{{ cellar.description }}</p>
             </div>
             
-            <a href="{% url 'products:catalog' %}" class="btn-primary btn-secondary">
+            <a href="{% url 'products:catalog' %}?cellar_id={{ cellar.id }}" class="btn-primary btn-secondary">
                 <i class="fa-solid fa-plus"></i> Add new bottle
             </a>
         </header>
@@ -55,7 +55,7 @@
 
         <div class="cellars-grid">
             {% for bottle in bottles %}
-            <article class="cellar-card product-card-alt js-bottle-card">
+            <article class="cellar-card product-card-alt js-bottle-card" id="bottle-{{ bottle.id }}">
                 <div class="card-link">
                     <a href="{% url 'products:detail' bottle.product.sku %}">
                         <div class="card-image detail-card-image">
@@ -93,6 +93,7 @@
 
                         <form method="POST" action="{% url 'cellars:cellar_bottle_save' cellar.id bottle.id %}" class="card-footer-alt edit-mode">
                             {% csrf_token %}
+                            <input type="hidden" name="next" value="{% url 'cellars:cellar_detail' cellar.id %}#bottle-{{ bottle.id }}">
                             <div class="bottle-quantity-controls">
                                 <button type="button" class="qty-btn qty-minus">-</button>
                                 <input type="number" name="quantity" value="{{ bottle.quantity|default:'1' }}" class="qty-input" min="1" readonly>

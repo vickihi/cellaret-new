@@ -37,13 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const modal = document.getElementById('add-to-cellar-modal');
     if (modal) {
-        const addBtns = document.querySelectorAll('.btn-add');
+        const addBtns = document.querySelectorAll('.btn-add, .js-add-to-cellar-btn');
         const closeBtn = document.querySelector('.js-close-modal');
         const form = document.getElementById('catalog-add-form');
         const modalSkuInput = document.getElementById('js-modal-product-sku');
         
-        const cellarCount = window.CELLAR_CONFIG ? window.CELLAR_CONFIG.cellarCount : 0;
-        const createUrl = window.CELLAR_CONFIG ? window.CELLAR_CONFIG.createUrl : '/cellars/create/';
 
         addBtns.forEach(btn => {
             btn.addEventListener('click', function(e) {
@@ -51,14 +49,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 const sku = this.dataset.productSku; 
                 const productName = this.dataset.productName;
 
-                if (cellarCount === 0) {
+                const targetCellarId = form.dataset.targetCellar;
+                const createUrl = form.dataset.createUrl;
+                
+                const radios = document.querySelectorAll('.cellar-selection-list input[type="radio"]');
+                const cellarCount = radios.length;
+
+                if (targetCellarId) {
+                    form.action = `/cellars/${targetCellarId}/bottles/add/${sku}/`;
+                    form.submit();
+                }
+                else if (cellarCount === 0) {
                     window.location.href = createUrl;
                 } else if (cellarCount >= 2) {
                     modalSkuInput.value = sku;
                     document.getElementById('js-modal-product-name').textContent = productName;
                     modal.style.display = 'flex';
                 } else {
-                    const cellarId = document.querySelector('input[name="cellar_id"]').value;
+                    const cellarId = radios[0].value;
                     form.action = `/cellars/${cellarId}/bottles/add/${sku}/`;
                     form.submit();
                 }

@@ -350,3 +350,82 @@ aside {
     width: 100%; 
     margin-top: 20px; 
 }
+
+/* --- Flash Messages --- */
+.toast-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+    max-width: 350px;
+    width: 100%;
+}
+
+.toast {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(2rem);
+    animation: toast-in 0.5s ease forwards, toast-out 0.5s ease forwards 4s; 
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes toast-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes toast-out {
+    to {
+        opacity: 0;
+        transform: translateY(2rem);
+    }
+}
+
+.toast-header {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: transparent;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.toast-icon {
+    margin-right: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.toast-body {
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: inherit;
+}
+
+/* Success Toast */
+.toast.success {
+    background-color: #D4EDDA; 
+    border-color: #c3e6cb;
+    color: #155724;
+}
+.toast.success .toast-icon { 
+    color: #155724; 
+}
+
+/* Error Toast */
+.toast.error {
+    background-color: #F8D7DA;
+    border-color: #f5c6cb;
+    color: #721C24;
+}
+
+.toast.error .toast-icon { 
+    color: #721C24; 
+}
