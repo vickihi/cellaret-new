@@ -187,6 +187,12 @@
   .mx-auto {
     margin-inline: auto;
   }
+  .me-auto {
+    margin-inline-end: auto;
+  }
+  .mb-20 {
+    margin-bottom: calc(var(--spacing) * 20);
+  }
   .block {
     display: block;
   }
@@ -235,6 +241,9 @@
   }
   .text-center {
     text-align: center;
+  }
+  .no-underline {
+    text-decoration-line: none;
   }
   .underline {
     text-decoration-line: underline;

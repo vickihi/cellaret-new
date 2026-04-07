@@ -28,7 +28,7 @@
             <a id="logo" href="{% url 'products:catalog' %}" class="brand">Cellaret</a>
 
             <ul class="header-primary-nav">
-                <li class="nav-item {% if request.resolver_match.namespace == 'catalog' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.namespace == 'products' %}active{% endif %}">
                     <a href="{% url 'products:catalog' %}">
                         <span>Catalog</span>
                     </a>
@@ -47,7 +47,7 @@
 
             <ul class="header-secondary-nav">
                 {% if user.is_authenticated %}
-                <li class="nav-item {% if request.resolver_match.namespace == 'detail' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.namespace == 'accounts' %}active{% endif %}">
                     <a href="{% url 'accounts:detail' %}" class="greeting">Hello, {{ user.username }}</a>
                 </li>
                 <li>
