@@ -11,65 +11,93 @@
     <div class="dashboard-section">
         <h2>Account Details</h2>
         <hr>
-        <form method="post" class="profile-form">
+        <form method="post" action="{% url 'accounts:update_profile' %}" class="profile-form">
+            {% csrf_token %}
+
             <div>
-                <label class="username">Username</label>
-                <p><input type="text" id="username" class="cellar-name" placeholder="Bob Smith"> <button type="submit" class="btn-link btn-edit"><i class="fa-solid fa-pencil"></i></button>
-</p>
+                <label for="{{ profile_form.username.id_for_label }}" class="username">Username</label>
+                <p>
+                    {{ profile_form.username }}
+                    <button type="submit" class="btn-link account-btn-edit">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+                </p>
+                {% if profile_form.username.errors %}
+                    <div class="form-error">{{ profile_form.username.errors }}</div>
+                {% endif %}
             </div>
+
             <div>
-                <label class="username">Email Address</label>
-                <p><input type="text" id="user-email" class="cellar-name" placeholder="bob.smith@mail.com"> <button type="submit" class="btn-link btn-edit"><i class="fa-solid fa-pencil"></i></button></p>
+                <label for="{{ profile_form.email.id_for_label }}" class="username">Email Address</label>
+                <p>
+                    {{ profile_form.email }}
+                    <button type="submit" class="btn-link account-btn-edit">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+                </p>
+                {% if profile_form.email.errors %}
+                    <div class="form-error">{{ profile_form.email.errors }}</div>
+                {% endif %}
             </div>
-            <div>               
+
+            <div>
                 <label class="username">Password</label>
-                <p><input type="text" id="user-password" class="cellar-name" placeholder="••••••••••••"></p>
+                <p>
+                    <input
+                        type="password"
+                        value="notrealpassword"
+                        class="cellar-name"
+                        disabled
+                        readonly
+                    >
+                </p>
             </div>
-            <a href="" class="btn-primary">Change Password</a>
+
+            <a href="{% url 'accounts:change_password' %}" class="btn-primary">Change Password</a>
         </form>
     </div>
 
     <div class="dashboard-section">
         <h2>Manage My Cellars</h2>
         <hr>
+        {% if cellars %}
         <ul class="cellar-list">
+            {% for cellar in cellars %}
             <li>
                 <div class="cellar-details default-cellar">
-                    <form method="post" class="cellar-form">
-                    <label for="cellar1-name" class="cellar-title">Cellar Name</label>
-                    <p><input type="text" id="cellar1-name" class="cellar-name" placeholder="Private Collection"></p>
-                    <label for="cellar1-description" class="cellar-title">Description</label>
-                    <p><textarea id="cellar1-description" class="cellar-description" rows="4" cols="50" wrap="soft">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id nisi eu libero convallis molestie sed vel lacus. Fusce sodales pretium diam, in pretium nibh. Integer tincidunt purus eu nisl consectetur, id malesuada quam mollis. Aenean sit amet elit blandit, pulvinar felis at, convallis odio. Aliquam eu urna libero.</textarea></p>
+                    <form method="post" action="{% url 'cellars:cellar_update' cellar.id %}" class="cellar-form">
+                    {% csrf_token %}
+
+                    <label for="cellar-name-{{ cellar.id }}" class="cellar-title">Cellar Name</label>
+                    <p><input type="text" name="name" id="cellar-name-{{ cellar.id }}" class="cellar-name" value="{{ cellar.name }}"></p>
+                    <label for="cellar-description-{{ cellar.id }}" class="cellar-title">Description</label>
+                    <p><textarea name="description" id="cellar-description-{{ cellar.id }}" class="cellar-description" rows="4" cols="50" wrap="soft">{{ cellar.description }}</textarea></p>
                     <div class="cellar-edit">
                         <span class="cellar-default-checkbox">Default cellar</span>
+
                         <div class="cellar-buttons">
-                            <button type="submit" class="btn-link btn-delete"><i class="fa-solid fa-trash"></i>Delete</button>
-                            <button type="submit" class="btn-link btn-save"><i class="fa-solid fa-floppy-disk"></i>Save</button>
+                            <form method="post" action="{% url 'cellars:cellar_delete' cellar.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-link account-btn-delete">
+                                    <i class="fa-solid fa-trash"></i>Delete
+                                </button>
+                            </form>
+                            <button type="submit" class="btn-link account-btn-save">
+                                <i class="fa-solid fa-floppy-disk"></i>Save
+                            </button>
                         </div>
                     </div>
                     </form>
                 </div>
             </li>
+            {% endfor %}
+            {% else %}
             <li>
-                <div class="cellar-details">
-                    <form method="post" class="cellar-form">
-                    <label for="cellar2-name" class="cellar-title">Cellar Name</label>
-                    <p><input type="text" id="cellar2-name" class="cellar-name" placeholder="Investment"></p>
-                    <label for="cellar2-description" class="cellar-title">Description</label>
-                    <p><textarea id="cellar2-description" class="cellar-description" rows="4" cols="50" wrap="soft">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vestibulum, turpis non.</textarea></p>
-                    <div class="cellar-edit">
-                        <span class="cellar-default-checkbox">
-                            <input type="checkbox" id="default-cellar" name="default-cellar">
-                            <label for="default-cellar">Make this my default cellar</label>
-                        </span>
-                        <div class="cellar-buttons">
-                            <button type="submit" class="btn-link btn-delete"><i class="fa-solid fa-trash"></i> Delete</button>
-                            <button type="submit" class="btn-link btn-save"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-                        </div>
-                    </div>
-                    </form>
+                <div class="cellar-details default-cellar">
+                    <p>You have not created a cellar yet. <a href="{% url 'cellars:cellars' %}">Create one here</a></p>
                 </div>
             </li>
+            {% endif %}
         </ul>
     </div>
 </div>

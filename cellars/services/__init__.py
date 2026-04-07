@@ -1,6 +1,6 @@
 from .cellars import (
     create_cellar,
-    update_cellar, 
+    update_cellar,
     delete_cellar,
     add_product_to_cellar,
     decrease_cellar_bottle_quantity,
@@ -13,7 +13,7 @@ from .cellars import (
 
 __all__ = [
     "create_cellar",
-    "update_cellar", 
+    "update_cellar",
     "delete_cellar",
     "get_or_create_default_cellar",
     "add_product_to_cellar",
