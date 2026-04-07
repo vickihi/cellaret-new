@@ -11,7 +11,7 @@ from accounts.services.auth_service import (
     create_user_account,
 )
 from accounts.utils import get_safe_redirect_target, store_signup_redirect_target
-
+from cellars.models import Cellar
 
 def signup(request):
     if request.user.is_authenticated:
@@ -122,6 +122,22 @@ def update_profile(request):
     form.save()
     messages.success(request, _("Your account details have been updated."))
     return redirect("accounts:detail")
+
+
+@login_required
+def detail(request):
+    """Show account details for the current user."""
+    cellars = request.user.cellars.all()
+
+    return render(
+        request,
+        "accounts/detail.html",
+        {
+            "account_user": request.user,
+            "profile_form": AccountProfileForm(instance=request.user),
+            "cellars": cellars,
+        },
+    )
 
 
 class AccountPasswordChangeView(PasswordChangeView):

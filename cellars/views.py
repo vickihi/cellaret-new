@@ -81,7 +81,7 @@ def cellar_update(request, cellar_id):
             description=form.cleaned_data["description"],
         )
 
-    return redirect("accounts:profile")
+    return redirect("accounts:detail")
 
 
 @login_required
@@ -90,7 +90,7 @@ def cellar_delete(request, cellar_id):
     """Delete a cellar for a user."""
     cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
     delete_cellar(cellar=cellar)
-    return redirect("accounts:profile")
+    return redirect("accounts:detail")
 
 
 @login_required
