@@ -79,6 +79,7 @@ def login_submit(request):
 
     user = form.get_user()
     django_login(request, user)
+    messages.success(request, f"Welcome back, {user.username}!")
 
     return redirect(get_safe_redirect_target(request))
 
@@ -86,6 +87,7 @@ def login_submit(request):
 def logout(request):
     """Handle logout for user."""
     django_logout(request)
+
     return redirect("products:catalog")
 
 
