@@ -31,6 +31,10 @@ def product_catalog(request):
         per_page=per_page_val,
     )
 
+    user_cellars = []
+    if request.user.is_authenticated:
+        user_cellars = list(get_user_cellars(user=request.user))
+
     return render(
         request,
         "products/catalog.html",
@@ -44,6 +48,7 @@ def product_catalog(request):
             "page_range": catalog_page.page_range,
             "breadcrumbs": catalog_page.breadcrumbs,
             "target_cellar": target_cellar,
+            "cellars": user_cellars,
         },
     )
 

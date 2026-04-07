@@ -8,7 +8,7 @@
     
     <aside class="cellars-sidebar">
         <div class="sidebar-user-info">
-            <p class="user-name">{{ user.name|default:"USER NAME" }}</p>
+            <p class="user-name">{{ user.username|default:"USER NAME" }}</p>
             <p class="user-tier">Premium Member</p>
         </div>
 
@@ -17,7 +17,7 @@
             <ul class="nav-list">
                 {% for sidebar_cellar in cellars %}
                 <li>
-                    <a href="#" class="nav-link">
+                    <a href="{% url 'cellars:cellar_detail' cellar_id=sidebar_cellar.id %}" class="nav-link">
                         <span class="cellar-name">{{ sidebar_cellar.name }}</span>
                         <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottles</span>
                     </a>
@@ -25,6 +25,10 @@
                 {% empty %}
                 <li class="nav-empty">No cellars yet.</li>
                 {% endfor %}
+
+                <a href="{% url 'cellars:cellar_create' %}" class="btn-primary btn-sidebar">
+                    <i class="fa-solid fa-plus"></i> New cellar
+                </a>
             </ul>
         </div>
     </aside>
@@ -38,16 +42,12 @@
                 </span>
                 <h1 class="main-title">Cellars</h1>
             </div>
-            
-            <a href="{% url 'cellars:cellar_create' %}" class="btn-primary">
-                <i class="fa-solid fa-plus"></i> New cellar
-            </a>
         </header>
 
-        <div class="cellars-grid">
+        <div class="cellars-grid main">
             {% for cellar in cellars %}
             <article class="cellar-card">
-                <a href="#" class="cellar-card-link">
+                <a href="{% url 'cellars:cellar_detail' cellar_id=cellar.id %}" class="cellar-card-link">
                     <div class="cellar-image-wrapper">
                         <img src="{% static 'images/product-placeholder.png' %}" alt="{{ cellar.name }}">
                     </div>

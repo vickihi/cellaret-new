@@ -4,6 +4,8 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect, render
 
 from products.models import Product
+from products.forms import ProductSortForm
+
 from .forms import CellarForm
 
 from .selectors import (
@@ -97,12 +99,18 @@ def cellar_delete(request, cellar_id):
 def cellar_detail(request, cellar_id):
     cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
     bottles = get_cellar_bottles(cellar=cellar)
+    cellars = get_user_cellars(user=request.user)
+    sort_form = ProductSortForm(request.GET)
+    total_bottles = sum(bottle.quantity for bottle in bottles)
     return render(
         request,
         "cellars/cellar_detail.html",
         {
+            "cellars":cellars,
             "cellar": cellar,
             "bottles": bottles,
+            "sort_form": sort_form,
+            "total_bottles": total_bottles,
         },
     )
 

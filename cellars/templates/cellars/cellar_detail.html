@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cellaret | {{ cellar.name }}{% endblock %}
+
+{% block content %}
+<div class="cellars-layout">
+    
+    <aside class="cellars-sidebar">
+        <div class="sidebar-user-info">
+            <p class="user-name">{{ user.username|default:"USER NAME" }}</p>
+            <p class="user-tier">Premium Member</p>
+        </div>
+
+        <div class="sidebar-nav detail-sidebar-nav">
+            <h3 class="nav-title no-border">Your Cellars</h3>
+            <ul class="nav-list detail-nav-list">
+                {% for sidebar_cellar in cellars %}
+                <li>
+                    <a href="{% url 'cellars:cellar_detail' cellar_id=sidebar_cellar.id %}" 
+                    class="nav-link {% if sidebar_cellar.id == cellar.id %}active{% endif %}">
+                        
+                        <span class="cellar-name">{{ sidebar_cellar.name }}</span>
+                        <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottles</span>
+                    </a>
+                </li>
+                {% empty %}
+                <li class="nav-empty">No cellars yet.</li>
+                {% endfor %}
+                
+                <a href="{% url 'cellars:cellar_create' %}" class="btn-primary btn-sidebar">
+                    <i class="fa-solid fa-plus"></i> New cellar
+                </a>
+            </ul>
+        </div>
+        </aside>
+
+    <section class="cellars-main">
+        
+        <header class="cellars-header detail-header">
+            <div class="header-titles">
+                <span class="inventory-label">CELLAR</span>
+                <h1 class="main-title">{{ cellar.name }}</h1>
+                <p class="detail-desc">{{ cellar.description }}</p>
+            </div>
+            
+            <a href="{% url 'products:catalog' %}" class="btn-primary btn-secondary">
+                <i class="fa-solid fa-plus"></i> Add new bottle
+            </a>
+        </header>
+
+        <div class="controls-bar-wrapper">
+            {% include 'components/controls_bar.html' with is_cellar=True total_bottles=total_bottles cellar_name=cellar.name search_placeholder="Search products in cellar" %}
+        </div>
+
+        <div class="cellars-grid">
+            {% for bottle in bottles %}
+            <article class="cellar-card product-card-alt js-bottle-card">
+                <div class="card-link">
+                    <a href="{% url 'products:detail' bottle.product.sku %}">
+                        <div class="card-image detail-card-image">
+                            {% if bottle.product.image_url %}
+                                <img src="{{ bottle.product.image_url }}" alt="{{ bottle.product.name }}">
+                            {% else %}
+                                <img src="{% static 'images/product-placeholder.png' %}" alt="No image available for {{ bottle.product.name }}">
+                            {% endif %}
+                        </div>
+                    </a>
+                    <div class="card-content">
+                        {% if bottle.product.category or bottle.product.country or bottle.product.size_display %}
+                            <p class="card-product-details">
+                                {% if bottle.product.category %}
+                                    {{ bottle.product.category }}
+                                {% endif %}
+                                {% if bottle.product.country %}
+                                    <span>{{ bottle.product.country }}</span>
+                                {% endif %}
+                                {% if bottle.product.size_display %}
+                                    <span>{{ bottle.product.size_display }}</span>
+                                {% endif %}
+                            </p>
+                        {% endif %}
+
+                        <h3 class="card-title">{{ bottle.product.name }}</h3>
+                        {% if bottle.product.taste_tag %}
+                            <p class="card-taste-tag taste-badge">{{ bottle.product.taste_tag }}</p>
+                        {% endif %}
+
+                        <footer class="card-footer-alt view-mode">
+                            <span class="bottle-count-label">{{ bottle.quantity|default:'1' }} Bottles</span>
+                            <button type="button" class="btn-edit-toggle js-edit-btn">Edit</button>
+                        </footer>
+
+                        <form method="POST" action="{% url 'cellars:cellar_bottle_save' cellar.id bottle.id %}" class="card-footer-alt edit-mode">
+                            {% csrf_token %}
+                            <div class="bottle-quantity-controls">
+                                <button type="button" class="qty-btn qty-minus">-</button>
+                                <input type="number" name="quantity" value="{{ bottle.quantity|default:'1' }}" class="qty-input" min="1" readonly>
+                                <button type="button" class="qty-btn qty-plus">+</button>
+                                
+                                <button type="submit" formaction="{% url 'cellars:cellar_bottle_delete' cellar.id bottle.id %}" class="delete-btn">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </div>
+                            <button type="submit" class="btn-save">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="empty-state">
+                <i class="fa-solid fa-wine-bottle empty-icon"></i>
+                <h2 class="empty-title">This cellar is empty</h2>
+                <p class="empty-desc">Head over to the catalog to find some great wines to add to your collection.</p>
+                <a href="{% url 'products:catalog' %}" class="btn-primary">Browse Catalog</a>
+            </div>
+            {% endfor %}
+        </div>
+
+    </section>
+</div>
+
+<script src="{% static 'js/cellars.js' %}"></script>
+
+{% endblock %}
