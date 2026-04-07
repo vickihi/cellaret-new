@@ -1,10 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import login as django_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
-from accounts.forms import LoginForm, SignUpForm
+from accounts.forms import AccountProfileForm, LoginForm, SignUpForm
 from accounts.services.auth_service import (
     create_user_account,
 )
@@ -90,4 +92,44 @@ def logout(request):
 @login_required
 def detail(request):
     """Show account details for the current user."""
-    return render(request, "accounts/detail.html")
+    return render(
+        request,
+        "accounts/detail.html",
+        {
+            "account_user": request.user,
+            "profile_form": AccountProfileForm(instance=request.user),
+        },
+    )
+
+
+@login_required
+def update_profile(request):
+    """Update profile details for the current user."""
+    if request.method != "POST":
+        return redirect("accounts:detail")
+
+    form = AccountProfileForm(request.POST, instance=request.user)
+    if not form.is_valid():
+        return render(
+            request,
+            "accounts/detail.html",
+            {
+                "account_user": request.user,
+                "profile_form": form,
+            },
+        )
+
+    form.save()
+    messages.success(request, _("Your account details have been updated."))
+    return redirect("accounts:detail")
+
+
+class AccountPasswordChangeView(PasswordChangeView):
+    template_name = "accounts/change_password.html"
+    success_url = reverse_lazy("accounts:detail")
+
+    def form_valid(self, form):
+        messages.success(
+            request=self.request, message=_("Your password has been updated.")
+        )
+        return super().form_valid(form)
