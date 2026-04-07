@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modal) {
         const addBtns = document.querySelectorAll('.btn-add');
         const closeBtn = document.querySelector('.js-close-modal');
+        const form = document.getElementById('catalog-add-form');
+        const modalSkuInput = document.getElementById('js-modal-product-sku');
         
         const cellarCount = window.CELLAR_CONFIG ? window.CELLAR_CONFIG.cellarCount : 0;
         const createUrl = window.CELLAR_CONFIG ? window.CELLAR_CONFIG.createUrl : '/cellars/create/';
@@ -46,30 +48,37 @@ document.addEventListener('DOMContentLoaded', function() {
         addBtns.forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
-                
                 const sku = this.dataset.productSku; 
                 const productName = this.dataset.productName;
-                
-                const checkedCellar = document.querySelector('input[name="cellar_id"]:checked');
-                const cellarId = checkedCellar ? checkedCellar.value : '';
-
-                const form = document.getElementById('catalog-add-form');
-                
-                if (cellarId) {
-                    form.action = `/cellars/${cellarId}/bottles/add/${sku}/`;
-                }
 
                 if (cellarCount === 0) {
-                    alert("You don't have a cellar yet. Let's create one first!");
-                    window.location.href = createUrl; // 💡 가져온 URL 사용
+                    window.location.href = createUrl;
                 } else if (cellarCount >= 2) {
+                    modalSkuInput.value = sku;
                     document.getElementById('js-modal-product-name').textContent = productName;
                     modal.style.display = 'flex';
                 } else {
+                    const cellarId = document.querySelector('input[name="cellar_id"]').value;
+                    form.action = `/cellars/${cellarId}/bottles/add/${sku}/`;
                     form.submit();
                 }
             });
         });
+
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const checkedCellar = document.querySelector('input[name="cellar_id"]:checked');
+                const cellarId = checkedCellar ? checkedCellar.value : '';
+                const sku = modalSkuInput.value;
+
+                if (cellarId && sku) {
+                    this.action = `/cellars/${cellarId}/bottles/add/${sku}/`;
+                    this.submit();
+                }
+            });
+        }
 
         if (closeBtn) {
             closeBtn.addEventListener('click', () => modal.style.display = 'none');

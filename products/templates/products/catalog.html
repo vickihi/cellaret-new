@@ -87,7 +87,7 @@
             
             <form method="POST" id="catalog-add-form" action="">
                 {% csrf_token %}
-                <input type="hidden" name="product_id" id="js-modal-product-id">
+                <input type="hidden" id="js-modal-product-sku">
                 
                 <ul class="cellar-selection-list">
                     {% for cellar in cellars %}

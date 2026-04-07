@@ -216,7 +216,7 @@ aside {
     display: flex;
     flex-direction: column;
     gap: .5rem;
-    min-height: 160px;
+    margin-top: auto;
 }
 
 .card-title {

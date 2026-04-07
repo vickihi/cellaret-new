@@ -198,18 +198,6 @@
   .table {
     display: table;
   }
-  .w-2\/5 {
-    width: calc(2 / 5 * 100%);
-  }
-  .w-3\/4 {
-    width: calc(3 / 4 * 100%);
-  }
-  .w-3\/5 {
-    width: calc(3 / 5 * 100%);
-  }
-  .w-4\/5 {
-    width: calc(4 / 5 * 100%);
-  }
   .w-full {
     width: 100%;
   }
@@ -224,9 +212,6 @@
   }
   .resize {
     resize: both;
-  }
-  .flex-wrap {
-    flex-wrap: wrap;
   }
   .justify-between {
     justify-content: space-between;

@@ -57,7 +57,7 @@
             {% for bottle in bottles %}
             <article class="cellar-card product-card-alt js-bottle-card">
                 <div class="card-link">
-                    <a href="{% url 'products:detail' bottle.product.sku %}" class="card-link">
+                    <a href="{% url 'products:detail' bottle.product.sku %}">
                         <div class="card-image detail-card-image">
                             {% if bottle.product.image_url %}
                                 <img src="{{ bottle.product.image_url }}" alt="{{ bottle.product.name }}">
