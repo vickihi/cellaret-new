@@ -59,7 +59,7 @@
                         {% endif %}
                         <footer class="card-footer">
                             <span class="card-price">{{ product.price }} $</span>
-                            <button class="btn-add"><i class="fa-solid fa-plus"></i></button>
+                            <button class="btn-add" data-product-sku="{{ product.sku }}" data-product-name="{{ product.name }}"><i class="fa-solid fa-plus"></i></button>
                         </footer>
                     </div>
                 </a>
@@ -76,4 +76,42 @@
     {% include 'components/pagination.html' %}
     {% endif %}
 
+    <div id="add-to-cellar-modal" class="modal-overlay">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3>Add to Cellar</h3>
+                <button class="close-modal js-close-modal">&times;</button>
+            </header>
+            
+            <p class="modal-instruction">Select a cellar to add <span id="js-modal-product-name"></span>:</p>
+            
+            <form method="POST" id="catalog-add-form" action="">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" id="js-modal-product-id">
+                
+                <ul class="cellar-selection-list">
+                    {% for cellar in cellars %}
+                    <li>
+                        <input type="radio" name="cellar_id" value="{{ cellar.id }}" id="cellar_{{ cellar.id }}" {% if forloop.first %}checked{% endif %}>
+                        <label for="cellar_{{ cellar.id }}">
+                            <span class="name">{{ cellar.name }}</span>
+                            <span class="count">{{ cellar.bottle_count|default:"0" }} Bottles</span>
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+                
+                <button type="submit" class="btn-primary modal-submit">Add to Cellar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        window.CELLAR_CONFIG = {
+            cellarCount: {{ cellars|length|default:0 }},
+            createUrl: "{% url 'cellars:cellar_create' %}"
+        };
+    </script>
+
+    <script src="{% static 'js/cellars.js' %}"></script>
 {% endblock %}

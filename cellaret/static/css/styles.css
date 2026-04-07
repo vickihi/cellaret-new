@@ -107,6 +107,12 @@ aside {
     padding: 1rem 0;
 }
 
+.error-text {
+    color: #D9534F;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
 /* --- BREADCRUMBS --- */
 
 .page-header {
@@ -210,6 +216,7 @@ aside {
     display: flex;
     flex-direction: column;
     gap: .5rem;
+    min-height: 160px;
 }
 
 .card-title {
@@ -249,7 +256,8 @@ aside {
     padding: 2px 8px;
 }
 
-.card-footer {
+.card-footer, 
+.card-footer-alt {
     margin-top: auto;
     display: flex;
     justify-content: space-between;
@@ -286,4 +294,59 @@ aside {
 
 .btn-add:hover i {
     transform: rotate(90deg);
+}
+
+/* Mordal Overlay */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; 
+    justify-content: center; 
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: #fff; 
+    padding: 30px; 
+    width: 400px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.modal-header { 
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 20px; 
+}
+
+.close-modal { 
+    background: none; 
+    border: none; 
+    font-size: 24px; 
+    cursor: pointer; 
+}
+
+.cellar-selection-list li { 
+    margin-bottom: 10px; 
+}
+
+.cellar-selection-list input {
+    display: none;
+}
+
+.cellar-selection-list label { 
+    display: flex; 
+    justify-content: space-between; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    cursor: pointer; 
+}
+
+.cellar-selection-list input[type="radio"]:checked + label {
+     border-color: var(--primary-color); 
+     background-color: #f9f6f3; 
+}
+
+.modal-submit { 
+    width: 100%; 
+    margin-top: 20px; 
 }
