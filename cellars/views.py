@@ -75,9 +75,15 @@ def cellar_create(request):
 def cellar_update(request, cellar_id):
     """Update a cellar for a user."""
     cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
+    next_page = request.POST.get("next")
     form = CellarForm(request.POST, instance=cellar, user=request.user)
 
-    if form.is_valid():
+    if not form.is_valid():
+        if next_page == "cellars":
+            return redirect("cellars:cellar_detail", cellar_id=cellar_id)
+        return redirect("accounts:detail")
+    
+    if form.has_changed():
         update_cellar(
             cellar=cellar,
             name=form.cleaned_data["name"],
@@ -85,6 +91,9 @@ def cellar_update(request, cellar_id):
         )
         messages.success(request, "Your cellar has been updated.")
 
+    if next_page == "cellars":
+        return redirect("cellars:cellar_detail", cellar_id=cellar_id)
+    
     return redirect("accounts:detail")
 
 
