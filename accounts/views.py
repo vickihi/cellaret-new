@@ -10,7 +10,6 @@ from accounts.forms import (
     AccountProfileForm,
     LoginForm,
     SignUpForm,
-    UsernameEmailPasswordResetForm,
 )
 from accounts.services.auth_service import (
     create_user_account,
@@ -146,7 +145,6 @@ class AccountPasswordChangeView(PasswordChangeView):
 
 
 class AccountPasswordResetView(PasswordResetView):
-    form_class = UsernameEmailPasswordResetForm
     template_name = "accounts/password_reset_form.html"
     email_template_name = "accounts/password_reset_email.html"
     subject_template_name = "accounts/password_reset_subject.txt"
