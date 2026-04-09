@@ -31,7 +31,8 @@ class ProductSortForm(forms.Form):
 
 
 class ProductCatalogFilterForm(forms.Form):
-    """ Form for catalog filters. """
+    """Form for catalog filters."""
+
     category = forms.ChoiceField(required=False, choices=[("", "Categories")])
     country = forms.ChoiceField(required=False, choices=[("", "Countries")])
     taste_tag = forms.ChoiceField(required=False, choices=[("", "Taste tags")])
@@ -52,7 +53,7 @@ class ProductCatalogFilterForm(forms.Form):
 
     @staticmethod
     def _distinct_choices_by_count(field_name: str):
-        """ Return non-empty distinct values ordered by usage count. """
+        """Return non-empty distinct values ordered by usage count."""
         rows = (
             Product.objects.exclude(**{field_name: ""})
             .exclude(**{field_name: None})
