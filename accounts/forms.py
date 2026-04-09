@@ -1,7 +1,15 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordResetForm,
+    UserCreationForm,
+)
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
+
+
+UserModel = get_user_model()
 
 
 class SignUpForm(UserCreationForm):
@@ -62,3 +70,56 @@ class AccountProfileForm(forms.ModelForm):
                 "placeholder": _("No email provided"),
             }
         )
+
+
+class UsernameEmailPasswordResetForm(PasswordResetForm):
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={"placeholder": _("Enter username...")}),
+        label=_("Username"),
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={"placeholder": _("Enter email...")}),
+        label=_("Email"),
+    )
+
+    default_error_messages = {
+        "invalid_credentials": _(
+            "We couldn't match that username and email to an account."
+        ),
+    }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = (cleaned_data.get("username") or "").strip()
+        email = (cleaned_data.get("email") or "").strip()
+
+        self.user = None
+
+        if not username or not email:
+            return cleaned_data
+
+        try:
+            user = UserModel._default_manager.get(username=username)
+        except UserModel.DoesNotExist:
+            raise forms.ValidationError(
+                self.error_messages["invalid_credentials"],
+            )
+
+        if (user.email or "").strip().lower() != email.lower():
+            raise forms.ValidationError(
+                self.error_messages["invalid_credentials"],
+            )
+
+        self.user = user
+        return cleaned_data
+
+    def get_users(self, email):
+        if not getattr(self, "user", None):
+            return []
+
+        user = self.user
+        if not user.is_active or not user.has_usable_password():
+            return []
+
+        return [user]

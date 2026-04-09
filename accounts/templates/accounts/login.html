@@ -22,7 +22,7 @@
     </form>
     
     <div class="auth-links-bottom">
-        <p><a href="#">Forgot password?</a></p>
+        <p><a href="{% url 'accounts:password_reset' %}">Forgot password?</a></p>
         <p>Don't have an account?</p>
         <p><a href="{% url 'accounts:signup' %}">Create account</a></p>
     </div>
