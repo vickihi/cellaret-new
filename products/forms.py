@@ -1,5 +1,5 @@
 from django import forms
-
+from django.db.models import Count
 from products.models import Product
 
 
@@ -31,21 +31,11 @@ class ProductSortForm(forms.Form):
 
 
 class ProductCatalogFilterForm(forms.Form):
+    """ Form for catalog filters. """
     category = forms.ChoiceField(required=False, choices=[("", "Categories")])
-    taste_tag = forms.ChoiceField(
-        required=False, choices=[("", "Taste tags")], label="Taste tag"
-    )
     country = forms.ChoiceField(required=False, choices=[("", "Countries")])
-    region = forms.ChoiceField(required=False, choices=[("", "Regions")])
+    taste_tag = forms.ChoiceField(required=False, choices=[("", "Taste tags")])
     size = forms.ChoiceField(required=False, choices=[("", "Sizes")])
-    vintage = forms.ChoiceField(required=False, choices=[("", "Vintages")])
-    degree = forms.ChoiceField(required=False, choices=[("", "Degrees")])
-    producer = forms.CharField(
-        required=False, max_length=200, label="Producer"
-    )  # need to discuss
-    grape_variety = forms.CharField(
-        required=False, max_length=200, label="Grape Variety"
-    )  # need to discuss
     price_min = forms.DecimalField(
         required=False, max_digits=8, decimal_places=2, label="Minimum Price"
     )
@@ -55,26 +45,24 @@ class ProductCatalogFilterForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.fields["category"].choices += self._distinct_choices("category")
-        self.fields["taste_tag"].choices += self._distinct_choices("taste_tag")
-        self.fields["country"].choices += self._distinct_choices("country")
-        self.fields["region"].choices += self._distinct_choices("region")
-        self.fields["size"].choices += self._distinct_choices("size")
-        self.fields["vintage"].choices += self._distinct_choices("vintage")
-        self.fields["degree"].choices += self._distinct_choices("degree")
+        self.fields["category"].choices += self._distinct_choices_by_count("category")
+        self.fields["taste_tag"].choices += self._distinct_choices_by_count("taste_tag")
+        self.fields["country"].choices += self._distinct_choices_by_count("country")
+        self.fields["size"].choices += self._distinct_choices_by_count("size")
 
     @staticmethod
-    def _distinct_choices(field_name: str):
-        values = (
+    def _distinct_choices_by_count(field_name: str):
+        """ Return non-empty distinct values ordered by usage count. """
+        rows = (
             Product.objects.exclude(**{field_name: ""})
             .exclude(**{field_name: None})
-            .values_list(field_name, flat=True)
+            .values(field_name)
+            .annotate(total=Count("id"))
             .distinct()
-            .order_by(field_name)
+            .order_by("-total", field_name)
         )
 
-        return [(v, v) for v in values]
+        return [(row[field_name], row[field_name]) for row in rows if row[field_name]]
 
     def clean(self):
         cleaned = super().clean()

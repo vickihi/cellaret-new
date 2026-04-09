@@ -36,28 +36,19 @@ def apply_search(qs, search_query):
 
 
 def apply_filters(qs, filters: dict):
+    """ Apply selected filter values to the product queryset. """
     if filters.get("category"):
-        qs = qs.filter(category__icontains=filters["category"])
+        qs = qs.filter(category__iexact=filters["category"])
     if filters.get("taste_tag"):
-        qs = qs.filter(taste_tag__icontains=filters["taste_tag"])
+        qs = qs.filter(taste_tag__iexact=filters["taste_tag"])
     if filters.get("country"):
-        qs = qs.filter(country__icontains=filters["country"])
-    if filters.get("region"):
-        qs = qs.filter(region__icontains=filters["region"])
-    if filters.get("producer"):
-        qs = qs.filter(producer__icontains=filters["producer"])
-    if filters.get("vintage"):
-        qs = qs.filter(vintage__icontains=filters["vintage"])
-    if filters.get("grape_variety"):
-        qs = qs.filter(grape_variety__icontains=filters["grape_variety"])
+        qs = qs.filter(country__iexact=filters["country"])
     if filters.get("price_min") is not None:
         qs = qs.filter(price__gte=filters["price_min"])
     if filters.get("price_max") is not None:
         qs = qs.filter(price__lte=filters["price_max"])
-    if filters.get("degree"):
-        qs = qs.filter(degree__icontains=filters["degree"])
     if filters.get("size"):
-        qs = qs.filter(size__icontains=filters["size"])
+        qs = qs.filter(size__iexact=filters["size"])
     return qs
 
 
