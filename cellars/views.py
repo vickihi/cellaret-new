@@ -82,7 +82,7 @@ def cellar_update(request, cellar_id):
         if next_page == "cellars":
             return redirect("cellars:cellar_detail", cellar_id=cellar_id)
         return redirect("accounts:detail")
-    
+
     if form.has_changed():
         update_cellar(
             cellar=cellar,
@@ -93,7 +93,7 @@ def cellar_update(request, cellar_id):
 
     if next_page == "cellars":
         return redirect("cellars:cellar_detail", cellar_id=cellar_id)
-    
+
     return redirect("accounts:detail")
 
 
@@ -119,7 +119,7 @@ def cellar_detail(request, cellar_id):
         request,
         "cellars/cellar_detail.html",
         {
-            "cellars":cellars,
+            "cellars": cellars,
             "cellar": cellar,
             "bottles": bottles,
             "sort_form": sort_form,
@@ -212,7 +212,6 @@ def bottle_set_quantity(request, sku):
 
     set_product_quantity_in_cellar(cellar=cellar, product=product, quantity=quantity)
 
-    
     redirect_to = request.POST.get("next")
     if redirect_to:
         return redirect(redirect_to)
@@ -247,6 +246,8 @@ def cellar_bottle_save(request, cellar_id, bottle_id):
         quantity = bottle.quantity
 
     set_cellar_bottle_quantity(bottle=bottle, quantity=quantity)
-    messages.success(request, f"Updated {bottle.product.name} quantity in {cellar.name}.")
+    messages.success(
+        request, f"Updated {bottle.product.name} quantity in {cellar.name}."
+    )
 
     return _redirect_to_next_or_cellar_detail(request, cellar_id=cellar_id)

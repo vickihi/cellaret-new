@@ -1,12 +1,16 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 
+UserModel = get_user_model()
+
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(
-        required=False,
+        required=True,
         widget=forms.EmailInput(attrs={"placeholder": _("Enter email...")}),
         label=_("Email"),
     )
@@ -27,6 +31,16 @@ class SignUpForm(UserCreationForm):
             {"placeholder": _("Confirm your password...")}
         )
 
+    def clean_email(self):
+        email = (self.cleaned_data.get("email") or "").strip()
+        if not email:
+            raise forms.ValidationError(_("Email is required."))
+
+        if UserModel._default_manager.filter(email__iexact=email).exists():
+            raise forms.ValidationError(_("A user with that email already exists."))
+
+        return email
+
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
@@ -39,7 +53,7 @@ class LoginForm(AuthenticationForm):
 
 class AccountProfileForm(forms.ModelForm):
     email = forms.EmailField(
-        required=False,
+        required=True,
         widget=forms.EmailInput(),
         label=_("Email address"),
     )
@@ -62,3 +76,17 @@ class AccountProfileForm(forms.ModelForm):
                 "placeholder": _("No email provided"),
             }
         )
+
+    def clean_email(self):
+        email = (self.cleaned_data.get("email") or "").strip()
+        if not email:
+            raise forms.ValidationError(_("Email is required."))
+
+        existing_users = UserModel._default_manager.filter(email__iexact=email)
+        if self.instance.pk:
+            existing_users = existing_users.exclude(pk=self.instance.pk)
+
+        if existing_users.exists():
+            raise forms.ValidationError(_("A user with that email already exists."))
+
+        return email

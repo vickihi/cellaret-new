@@ -1,12 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth import login as django_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
-from accounts.forms import AccountProfileForm, LoginForm, SignUpForm
+from accounts.forms import (
+    AccountProfileForm,
+    LoginForm,
+    SignUpForm,
+)
 from accounts.services.auth_service import (
     create_user_account,
 )
@@ -138,3 +142,10 @@ class AccountPasswordChangeView(PasswordChangeView):
             request=self.request, message=_("Your password has been updated.")
         )
         return super().form_valid(form)
+
+
+class AccountPasswordResetView(PasswordResetView):
+    template_name = "accounts/password_reset_form.html"
+    email_template_name = "accounts/password_reset_email.html"
+    subject_template_name = "accounts/password_reset_subject.txt"
+    success_url = reverse_lazy("accounts:password_reset_done")
