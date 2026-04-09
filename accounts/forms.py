@@ -10,7 +10,7 @@ UserModel = get_user_model()
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(
-        required=False,
+        required=True,
         widget=forms.EmailInput(attrs={"placeholder": _("Enter email...")}),
         label=_("Email"),
     )
@@ -34,7 +34,7 @@ class SignUpForm(UserCreationForm):
     def clean_email(self):
         email = (self.cleaned_data.get("email") or "").strip()
         if not email:
-            return email
+            raise forms.ValidationError(_("Email is required."))
 
         if UserModel._default_manager.filter(email__iexact=email).exists():
             raise forms.ValidationError(_("A user with that email already exists."))
@@ -53,7 +53,7 @@ class LoginForm(AuthenticationForm):
 
 class AccountProfileForm(forms.ModelForm):
     email = forms.EmailField(
-        required=False,
+        required=True,
         widget=forms.EmailInput(),
         label=_("Email address"),
     )
@@ -80,7 +80,7 @@ class AccountProfileForm(forms.ModelForm):
     def clean_email(self):
         email = (self.cleaned_data.get("email") or "").strip()
         if not email:
-            return email
+            raise forms.ValidationError(_("Email is required."))
 
         existing_users = UserModel._default_manager.filter(email__iexact=email)
         if self.instance.pk:
