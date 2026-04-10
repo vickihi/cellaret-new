@@ -123,9 +123,9 @@ def build_catalog_page(*, data, page_number, per_page: int = 24) -> CatalogPageD
         for field in ["category_path", "category", "country", "taste_tag", "size"]:
             if cleaned.get(field):
                 filters[field] = cleaned[field]
-        if cleaned.get("price_min"):
+        if cleaned.get("price_min") is not None:
             filters["price_min"] = cleaned["price_min"]
-        if cleaned.get("price_max"):
+        if cleaned.get("price_max") is not None:
             filters["price_max"] = cleaned["price_max"]
 
     products_qs = get_catalog_products(

@@ -73,7 +73,7 @@ class ProductCatalogFilterForm(forms.Form):
         cleaned = super().clean()
         min_price = cleaned.get("price_min")
         max_price = cleaned.get("price_max")
-        if min_price and max_price:
+        if min_price is not None and max_price is not None:
             if min_price > max_price:
                 raise forms.ValidationError(
                     "Max price must be greater than or equal to min price."
