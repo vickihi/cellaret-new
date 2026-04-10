@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from products.models import Product
-from products.services.saq_api import fetch_all_products
+from products.services.saq_api import fetch_all_products, fetch_sku_category_map
 
 
 def _get_price(item):
@@ -27,6 +27,10 @@ class Command(BaseCommand):
     help = "Import products from SAQ API into Product model"
 
     def handle(self, *args, **options):
+        self.stdout.write("Building SKU → category map...")
+        sku_category_map = fetch_sku_category_map()
+        self.stdout.write(f"Mapped {len(sku_category_map)} SKUs to categories.")
+
         self.stdout.write("Fetching all products...")
         items = fetch_all_products()
 
@@ -47,7 +51,7 @@ class Command(BaseCommand):
             if sku in existing_skus:
                 to_update.append((sku, item))
             else:
-                to_create.append(self._build_product(item, sku))
+                to_create.append(self._build_product(item, sku, sku_category_map))
 
         if to_create:
             self.stdout.write(f"Creating {len(to_create)} products...")
@@ -64,7 +68,7 @@ class Command(BaseCommand):
 
                 for sku, item in batch:
                     if sku in products:
-                        self._update_product(products[sku], item)
+                        self._update_product(products[sku], item, sku_category_map)
 
                 Product.objects.bulk_update(
                     products.values(),
@@ -72,6 +76,7 @@ class Command(BaseCommand):
                         "name",
                         "description",
                         "category",
+                        "category_path",
                         "image_url",
                         "price",
                         "grape_variety",
@@ -93,7 +98,7 @@ class Command(BaseCommand):
             )
         )
 
-    def _build_product(self, item, sku):
+    def _build_product(self, item, sku, sku_category_map):
         product_view = item.get("productView") or {}
         attrs = {a["name"]: a["value"] for a in product_view.get("attributes", [])}
 
@@ -102,6 +107,7 @@ class Command(BaseCommand):
             name=product_view.get("name", ""),
             description=attrs.get("argumentaire_vente_externe", ""),
             category=attrs.get("identite_produit", ""),
+            category_path=sku_category_map.get(sku, ""),
             image_url=_get_image_url(product_view),
             price=_get_price(item),
             grape_variety=_join_if_list(attrs.get("cepage")),
@@ -114,13 +120,14 @@ class Command(BaseCommand):
             vintage=attrs.get("millesime_produit", ""),
         )
 
-    def _update_product(self, product, item):
+    def _update_product(self, product, item, sku_category_map):
         product_view = item.get("productView") or {}
         attrs = {a["name"]: a["value"] for a in product_view.get("attributes", [])}
 
         product.name = product_view.get("name", "")
         product.description = attrs.get("argumentaire_vente_externe", "")
         product.category = attrs.get("identite_produit", "")
+        product.category_path = sku_category_map.get(product.sku, "")
         product.image_url = _get_image_url(product_view)
         product.price = _get_price(item)
         product.grape_variety = _join_if_list(attrs.get("cepage"))

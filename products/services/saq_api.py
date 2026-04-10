@@ -8,7 +8,7 @@ HEADERS = {
     "magento-customer-group": "b6589fc6ab0dc82cf12099d1c2d40ab994e8410c",
     "magento-environment-id": "2ce24571-9db9-4786-84a9-5f129257ccbb",
     "magento-store-code": "main_website_store",
-    "magento-store-view-code": "fr",
+    "magento-store-view-code": "en",
     "magento-website-code": "base",
 }
 
@@ -59,6 +59,16 @@ CATALOG_TYPE_1_PRICE_RANGES = [
     (30, 59.99),
     (60, 149.99),
     (150, 90000),
+]
+
+CATEGORY_PATHS = [
+    "products/wine",
+    "products/spirit",
+    "products/champagne-and-sparkling-wine",
+    "products/beer",
+    "products/cider",
+    "products/cooler-or-premixed-cocktail",
+    "products/port-and-fortified-wine",
 ]
 
 
@@ -155,3 +165,54 @@ def fetch_all_products():
 
     print(f"\n=== Total products fetched: {len(all_products)} ===")
     return all_products
+
+
+def fetch_sku_category_map():
+    """
+    Return a {sku: category_path} mapping by querying each category path.
+    """
+    sku_map = {}
+    for path in CATEGORY_PATHS:
+        print(f"  Fetching category: {path}...")
+        for price_from, price_to in CATALOG_TYPE_1_PRICE_RANGES:
+            page = 1
+            while True:
+                result = fetch_products_by_filter(
+                    page=page,
+                    page_size=500,
+                    filters=[
+                        {"attribute": "categories", "eq": path},
+                        {"attribute": "catalog_type", "eq": "1"},
+                        {
+                            "attribute": "price",
+                            "range": {"from": price_from, "to": price_to},
+                        },
+                    ],
+                )
+                items = result.get("items", [])
+                for item in items:
+                    sku = (item.get("productView") or {}).get("sku")
+                    if sku and sku not in sku_map:
+                        sku_map[sku] = path
+                if len(items) < 500:
+                    break
+                page += 1
+        page = 1
+        while True:
+            result = fetch_products_by_filter(
+                page=page,
+                page_size=500,
+                filters=[
+                    {"attribute": "categories", "eq": path},
+                    {"attribute": "catalog_type", "eq": "2"},
+                ],
+            )
+            items = result.get("items", [])
+            for item in items:
+                sku = (item.get("productView") or {}).get("sku")
+                if sku and sku not in sku_map:
+                    sku_map[sku] = path
+            if len(items) < 500:
+                break
+            page += 1
+    return sku_map

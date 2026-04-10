@@ -33,6 +33,7 @@ class ProductSortForm(forms.Form):
 class ProductCatalogFilterForm(forms.Form):
     """Form for catalog filters."""
 
+    category_path = forms.ChoiceField(required=False, choices=[("", "All Categories")])
     category = forms.ChoiceField(required=False, choices=[("", "Categories")])
     country = forms.ChoiceField(required=False, choices=[("", "Countries")])
     taste_tag = forms.ChoiceField(required=False, choices=[("", "Taste tags")])
@@ -46,6 +47,9 @@ class ProductCatalogFilterForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["category_path"].choices += self._distinct_choices_by_count(
+            "category_path"
+        )
         self.fields["category"].choices += self._distinct_choices_by_count("category")
         self.fields["taste_tag"].choices += self._distinct_choices_by_count("taste_tag")
         self.fields["country"].choices += self._distinct_choices_by_count("country")
@@ -69,7 +73,7 @@ class ProductCatalogFilterForm(forms.Form):
         cleaned = super().clean()
         min_price = cleaned.get("price_min")
         max_price = cleaned.get("price_max")
-        if min_price and max_price:
+        if min_price is not None and max_price is not None:
             if min_price > max_price:
                 raise forms.ValidationError(
                     "Max price must be greater than or equal to min price."

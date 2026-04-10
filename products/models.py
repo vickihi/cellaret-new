@@ -7,6 +7,7 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     image_url = models.URLField(blank=True)
     category = models.CharField(max_length=100, blank=True)
+    category_path = models.CharField(max_length=200, blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     taste_tag = models.CharField(max_length=200, blank=True)
     country = models.CharField(max_length=100, blank=True)
