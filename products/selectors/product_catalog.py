@@ -37,6 +37,8 @@ def apply_search(qs, search_query):
 
 def apply_filters(qs, filters: dict):
     """Apply selected filter values to the product queryset."""
+    if filters.get("category_path"):
+        qs = qs.filter(category_path__iexact=filters["category_path"])
     if filters.get("category"):
         qs = qs.filter(category__iexact=filters["category"])
     if filters.get("taste_tag"):
