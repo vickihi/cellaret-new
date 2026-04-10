@@ -49,15 +49,24 @@
             <article class="cellar-card">
                 <a href="{% url 'cellars:cellar_detail' cellar_id=cellar.id %}" class="cellar-card-link">
                     <div class="cellar-image-wrapper">
-                        
                         {% cycle 'images/mockup1.jpg' 'images/mockup2.jpg' 'images/mockup3.jpg' 'images/mockup4.jpg' as current_image silent %}
-                        
                         <img src="{% static current_image %}" alt="{{ cellar.name }}">
                         
                     </div>
                     
                     <div class="cellar-info">
-                        <span class="bottle-count">{{ cellar.bottle_count|default:"0" }} Bottles</span>
+                        <div class="info-header">
+                            <span class="bottle-count">{{ cellar.bottle_count|default:"0" }} Bottles</span>
+                            
+                            <button type="button" class="btn-icon js-open-edit-cellar"
+                                    data-cellar-name="{{ cellar.name }}"
+                                    data-cellar-desc="{{ cellar.description }}"
+                                    data-bottle-count="{{ cellar.bottle_count|default:'0' }}"
+                                    data-update-url="{% url 'cellars:cellar_update' cellar.id %}"
+                                    data-delete-url="{% url 'cellars:cellar_delete' cellar.id %}">
+                                Edit
+                            </button>
+                        </div>
                         <h2 class="cellar-name">{{ cellar.name }}</h2>
                         <p class="cellar-desc">{{ cellar.description }}</p>
                     </div>
@@ -75,4 +84,7 @@
         </div>
     </section>
 </div>
+{% include 'components/manage_cellar_modals.html' %}
+
+<script src="{% static 'js/cellars.js' %}"></script>
 {% endblock %}

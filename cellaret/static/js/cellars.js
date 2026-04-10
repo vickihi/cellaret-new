@@ -92,4 +92,56 @@ document.addEventListener('DOMContentLoaded', function() {
             closeBtn.addEventListener('click', () => modal.style.display = 'none');
         }
     }
+
+    // Manage Cellar Modals (Edit & Delete)
+
+    const editModal = document.getElementById('edit-cellar-modal');
+    const deleteModal = document.getElementById('delete-cellar-modal');
+    
+    if (editModal && deleteModal) {
+        const editForm = document.getElementById('edit-cellar-form');
+        const deleteForm = document.getElementById('delete-cellar-form');
+        const openEditBtns = document.querySelectorAll('.js-open-edit-cellar');
+        
+        let tempDeleteUrl = '';
+        let tempCellarName = '';
+        let tempBottleCount = '';
+
+        openEditBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                tempCellarName = this.dataset.cellarName;
+                tempBottleCount = this.dataset.bottleCount;
+                tempDeleteUrl = this.dataset.deleteUrl;
+
+                document.getElementById('display-cellar-name-title').textContent = tempCellarName;
+                document.getElementById('edit-cellar-name').value = tempCellarName;
+                document.getElementById('edit-cellar-desc').value = this.dataset.cellarDesc;
+                editForm.action = this.dataset.updateUrl;
+
+                editModal.style.display = 'flex';
+            });
+        });
+
+        const openDeleteBtn = document.querySelector('.js-open-delete-modal');
+        if (openDeleteBtn) {
+            openDeleteBtn.addEventListener('click', function() {
+                editModal.style.display = 'none';
+                
+                document.getElementById('delete-display-name').textContent = tempCellarName;
+                document.getElementById('delete-display-count').textContent = tempBottleCount;
+                deleteForm.action = tempDeleteUrl;
+
+                deleteModal.style.display = 'flex';
+            });
+        }
+
+        document.querySelector('.js-close-edit-modal').addEventListener('click', () => editModal.style.display = 'none');
+        document.querySelector('.js-close-delete-modal').addEventListener('click', () => deleteModal.style.display = 'none');
+        document.querySelector('.js-cancel-delete').addEventListener('click', () => {
+            deleteModal.style.display = 'none';
+            editModal.style.display = 'flex'; 
+        });
+    }
 });
