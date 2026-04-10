@@ -212,6 +212,11 @@
     font-weight: 700;
 }
 
+.info-header .btn-icon:hover {
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
 .cellar-info .cellar-name {
     color: var(--primary-color);
 }
