@@ -429,3 +429,178 @@ aside {
 .toast.error .toast-icon { 
     color: #721C24; 
 }
+
+/* -- Manage Cellar Modals --- */
+.modal-content {
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+}
+
+.modal-serif-title {
+    color: var(--primary-color);
+    margin-bottom: 6px
+}
+
+.edit-cellar-content { 
+    padding: 48px; 
+    width: 550px; 
+}
+
+.delete-cellar-content { 
+    padding: 48px; 
+    width: 500px; 
+}
+
+.modal-subtitle {
+    margin-bottom: 24px;
+}
+
+.form-group-alt { 
+    margin-bottom: 24px; 
+    text-align: left; 
+}
+
+.form-group-alt label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--secondary-text);
+    margin-bottom: 6px;
+}
+
+.form-group-alt input,
+.form-group-alt textarea {
+    width: 100%;
+    padding: 8px 0;
+    border: none;
+    background-color: #FCF9F9;
+    border-bottom: 1px solid #E2E8F0;
+    font-size: 16px;
+    color: var(--secondary-text);
+}
+
+.form-group-alt input:focus,
+.form-group-alt textarea:focus {
+    outline: none;
+    border-bottom-color: var(--primary-color);
+}
+
+/* Toggle (Default Cellar) */
+.toggle-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px 0;
+}
+.toggle-text label {
+    font-size: 12px; 
+    font-weight: 700; 
+    color: var(--secondary-text);
+}
+
+.toggle-text p {
+    font-size: 14px; 
+    color: var(--secondary-text); 
+    margin-top: 3px;
+}
+
+.custom-toggle {
+    position: relative; 
+    display: inline-block; 
+    width: 40px; 
+    height: 22px;
+}
+
+.custom-toggle input { 
+    opacity: 0; 
+    width: 0; 
+    height: 0; 
+}
+
+.toggle-slider {
+    position: absolute; 
+    cursor: pointer; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0;
+    background-color: #CBD5E1; 
+    border-radius: 34px; 
+    transition: 0.3s;
+}
+
+.toggle-slider:before {
+    position: absolute; 
+    content: ""; 
+    height: 18px; 
+    width: 18px; 
+    left: 2px; 
+    bottom: 2px;
+    background-color: white; 
+    border-radius: 50%; 
+    transition: 0.3s;
+}
+
+.custom-toggle input:checked + .toggle-slider { 
+    background-color: var(--primary-color); 
+}
+
+.custom-toggle input:checked + .toggle-slider:before { 
+    transform: translateX(18px); 
+}
+
+.modal-submit-btn {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.btn-ghost-danger {
+    width: 100%; 
+    background: none; 
+    color: var(--primary-color); 
+    font-weight: 700;
+    border: none; 
+    padding: 8px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 0.5rem;
+}
+
+.danger-fill-btn {
+    width: 100%; 
+    font-weight: 600; 
+    border: none; 
+    margin-top: 24px; 
+    margin-bottom: 8px;
+}
+
+.btn-ghost-secondary {
+    width: 100%; 
+    background: none; 
+    color: var(--secondary-text); 
+    font-weight: 600;
+    border: none; 
+    padding: 8px; 
+    cursor: pointer;
+}
+
+.trash-icon-box {
+    background-color: #FCF8F9; 
+    border: 1px solid #F0E6EA; 
+    width: 50px; 
+    height: 50px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-radius: 4px;
+    margin: 0 auto 24px auto; 
+    color: var(--primary-color); 
+    font-size: 26px;
+}

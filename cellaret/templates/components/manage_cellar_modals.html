@@ -1,0 +1,61 @@
+<div id="edit-cellar-modal" class="modal-overlay">
+    <div class="modal-content edit-cellar-content">
+        <button class="close-modal js-close-edit-modal">&times;</button>
+        
+        <h2 class="modal-serif-title">Edit Cellar</h2>
+        <p class="modal-subtitle">Refine your <span id="display-cellar-name-title" class="text-bold"></span> details.</p>
+
+        <form id="edit-cellar-form" method="POST" action="">
+            {% csrf_token %}
+            
+            <div class="form-group-alt">
+                <label for="edit-cellar-name">CELLAR NAME</label>
+                <input type="text" name="name" id="edit-cellar-name" required>
+            </div>
+
+            <div class="form-group-alt">
+                <label for="edit-cellar-desc">DESCRIPTION</label>
+                <textarea name="description" id="edit-cellar-desc" rows="3"></textarea>
+            </div>
+
+            <div class="toggle-container">
+                <div class="toggle-text">
+                    <label>DEFAULT CELLAR</label>
+                    <p>Set as your default viewing cellar</p>
+                </div>
+                <label class="custom-toggle">
+                    <input type="checkbox" name="is_default" id="edit-cellar-default">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <button type="submit" class="btn-primary modal-submit-btn">Save Changes</button>
+            
+            <button type="button" class="btn-ghost-danger js-open-delete-modal">
+                <i class="fa-solid fa-trash"></i> Delete Cellar
+            </button>
+        </form>
+    </div>
+</div>
+
+<div id="delete-cellar-modal" class="modal-overlay modal-hidden">
+    <div class="modal-content delete-cellar-content">
+        <button class="close-modal js-close-delete-modal">&times;</button>
+        
+        <div class="trash-icon-box">
+            <i class="fa-solid fa-trash"></i>
+        </div>
+        
+        <h2 class="modal-serif-title text-center">Confirm Deletion</h2>
+        <p class="modal-instruction text-center">
+            You are about to permanently delete the cellar named '<strong id="delete-display-name"></strong>' containing '<strong id="delete-display-count"></strong>' bottles.<br>
+            This action is irreversible. Do you wish to continue?
+        </p>
+
+        <form id="delete-cellar-form" method="POST" action="">
+            {% csrf_token %}
+            <button type="submit" class="btn-primary danger-fill-btn">Delete permanently</button>
+            <button type="button" class="btn-ghost-secondary js-cancel-delete">Cancel</button>
+        </form>
+    </div>
+</div>

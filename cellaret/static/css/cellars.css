@@ -205,9 +205,16 @@
     color: var(--primary-text-dark);
 }
 
-.cellar-info .bottle-count {
+.cellar-info .info-header {
+    display: flex;
+    justify-content: space-between;
     font-size: 14px;
     font-weight: 700;
+}
+
+.info-header .btn-icon:hover {
+    cursor: pointer;
+    color: var(--primary-color);
 }
 
 .cellar-info .cellar-name {
