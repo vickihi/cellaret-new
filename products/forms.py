@@ -32,6 +32,7 @@ class ProductSortForm(forms.Form):
 
 class ProductCatalogFilterForm(forms.Form):
     """Form for catalog filters."""
+
     category_path = forms.ChoiceField(required=False, choices=[("", "All Categories")])
     category = forms.ChoiceField(required=False, choices=[("", "Categories")])
     country = forms.ChoiceField(required=False, choices=[("", "Countries")])
@@ -46,7 +47,9 @@ class ProductCatalogFilterForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["category_path"].choices += self._distinct_choices_by_count("category_path")
+        self.fields["category_path"].choices += self._distinct_choices_by_count(
+            "category_path"
+        )
         self.fields["category"].choices += self._distinct_choices_by_count("category")
         self.fields["taste_tag"].choices += self._distinct_choices_by_count("taste_tag")
         self.fields["country"].choices += self._distinct_choices_by_count("country")

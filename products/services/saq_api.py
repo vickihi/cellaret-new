@@ -71,6 +71,7 @@ CATEGORY_PATHS = [
     "products/port-and-fortified-wine",
 ]
 
+
 def _execute_query(query, variables=None):
     """
     Execute a GraphQL query against the SAQ API.
@@ -182,7 +183,10 @@ def fetch_sku_category_map():
                     filters=[
                         {"attribute": "categories", "eq": path},
                         {"attribute": "catalog_type", "eq": "1"},
-                        {"attribute": "price", "range": {"from": price_from, "to": price_to}},
+                        {
+                            "attribute": "price",
+                            "range": {"from": price_from, "to": price_to},
+                        },
                     ],
                 )
                 items = result.get("items", [])
