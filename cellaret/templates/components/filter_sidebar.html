@@ -1,0 +1,124 @@
+<div class="saq-filter-container">
+    <div class="saq-sidebar-header">
+        <p class="saq-title">FILTERS</p>
+        <a href="{{ request.path }}" class="saq-clear-btn">Clear all</a>
+    </div>
+
+    <form id="filter-form" method="GET" action="{{ request.path }}">
+        {% if search_query %}
+            <input type="hidden" name="q" value="{{ search_query }}">
+        {% endif %}
+
+        <div class="saq-filter-group">
+            <button type="button" class="saq-filter-toggle js-filter-toggle">
+                CATEGORY <span class="toggle-icon">-</span>
+            </button>
+            <div class="saq-filter-content">
+                <ul class="saq-filter-list">
+                    {% for path in available_filters.category_paths %}
+                    <li>
+                        <label class="saq-checkbox-label">
+                            <input type="radio" name="category_path" value="{{ path.value }}" 
+                                {% if active_filters.category_path == path.value %}checked{% endif %}
+                                
+                                onchange="document.querySelectorAll('input[name=category]').forEach(cb => cb.disabled = true); this.form.submit();">
+                                
+                            <span class="custom-box"></span>
+                            <span class="filter-text">{{ path.label }}</span>
+                            <span class="filter-count">({{ path.count }})</span>
+                        </label>
+
+                        {% if active_filters.category_path == path.value %}
+                            {% for p_key, subcats in available_filters.categories_by_path.items %}
+                                {% if p_key == path.value %}
+                                <ul class="saq-subfilter-list">
+                                    {% for sub in subcats %}
+                                    <li class="saq-sub-item">
+                                        <label class="saq-checkbox-label">
+                                            
+                                            <input type="radio" name="category" value="{{ sub }}"
+                                                {% if sub in active_filters.category %}checked{% endif %}
+                                                onchange="this.form.submit()">
+                                                
+                                            <span class="custom-box"></span>
+                                            <span class="filter-text">{{ sub }}</span>
+                                        </label>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="saq-filter-group">
+            <button type="button" class="saq-filter-toggle js-filter-toggle">
+                COUNTRY <span class="toggle-icon">+</span>
+            </button>
+            <div class="saq-filter-content" style="display: none;">
+                <ul class="saq-filter-list">
+                    {% for country in available_filters.countries %}
+                    <li>
+                        <label class="saq-checkbox-label">
+                            <input type="checkbox" name="country" value="{{ country.value }}" 
+                                   {% if country.value in active_filters.country %}checked{% endif %}
+                                   onchange="this.form.submit()">
+                            <span class="custom-box"></span>
+                            <span class="filter-text">{{ country.value }}</span>
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="saq-filter-group">
+            <button type="button" class="saq-filter-toggle js-filter-toggle">
+                TASTE TAG <span class="toggle-icon">+</span>
+            </button>
+            <div class="saq-filter-content" style="display: none;">
+                <ul class="saq-filter-list">
+                    {% for tag in available_filters.taste_tags %}
+                    <li>
+                        <label class="saq-checkbox-label">
+                            <input type="checkbox" name="taste_tag" value="{{ tag.value }}" 
+                                   {% if tag.value in active_filters.taste_tag %}checked{% endif %}
+                                   onchange="this.form.submit()">
+                            <span class="custom-box"></span>
+                            <span class="filter-text">{{ tag.value }}</span>
+                            <span class="filter-count">({{ tag.count }})</span>
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="saq-filter-group">
+            <button type="button" class="saq-filter-toggle js-filter-toggle">
+                SIZE <span class="toggle-icon">+</span>
+            </button>
+            <div class="saq-filter-content" style="display: none;">
+                <ul class="saq-filter-list">
+                    {% for size in available_filters.sizes %}
+                    <li>
+                        <label class="saq-checkbox-label">
+                            <input type="checkbox" name="size" value="{{ size.value }}" 
+                                   {% if size.value in active_filters.size %}checked{% endif %}
+                                   onchange="this.form.submit()">
+                            <span class="custom-box"></span>
+                            <span class="filter-text">{{ size.value }}</span>
+                            <span class="filter-count">({{ size.count }})</span>
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>

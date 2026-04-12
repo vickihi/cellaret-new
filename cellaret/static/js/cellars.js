@@ -144,4 +144,23 @@ document.addEventListener('DOMContentLoaded', function() {
             editModal.style.display = 'flex'; 
         });
     }
+
+    const filterToggles = document.querySelectorAll('.js-filter-toggle');
+
+    filterToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            // 클릭한 버튼 바로 밑에 있는 콘텐츠(ul 리스트)를 찾습니다.
+            const content = this.nextElementSibling;
+            const icon = this.querySelector('.toggle-icon');
+
+            // 숨겨져 있으면 보여주고 -, 보여지고 있으면 숨기고 +
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.textContent = '-';
+            } else {
+                content.style.display = 'none';
+                icon.textContent = '+';
+            }
+        });
+    });
 });

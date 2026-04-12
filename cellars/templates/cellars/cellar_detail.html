@@ -33,7 +33,9 @@
                 </a>
             </ul>
         </div>
-        </aside>
+
+        {% include 'components/filter_sidebar.html' %}
+    </aside>
 
     <section class="cellars-main">
         
@@ -111,9 +113,17 @@
             {% empty %}
             <div class="empty-state">
                 <i class="fa-solid fa-wine-bottle empty-icon"></i>
-                <h2 class="empty-title">This cellar is empty</h2>
-                <p class="empty-desc">Head over to the catalog to find some great wines to add to your collection.</p>
-                <a href="{% url 'products:catalog' %}" class="btn-primary">Browse Catalog</a>
+                
+                {% if active_filters or search_query %}
+                    <h2 class="empty-title">No matching bottles</h2>
+                    <p class="empty-desc">We couldn't find any bottles in this cellar matching your current filters.</p>
+                    <a href="{{ request.path }}" class="btn-primary btn-secondary">Clear Filters</a>
+                
+                {% else %}
+                    <h2 class="empty-title">This cellar is empty</h2>
+                    <p class="empty-desc">Head over to the catalog to find some great wines to add to your collection.</p>
+                    <a href="{% url 'products:catalog' %}" class="btn-primary">Browse Catalog</a>
+                {% endif %}
             </div>
             {% endfor %}
         </div>

@@ -1,8 +1,7 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Cellaret | Catalog{% endblock %}
-
-{% load static %}
 
 {% block banner %}
     <section class="page-header">
@@ -23,59 +22,76 @@
 
 {% block content %}
 
-    {% include 'components/controls_bar.html' with search_placeholder="Search products by name" %}
+    <div class="cellars-layout">
+        
+        <aside class="cellars-sidebar">
+            {% include 'components/filter_sidebar.html' %}
+        </aside>
 
-    <section class="products-section">
-        <div class="product-grid">
-            {% for product in products %}
-            <article class="product-card">
-                <a href="{% url 'products:detail' product.sku %}" class="card-link">
-                    <div class="card-image">
-                        <!-- <img src="{{ product.image_url }}" alt="{{ product.name }}"> -->
-                        {% if product.image_url %}
-                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
-                        {% else %}
-                            <img src="{% static 'images/product-placeholder.png' %}" alt="No image available for {{ product.name }}">
-                        {% endif %}
-                    </div>
-                    <div class="card-content">
-                        {% if product.category or product.country or product.size_display %}
-                            <p class="card-product-details">
-                                {% if product.category %}
-                                    {{ product.category }}
-                                {% endif %}
-                                {% if product.country %}
-                                    <span>{{ product.country }}</span>
-                                {% endif %}
-                                {% if product.size_display %}
-                                    <span>{{ product.size_display }}</span>
-                                {% endif %}
-                            </p>
-                        {% endif %}
-
-                        <h3 class="card-title">{{ product.name }}</h3>
-                        {% if product.taste_tag %}
-                        <p class="card-taste-tag">{{ product.taste_tag }}</p>
-                        {% endif %}
-                        <footer class="card-footer">
-                            <span class="card-price">{{ product.price }} $</span>
-                            <button class="btn-add" data-product-sku="{{ product.sku }}" data-product-name="{{ product.name }}"><i class="fa-solid fa-plus"></i></button>
-                        </footer>
-                    </div>
-                </a>
-            </article>
-            {% empty %}
-            <div class="no-results-container">
-                <p class="no-results"></p>
+        <section class="cellars-main">
+            
+            <div class="catalog-controls-wrapper">
+                {% include 'components/controls_bar.html' with search_placeholder="Search products by name" %}
             </div>
-            {% endfor %}
-        </div>
-    </section>
 
-    {% if page_obj.paginator.count > 0 %}
-    {% include 'components/pagination.html' %}
-    {% endif %}
+            <div class="product-grid">
+                {% for product in products %}
+                <article class="product-card">
+                    <a href="{% url 'products:detail' product.sku %}" class="card-link">
+                        <div class="card-image">
+                            {% if product.image_url %}
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                            {% else %}
+                                <img src="{% static 'images/product-placeholder.png' %}" alt="No image available for {{ product.name }}">
+                            {% endif %}
+                        </div>
+                        <div class="card-content">
+                            {% if product.category or product.country or product.size_display %}
+                                <p class="card-product-details">
+                                    {% if product.category %}
+                                        {{ product.category }}
+                                    {% endif %}
+                                    {% if product.country %}
+                                        <span>{{ product.country }}</span>
+                                    {% endif %}
+                                    {% if product.size_display %}
+                                        <span>{{ product.size_display }}</span>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+
+                            <h3 class="card-title">{{ product.name }}</h3>
+                            {% if product.taste_tag %}
+                            <p class="card-taste-tag">{{ product.taste_tag }}</p>
+                            {% endif %}
+                            
+                            <footer class="card-footer">
+                                <span class="card-price">{{ product.price }} $</span>
+                                <button class="btn-add" data-product-sku="{{ product.sku }}" data-product-name="{{ product.name }}">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </footer>
+                        </div>
+                    </a>
+                </article>
+                {% empty %}
+                <div class="catalog-empty-state">
+                    <i class="fa-solid fa-wine-glass-empty catalog-empty-icon"></i>
+                    <p class="catalog-empty-text">No products found matching your criteria.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if page_obj.paginator.count > 0 %}
+            <div class="catalog-pagination-wrapper">
+                {% include 'components/pagination.html' %}
+            </div>
+            {% endif %}
+
+        </section>
+    </div>
 
     {% include 'components/cellar_modal.html' %}
     <script src="{% static 'js/cellars.js' %}"></script>
+
 {% endblock %}
