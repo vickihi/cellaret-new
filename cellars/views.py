@@ -75,13 +75,10 @@ def cellar_create(request):
 def cellar_update(request, cellar_id):
     """Update a cellar for a user."""
     cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
-    next_page = request.POST.get("next")
     form = CellarForm(request.POST, instance=cellar, user=request.user)
 
     if not form.is_valid():
-        if next_page == "cellars":
-            return redirect("cellars:cellar_detail", cellar_id=cellar_id)
-        return redirect("accounts:detail")
+        return _redirect_to_next_or_cellar_detail(request, cellar_id=cellar_id)
 
     if form.has_changed():
         update_cellar(
@@ -91,10 +88,7 @@ def cellar_update(request, cellar_id):
         )
         messages.success(request, "Your cellar has been updated.")
 
-    if next_page == "cellars":
-        return redirect("cellars:cellar_detail", cellar_id=cellar_id)
-
-    return redirect("accounts:detail")
+    return _redirect_to_next_or_cellar_detail(request, cellar_id=cellar_id)
 
 
 @login_required
@@ -245,9 +239,10 @@ def cellar_bottle_save(request, cellar_id, bottle_id):
     except (TypeError, ValueError):
         quantity = bottle.quantity
 
-    set_cellar_bottle_quantity(bottle=bottle, quantity=quantity)
-    messages.success(
-        request, f"Updated {bottle.product.name} quantity in {cellar.name}."
-    )
+    if quantity != bottle.quantity:
+        set_cellar_bottle_quantity(bottle=bottle, quantity=quantity)
+        messages.success(
+            request, f"Updated {bottle.product.name} quantity in {cellar.name}."
+        )
 
     return _redirect_to_next_or_cellar_detail(request, cellar_id=cellar_id)
