@@ -24,7 +24,7 @@
                                 onchange="document.querySelectorAll('input[name=category]').forEach(cb => cb.disabled = true); this.form.submit();">
                                 
                             <span class="custom-box"></span>
-                            <span class="filter-text">{{ path.label }}</span>
+                            <span class="filter-text">{{ path.label }}&nbsp;</span>
                             <span class="filter-count">({{ path.count }})</span>
                         </label>
 
@@ -90,7 +90,7 @@
                                    {% if tag.value in active_filters.taste_tag %}checked{% endif %}
                                    onchange="this.form.submit()">
                             <span class="custom-box"></span>
-                            <span class="filter-text">{{ tag.value }}</span>
+                            <span class="filter-text">{{ tag.value }}&nbsp;</span>
                             <span class="filter-count">({{ tag.count }})</span>
                         </label>
                     </li>
@@ -112,7 +112,7 @@
                                    {% if size.value in active_filters.size %}checked{% endif %}
                                    onchange="this.form.submit()">
                             <span class="custom-box"></span>
-                            <span class="filter-text">{{ size.value }}</span>
+                            <span class="filter-text">{{ size.value }}&nbsp;</span>
                             <span class="filter-count">({{ size.count }})</span>
                         </label>
                     </li>

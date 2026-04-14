@@ -19,7 +19,7 @@
                 <li>
                     <a href="{% url 'cellars:cellar_detail' cellar_id=sidebar_cellar.id %}" class="nav-link">
                         <span class="cellar-name">{{ sidebar_cellar.name }}</span>
-                        <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottles</span>
+                        <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottle{{ sidebar_cellar.bottle_count|pluralize }}</span>
                     </a>
                 </li>
                 {% empty %}
@@ -56,7 +56,7 @@
                     
                     <div class="cellar-info">
                         <div class="info-header">
-                            <span class="bottle-count">{{ cellar.bottle_count|default:"0" }} Bottles</span>
+                            <span class="bottle-count">{{ cellar.bottle_count|default:"0" }} Bottle{{ cellar.bottle_count|pluralize }}</span>
                             
                             <button type="button" class="btn-icon js-open-edit-cellar"
                                     data-cellar-name="{{ cellar.name }}"

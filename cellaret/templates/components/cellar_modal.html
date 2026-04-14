@@ -20,7 +20,9 @@
                     <input type="radio" name="cellar_id" value="{{ cellar.id }}" id="cellar_{{ cellar.id }}" {% if forloop.first %}checked{% endif %}>
                     <label for="cellar_{{ cellar.id }}">
                         <span class="name">{{ cellar.name }}</span>
-                        <span class="count">{{ cellar.bottle_count|default:"0" }} Bottles</span>
+                        <span class="count">
+                            {{ cellar.bottle_count|default:"0" }} Bottle{{ cellar.bottle_count|pluralize }}
+                        </span>
                     </label>
                 </li>
                 {% endfor %}

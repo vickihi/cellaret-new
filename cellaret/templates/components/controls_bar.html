@@ -1,7 +1,7 @@
     <form method="GET" action="{{ search_action|default:'' }}" class="catalog-top-bar">
         <div class="results-text">
             {% if is_cellar %}
-                {{ total_bottles }} Bottles in {{ cellar_name }}
+                {{ total_bottles }} Bottle{{ total_bottles|pluralize }} in {{ cellar_name }}
             {% elif page_obj and page_obj.paginator.count > 0 %}
                 Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} results
             {% else %}

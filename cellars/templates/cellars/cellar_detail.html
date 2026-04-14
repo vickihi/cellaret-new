@@ -21,7 +21,7 @@
                     class="nav-link {% if sidebar_cellar.id == cellar.id %}active{% endif %}">
                         
                         <span class="cellar-name">{{ sidebar_cellar.name }}</span>
-                        <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottles</span>
+                        <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottle{{ sidebar_cellar.bottle_count|pluralize }}</span>
                     </a>
                 </li>
                 {% empty %}
@@ -89,7 +89,7 @@
                         {% endif %}
 
                         <footer class="card-footer-alt view-mode">
-                            <span class="bottle-count-label">{{ bottle.quantity|default:'1' }} Bottles</span>
+                            <span class="bottle-count-label">{{ bottle.quantity|default:'1' }} Bottle{{ bottle.quantity|pluralize }}</span>
                             <button type="button" class="btn-edit-toggle js-edit-btn">Edit</button>
                         </footer>
 
@@ -122,7 +122,7 @@
                 {% else %}
                     <h2 class="empty-title">This cellar is empty</h2>
                     <p class="empty-desc">Head over to the catalog to find some great wines to add to your collection.</p>
-                    <a href="{% url 'products:catalog' %}" class="btn-primary">Browse Catalog</a>
+                    <a href="{% url 'products:catalog' %}?cellar_id={{ cellar.id }}" class="btn-primary">Browse Catalog</a>
                 {% endif %}
             </div>
             {% endfor %}

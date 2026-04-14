@@ -4,6 +4,8 @@
     background-color: var(--primary-background);
     color: var(--primary-text-color);
     min-height: 80px;
+    display: flex;
+    align-items: center;
 }
 
 .brand {
@@ -13,6 +15,7 @@
     font-style: italic;
     font-weight: 900;
     line-height: normal;
+    margin-left: 20px;
 }
 
 .header-primary-nav {
