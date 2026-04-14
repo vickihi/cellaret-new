@@ -26,6 +26,7 @@ from .services import (
     get_or_create_default_cellar,
     set_product_quantity_in_cellar,
     set_cellar_bottle_quantity,
+    build_cellar_page,
 )
 
 
