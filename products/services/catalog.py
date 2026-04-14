@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from django.core.paginator import Paginator
 from django.urls import reverse
+from django.db.models import Count
 
 from products.forms import (
     ProductCatalogSearchForm,
@@ -10,7 +11,7 @@ from products.forms import (
 )
 from products.selectors import get_catalog_products
 from products.models import Product
-from django.db.models import Count
+
 
 
 CATEGORY_PATH_LABELS = {
