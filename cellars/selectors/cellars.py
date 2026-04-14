@@ -3,6 +3,21 @@ from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from django.shortcuts import get_object_or_404
 
+SORT_TO_ORDER_BY = {
+    "price_asc": ("product__price", "id"),
+    "price_desc": ("-product__price", "id"),
+    "name_asc": ("product__name", "id"),
+    "name_desc": ("-product__name", "id"),
+    "quantity_desc": ("-quantity", "id"),
+    "quantity_asc": ("quantity", "id"),
+}
+
+
+def apply_sort(qs, sort_key: str):
+    """Reuse sort function for cellars"""
+    order_by_fields = SORT_TO_ORDER_BY.get(sort_key, ("product__name", "id"))
+    return qs.order_by(*order_by_fields)
+
 
 def get_user_cellars(*, user):
     """Get all cellars for a user."""
@@ -17,13 +32,10 @@ def get_user_cellar_or_404(*, user, cellar_id):
     return get_object_or_404(Cellar, id=cellar_id, user=user)
 
 
-def get_cellar_bottles(*, cellar):
+def get_cellar_bottles(*, cellar, sort_key: str = ""):
     """Get all bottles for a cellar."""
-    return (
-        Bottle.objects.filter(cellar=cellar)
-        .select_related("product")
-        .order_by("product__name", "id")
-    )
+    qs = Bottle.objects.filter(cellar=cellar).select_related("product")
+    return apply_sort(qs, sort_key)
 
 
 def get_cellar_bottle_or_404(*, cellar, bottle_id):
