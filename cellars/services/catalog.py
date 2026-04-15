@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from django.core.paginator import Paginator
+from django.db.models import Sum
 from cellars.models import Bottle
 from products.forms import ProductCatalogFilterForm
 from products.models import Product
@@ -46,13 +47,13 @@ def build_cellar_page(*, cellar, data, page_number, per_page=24) -> CellarPageDa
         .select_related("product")
     )
     bottles_qs = apply_sort(bottles_qs, sort_key)
-    total_bottles = Bottle.objects.filter(cellar=cellar).count()
+    total_bottles = Bottle.objects.filter(cellar=cellar).aggregate(total=Sum("quantity"))["total"] or 0
 
     paginator = Paginator(bottles_qs, per_page)
     page_obj = paginator.get_page(page_number)
     page_range = paginator.get_elided_page_range(
         page_obj.number, on_each_side=1, on_ends=1
-    )  
+    )
 
     return CellarPageData(
         filter_form=filter_form,
