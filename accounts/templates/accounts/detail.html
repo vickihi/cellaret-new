@@ -76,12 +76,10 @@
                         <span class="cellar-default-checkbox">Default cellar</span>
 
                         <div class="cellar-buttons">
-                            <form method="post" action="{% url 'cellars:cellar_delete' cellar.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-link account-btn-delete">
-                                    <i class="fa-solid fa-trash"></i>Delete
-                                </button>
-                            </form>
+                            <button type="submit" formaction="{% url 'cellars:cellar_delete' cellar.id %}" class="btn-link account-btn-delete">
+                                <i class="fa-solid fa-trash"></i>Delete
+                            </button>
+                            
                             <button type="submit" class="btn-link account-btn-save">
                                 <i class="fa-solid fa-floppy-disk"></i>Save
                             </button>
