@@ -1,3 +1,5 @@
+from decimal import Decimal, InvalidOperation
+
 from django.db import models
 
 
@@ -34,6 +36,26 @@ class Product(models.Model):
 
         liters = ml / 1000
         return f"{liters:g} L"
+
+    @property
+    def degree_display(self):
+        """Return alcohol degree formatted for display."""
+        if not self.degree:
+            return ""
+
+        degree = str(self.degree).strip()
+        if not degree:
+            return ""
+
+        if "%" in degree:
+            return degree
+
+        try:
+            numeric_degree = Decimal(degree)
+        except (InvalidOperation, TypeError, ValueError):
+            return degree
+
+        return f"{numeric_degree.normalize():f}".rstrip("0").rstrip(".") + "%"
 
     def __str__(self):
         return f"{self.name} ({self.sku})"

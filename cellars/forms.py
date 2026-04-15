@@ -21,3 +21,23 @@ class CellarForm(forms.ModelForm):
         if queryset.exists():
             raise forms.ValidationError("Cellar with this name already exists.")
         return name
+
+
+class CellarBottleSortForm(forms.Form):
+    SORT = [
+        ("", "Default"),
+        ("name_asc", "Name (A-Z)"),
+        ("name_desc", "Name (Z-A)"),
+        ("price_asc", "Price (low to high)"),
+        ("price_desc", "Price (high to low)"),
+        ("quantity_desc", "Quantity (high to low)"),
+        ("quantity_asc", "Quantity (low to high)"),
+    ]
+
+    sort = forms.ChoiceField(
+        label="Sort:",
+        required=False,
+        choices=SORT,
+        initial="",
+        widget=forms.Select(attrs={"class": "sort-select"}),
+    )

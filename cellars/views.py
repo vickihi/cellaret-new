@@ -4,7 +4,6 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect, render
 
 from products.models import Product
-from products.forms import ProductSortForm
 
 from .forms import CellarForm
 
@@ -12,7 +11,6 @@ from .selectors import (
     get_cellar_bottle_or_404,
     get_cellar_product_bottle,
     get_user_cellars,
-    get_cellar_bottles,
     get_user_cellar_or_404,
 )
 
@@ -26,6 +24,7 @@ from .services import (
     get_or_create_default_cellar,
     set_product_quantity_in_cellar,
     set_cellar_bottle_quantity,
+    build_cellar_page,
 )
 
 
@@ -75,13 +74,10 @@ def cellar_create(request):
 def cellar_update(request, cellar_id):
     """Update a cellar for a user."""
     cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
-    next_page = request.POST.get("next")
     form = CellarForm(request.POST, instance=cellar, user=request.user)
 
     if not form.is_valid():
-        if next_page == "cellars":
-            return redirect("cellars:cellar_detail", cellar_id=cellar_id)
-        return redirect("accounts:detail")
+        return _redirect_to_next_or_cellar_detail(request, cellar_id=cellar_id)
 
     if form.has_changed():
         update_cellar(
@@ -91,10 +87,7 @@ def cellar_update(request, cellar_id):
         )
         messages.success(request, "Your cellar has been updated.")
 
-    if next_page == "cellars":
-        return redirect("cellars:cellar_detail", cellar_id=cellar_id)
-
-    return redirect("accounts:detail")
+    return _redirect_to_next_or_cellar_detail(request, cellar_id=cellar_id)
 
 
 @login_required
@@ -111,19 +104,29 @@ def cellar_delete(request, cellar_id):
 @login_required
 def cellar_detail(request, cellar_id):
     cellar = get_user_cellar_or_404(user=request.user, cellar_id=cellar_id)
-    bottles = get_cellar_bottles(cellar=cellar)
     cellars = get_user_cellars(user=request.user)
-    sort_form = ProductSortForm(request.GET)
-    total_bottles = sum(bottle.quantity for bottle in bottles)
+
+    cellar_page = build_cellar_page(
+        cellar=cellar,
+        data=request.GET,
+        page_number=request.GET.get("page", 1),
+    )
+
     return render(
         request,
         "cellars/cellar_detail.html",
         {
             "cellars": cellars,
             "cellar": cellar,
-            "bottles": bottles,
-            "sort_form": sort_form,
-            "total_bottles": total_bottles,
+            "bottles": cellar_page.bottles,
+            "sort_form": cellar_page.sort_form,
+            "filter_form": cellar_page.filter_form,
+            "page_obj": cellar_page.page_obj,
+            "page_range": cellar_page.page_range,
+            "sort_key": cellar_page.sort_key,
+            "active_filters": cellar_page.active_filters,
+            "available_filters": cellar_page.available_filters,
+            "total_bottles": cellar_page.total_bottles,
         },
     )
 
@@ -245,9 +248,10 @@ def cellar_bottle_save(request, cellar_id, bottle_id):
     except (TypeError, ValueError):
         quantity = bottle.quantity
 
-    set_cellar_bottle_quantity(bottle=bottle, quantity=quantity)
-    messages.success(
-        request, f"Updated {bottle.product.name} quantity in {cellar.name}."
-    )
+    if quantity != bottle.quantity:
+        set_cellar_bottle_quantity(bottle=bottle, quantity=quantity)
+        messages.success(
+            request, f"Updated {bottle.product.name} quantity in {cellar.name}."
+        )
 
     return _redirect_to_next_or_cellar_detail(request, cellar_id=cellar_id)

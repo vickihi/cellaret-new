@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (editModal && deleteModal) {
         const editForm = document.getElementById('edit-cellar-form');
         const deleteForm = document.getElementById('delete-cellar-form');
+        const editNextInput = document.getElementById('edit-cellar-next');
         const openEditBtns = document.querySelectorAll('.js-open-edit-cellar');
         
         let tempDeleteUrl = '';
@@ -119,6 +120,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('edit-cellar-name').value = tempCellarName;
                 document.getElementById('edit-cellar-desc').value = this.dataset.cellarDesc;
                 editForm.action = this.dataset.updateUrl;
+                if (editNextInput) {
+                    editNextInput.value = this.dataset.nextUrl;
+                }
 
                 editModal.style.display = 'flex';
             });
