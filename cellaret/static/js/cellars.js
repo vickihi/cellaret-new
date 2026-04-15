@@ -153,11 +153,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     filterToggles.forEach(toggle => {
         toggle.addEventListener('click', function() {
-            // 클릭한 버튼 바로 밑에 있는 콘텐츠(ul 리스트)를 찾습니다.
             const content = this.nextElementSibling;
             const icon = this.querySelector('.toggle-icon');
 
-            // 숨겨져 있으면 보여주고 -, 보여지고 있으면 숨기고 +
             if (content.style.display === 'none') {
                 content.style.display = 'block';
                 icon.textContent = '-';
@@ -167,4 +165,123 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    const toggleBtns = document.querySelectorAll('.js-toggle-mobile-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('is-open');
+        });
+    });
+
+    const authToggleBtn = document.querySelector('.js-toggle-auth-drawer');
+    const authContent = document.querySelector('.mobile-auth-drawer-content');
+    const authIcon = document.querySelector('.auth-toggle-icon');
+
+    if (authToggleBtn && authContent) {
+        authToggleBtn.addEventListener('click', () => {
+            if (authContent.style.display === 'none' || authContent.style.display === '') {
+                authContent.style.display = 'block';
+                authIcon.textContent = '-';
+            } else {
+                authContent.style.display = 'none';
+                authIcon.textContent = '+';
+            }
+        });
+    }
+
+    const catalogContainer = document.querySelector('.cellars-layout');
+
+    if (catalogContainer) {
+        
+        const mainCategoryRadios = document.querySelectorAll('.js-main-category-radio');
+        const subCategoryGroups = document.querySelectorAll('.js-sub-category-group');
+        const subCategoryRadios = document.querySelectorAll('.js-sub-category-radio');
+
+        mainCategoryRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                subCategoryGroups.forEach(group => group.classList.remove('is-active'));
+                const targetGroup = document.querySelector(`.js-sub-category-group[data-parent="${this.value}"]`);
+                if (targetGroup) targetGroup.classList.add('is-active');
+                subCategoryRadios.forEach(r => r.checked = false);
+
+                if (window.innerWidth > 768) applyFiltersAndSort();
+            });
+        });
+
+        const desktopInputs = document.querySelectorAll('#mobile-filter-modal input, .catalog-controls-wrapper select');
+        desktopInputs.forEach(input => {
+            if (!input.classList.contains('js-main-category-radio')) {
+                input.addEventListener('change', () => {
+                    if (window.innerWidth > 768) applyFiltersAndSort();
+                });
+            }
+        });
+
+        const applyBtns = document.querySelectorAll('.js-apply-filters');
+        applyBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                applyFiltersAndSort();
+            });
+        });
+
+        function applyFiltersAndSort() {
+            const params = new URLSearchParams(window.location.search);
+
+            const keysToClear = ['category_path', 'category', 'taste_tag', 'size', 'country', 'region', 'producer', 'vintage', 'grape_variety', 'degree_of_alcohol', 'sort', 'per_page'];
+            keysToClear.forEach(key => params.delete(key));
+
+            const checkedFilters = document.querySelectorAll('#mobile-filter-modal input:checked');
+            checkedFilters.forEach(input => {
+                if (input.name) params.append(input.name, input.value);
+            });
+
+            if (window.innerWidth <= 768) {
+                const mobileSort = document.querySelector('#mobile-sort-modal input[name="sort"]:checked');
+                if (mobileSort) params.set('sort', mobileSort.value);
+
+                const mobilePerPage = document.querySelector('#mobile-sort-modal input[name="per_page"]:checked');
+                if (mobilePerPage) params.set('per_page', mobilePerPage.value);
+            } else {
+                const desktopSort = document.querySelector('.catalog-controls-wrapper select[name="sort"]');
+                if (desktopSort && desktopSort.value) params.set('sort', desktopSort.value);
+
+                const desktopPerPage = document.querySelector('.catalog-controls-wrapper select[name="per_page"]');
+                if (desktopPerPage && desktopPerPage.value) params.set('per_page', desktopPerPage.value);
+            }
+
+            document.querySelectorAll('.cellars-sidebar').forEach(modal => {
+                modal.classList.remove('is-open');
+            });
+            document.body.style.overflow = '';
+
+            window.location.search = params.toString();
+        }
+
+        const setupModal = (openSelector, closeSelector, modalId) => {
+            const openBtns = document.querySelectorAll(openSelector);
+            const closeBtns = document.querySelectorAll(closeSelector);
+            const modal = document.getElementById(modalId);
+
+            if (openBtns.length > 0 && modal) {
+                openBtns.forEach(btn => btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.classList.add('is-open');
+                    document.body.style.overflow = 'hidden';
+                }));
+            }
+            if (closeBtns.length > 0 && modal) {
+                closeBtns.forEach(btn => btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.classList.remove('is-open');
+                    document.body.style.overflow = '';
+                }));
+            }
+        };
+
+        setupModal('.js-open-filter', '.js-close-filter', 'mobile-filter-modal');
+        setupModal('.js-open-sort', '.js-close-sort', 'mobile-sort-modal');
+    }
 });

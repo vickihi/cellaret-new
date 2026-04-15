@@ -7,9 +7,7 @@
     <section class="page-header">
         <nav id="breadcrumbs">
             <ul>
-                <li>
-                    <a href="{% url 'products:catalog' %}">Catalog</a>
-                </li>
+                <li><a href="{% url 'products:catalog' %}">Catalog</a></li>
                 {% if search_query %}
                     <li>Search results for "{{ search_query }}"</li>
                 {% else %}
@@ -17,21 +15,57 @@
                 {% endif %}
             </ul>
         </nav>
+        <h1 class="banner-title">
+            {% if search_query %}
+                Search Results
+            {% elif active_filters.category_path %}
+                {% for path in available_filters.category_paths %}
+                    {% if path.value == active_filters.category_path %}
+                        {{ path.label }}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                Products
+            {% endif %}
+        </h1>
     </section>
 {% endblock %}
 
 {% block content %}
-
     <div class="cellars-layout">
         
-        <aside class="cellars-sidebar">
-            {% include 'components/filter_sidebar.html' %}
+        <aside class="cellars-sidebar" id="mobile-filter-modal">
+            <div class="mobile-modal-header hidden-desktop">
+                <h2>FILTERS</h2>
+                <button type="button" class="close-mobile-modal js-close-filter"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="filter-scroll-area">
+                {% include 'components/filter_sidebar.html' %}
+            </div>
+            
+            <div class="mobile-modal-footer hidden-desktop">
+                <button type="button" class="btn-primary w-100 js-apply-filters">Show results</button>
+            </div>
         </aside>
 
         <section class="cellars-main">
-            
-            <div class="catalog-controls-wrapper">
+            <div class="catalog-controls-wrapper hidden-mobile">
                 {% include 'components/controls_bar.html' with search_placeholder="Search products by name" %}
+            </div>
+
+            <div class="mobile-controls-wrapper hidden-desktop">
+                <div class="mobile-controls-icons">
+                    <button type="button" class="mobile-icon-btn js-open-filter">
+                        <i class="fa-solid fa-sliders"></i>
+                    </button>
+                    <button type="button" class="mobile-icon-btn js-open-sort">
+                        <i class="fa-solid fa-arrow-down-a-z"></i>
+                    </button>
+                </div>
+                <p class="mobile-results-text">
+                    Showing {{ page_obj.start_index|default:"0" }} to {{ page_obj.end_index|default:"0" }} of {{ page_obj.paginator.count|default:"0" }} results
+                </p>
             </div>
 
             <div class="product-grid">
@@ -42,32 +76,27 @@
                             {% if product.image_url %}
                                 <img src="{{ product.image_url }}" alt="{{ product.name }}">
                             {% else %}
-                                <img src="{% static 'images/product-placeholder.png' %}" alt="No image available for {{ product.name }}">
+                                <img src="{% static 'images/product-placeholder.png' %}" alt="No image available">
                             {% endif %}
                         </div>
                         <div class="card-content">
                             {% if product.category or product.country or product.size_display %}
                                 <p class="card-product-details">
-                                    {% if product.category %}
-                                        {{ product.category }}
-                                    {% endif %}
-                                    {% if product.country %}
-                                        <span>{{ product.country }}</span>
-                                    {% endif %}
-                                    {% if product.size_display %}
-                                        <span>{{ product.size_display }}</span>
-                                    {% endif %}
+                                    {% if product.category %}{{ product.category }}{% endif %}
+                                    {% if product.country %}<span>{{ product.country }}</span>{% endif %}
+                                    {% if product.size_display %}<span>{{ product.size_display }}</span>{% endif %}
                                 </p>
                             {% endif %}
 
                             <h3 class="card-title">{{ product.name }}</h3>
+                            
                             {% if product.taste_tag %}
                             <p class="card-taste-tag">{{ product.taste_tag }}</p>
                             {% endif %}
                             
                             <footer class="card-footer">
-                                <span class="card-price">{{ product.price }} $</span>
-                                <button class="btn-add" data-product-sku="{{ product.sku }}" data-product-name="{{ product.name }}">
+                                <span class="card-price">${{ product.price }}</span>
+                                <button type="button" class="btn-add" data-product-sku="{{ product.sku }}" data-product-name="{{ product.name }}">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </footer>
@@ -90,8 +119,6 @@
 
         </section>
     </div>
-
+    {% include 'components/sort_modal.html' %}
     {% include 'components/cellar_modal.html' %}
-    <script src="{% static 'js/cellars.js' %}"></script>
-
 {% endblock %}
