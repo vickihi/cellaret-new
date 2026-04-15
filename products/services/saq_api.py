@@ -31,7 +31,7 @@ query ($phrase: String!, $pageSize: Int!, $currentPage: Int!, $filter: [SearchCl
                     "pastille_gout",               # taste tag
                     "pays_origine",                # country
                     "region_origine",              # region
-                    "teneur_alcool",               # alcohol degree
+                    "pourcentage_alcool_par_volume",  # alcohol degree
                     "nom_producteur",              # producer
                     "format_contenant_ml",         # bottle size
                     "millesime_produit",           # vintage

@@ -114,7 +114,7 @@ class Command(BaseCommand):
             taste_tag=_join_if_list(attrs.get("pastille_gout")),
             country=attrs.get("pays_origine", ""),
             region=attrs.get("region_origine", ""),
-            degree=attrs.get("teneur_alcool", ""),
+            degree=_join_if_list(attrs.get("pourcentage_alcool_par_volume")),
             producer=attrs.get("nom_producteur", ""),
             size=attrs.get("format_contenant_ml", ""),
             vintage=attrs.get("millesime_produit", ""),
@@ -134,7 +134,7 @@ class Command(BaseCommand):
         product.taste_tag = _join_if_list(attrs.get("pastille_gout"))
         product.country = attrs.get("pays_origine", "")
         product.region = attrs.get("region_origine", "")
-        product.degree = attrs.get("teneur_alcool", "")
+        product.degree = _join_if_list(attrs.get("pourcentage_alcool_par_volume"))
         product.producer = attrs.get("nom_producteur", "")
         product.size = attrs.get("format_contenant_ml", "")
         product.vintage = attrs.get("millesime_produit", "")

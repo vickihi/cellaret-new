@@ -7,6 +7,7 @@
 
         <form id="edit-cellar-form" method="POST" action="">
             {% csrf_token %}
+            <input type="hidden" name="next" id="edit-cellar-next" value="">
             
             <div class="form-group-alt">
                 <label for="edit-cellar-name">CELLAR NAME</label>
