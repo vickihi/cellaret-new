@@ -1,5 +1,5 @@
 from cellars.models import Bottle, Cellar
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.db.models.functions import Coalesce
 from django.shortcuts import get_object_or_404
 
@@ -17,6 +17,12 @@ def apply_sort(qs, sort_key: str):
     """Reuse sort function for cellars"""
     order_by_fields = SORT_TO_ORDER_BY.get(sort_key, ("product__name", "id"))
     return qs.order_by(*order_by_fields)
+
+
+def apply_search(qs, search_query: str):
+    if not search_query:
+        return qs
+    return qs.filter(Q(product__name__icontains=search_query))
 
 
 def get_user_cellars(*, user):
