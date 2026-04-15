@@ -7,7 +7,7 @@ from products.models import Product
 from products.selectors.product_catalog import apply_filters
 from products.services.catalog import get_available_filters
 from cellars.forms import CellarBottleSortForm
-from cellars.selectors.cellars import apply_sort,apply_search
+from cellars.selectors.cellars import apply_sort, apply_search
 
 
 @dataclass
@@ -46,13 +46,15 @@ def build_cellar_page(*, cellar, data, page_number, per_page=24) -> CellarPageDa
     cellar_products_qs = Product.objects.filter(bottles__cellar=cellar)
     cellar_products_qs = apply_filters(cellar_products_qs, filters)
 
-    bottles_qs = (
-        Bottle.objects.filter(cellar=cellar, product__in=cellar_products_qs)
-        .select_related("product")
-    )
+    bottles_qs = Bottle.objects.filter(
+        cellar=cellar, product__in=cellar_products_qs
+    ).select_related("product")
     bottles_qs = apply_search(bottles_qs, search_query)
     bottles_qs = apply_sort(bottles_qs, sort_key)
-    total_bottles = Bottle.objects.filter(cellar=cellar).aggregate(total=Sum("quantity"))["total"] or 0
+    total_bottles = (
+        Bottle.objects.filter(cellar=cellar).aggregate(total=Sum("quantity"))["total"]
+        or 0
+    )
 
     paginator = Paginator(bottles_qs, per_page)
     page_obj = paginator.get_page(page_number)
@@ -61,7 +63,7 @@ def build_cellar_page(*, cellar, data, page_number, per_page=24) -> CellarPageDa
     )
 
     return CellarPageData(
-        form = form,
+        form=form,
         filter_form=filter_form,
         sort_form=sort_form,
         page_obj=page_obj,

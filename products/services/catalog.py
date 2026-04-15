@@ -13,7 +13,6 @@ from products.selectors import get_catalog_products
 from products.models import Product
 
 
-
 CATEGORY_PATH_LABELS = {
     "products/wine": "Wine",
     "products/spirit": "Spirit",

@@ -18,12 +18,12 @@ def apply_sort(qs, sort_key: str):
     order_by_fields = SORT_TO_ORDER_BY.get(sort_key, ("product__name", "id"))
     return qs.order_by(*order_by_fields)
 
-def apply_search(qs, search_query:str):
+
+def apply_search(qs, search_query: str):
     if not search_query:
         return qs
-    return qs.filter(
-        Q(product__name__icontains=search_query)
-    )
+    return qs.filter(Q(product__name__icontains=search_query))
+
 
 def get_user_cellars(*, user):
     """Get all cellars for a user."""
