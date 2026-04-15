@@ -123,6 +123,7 @@ def cellar_detail(request, cellar_id):
             "filter_form": cellar_page.filter_form,
             "page_obj": cellar_page.page_obj,
             "page_range": cellar_page.page_range,
+            "search_query": cellar_page.search_query,
             "sort_key": cellar_page.sort_key,
             "active_filters": cellar_page.active_filters,
             "available_filters": cellar_page.available_filters,
