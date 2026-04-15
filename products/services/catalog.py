@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from django.core.paginator import Paginator
 from django.urls import reverse
+from django.db.models import Count
 
 from products.forms import (
     ProductCatalogSearchForm,
@@ -10,7 +11,7 @@ from products.forms import (
 )
 from products.selectors import get_catalog_products
 from products.models import Product
-from django.db.models import Count
+
 
 
 CATEGORY_PATH_LABELS = {
@@ -39,36 +40,40 @@ class CatalogPageData:
     breadcrumbs: list[dict[str, str | None]]
 
 
-def get_available_filters():
-    """Return available filters for the catalog page."""
+def get_available_filters(queryset=None):
+    """Return available filters for catalog page and cellar page."""
+
+    if queryset is None:
+        queryset = Product.objects.all()
+
     category_paths = (
-        Product.objects.exclude(category_path="")
+        queryset.exclude(category_path="")
         .values("category_path")
         .annotate(count=Count("id"))
         .order_by("-count")
     )
 
     categories = (
-        Product.objects.exclude(category="")
+        queryset.exclude(category="")
         .values("category")
         .annotate(count=Count("id"))
         .order_by("-count")
     )
 
     countries = (
-        Product.objects.exclude(country="")
+        queryset.exclude(country="")
         .values("country")
         .annotate(count=Count("id"))
         .order_by("-count")
     )
     taste_tags = (
-        Product.objects.exclude(taste_tag="")
+        queryset.exclude(taste_tag="")
         .values("taste_tag")
         .annotate(count=Count("id"))
         .order_by("-count")
     )
     sizes = (
-        Product.objects.exclude(size="")
+        queryset.exclude(size="")
         .values("size")
         .annotate(count=Count("id"))
         .order_by("-count")
@@ -76,7 +81,7 @@ def get_available_filters():
 
     categories_by_path = {}
     pairs = (
-        Product.objects.exclude(category_path="")
+        queryset.exclude(category_path="")
         .exclude(category="")
         .values("category_path", "category")
         .distinct()

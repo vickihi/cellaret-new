@@ -125,7 +125,7 @@
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">Degree of alcohol:</span> 
-                        <span class="spec-value">{{ product.degree|default:"-" }}</span>
+                        <span class="spec-value">{{ product.degree_display|default:"-" }}</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">SAQ code:</span> 
@@ -138,5 +138,4 @@
     </section>
 
     {% include 'components/cellar_modal.html' %}
-    <script src="{% static 'js/cellars.js' %}"></script>
 {% endblock %}

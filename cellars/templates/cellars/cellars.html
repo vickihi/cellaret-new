@@ -62,6 +62,7 @@
                                     data-cellar-name="{{ cellar.name }}"
                                     data-cellar-desc="{{ cellar.description }}"
                                     data-bottle-count="{{ cellar.bottle_count|default:'0' }}"
+                                    data-next-url="{% url 'cellars:cellars' %}"
                                     data-update-url="{% url 'cellars:cellar_update' cellar.id %}"
                                     data-delete-url="{% url 'cellars:cellar_delete' cellar.id %}">
                                 Edit
@@ -85,6 +86,4 @@
     </section>
 </div>
 {% include 'components/manage_cellar_modals.html' %}
-
-<script src="{% static 'js/cellars.js' %}"></script>
 {% endblock %}

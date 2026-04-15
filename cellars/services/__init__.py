@@ -10,6 +10,7 @@ from .cellars import (
     set_product_quantity_in_cellar,
     set_cellar_bottle_quantity,
 )
+from .catalog import build_cellar_page
 
 __all__ = [
     "create_cellar",
@@ -22,4 +23,5 @@ __all__ = [
     "delete_cellar_bottle",
     "set_product_quantity_in_cellar",
     "set_cellar_bottle_quantity",
+    "build_cellar_page",
 ]

@@ -1,0 +1,54 @@
+<div id="mobile-sort-modal" class="cellars-sidebar">
+    <div class="mobile-modal-header hidden-desktop">
+        <h2>SORT</h2>
+        <button type="button" class="close-mobile-modal js-close-sort">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    
+    <div class="filter-scroll-area sort-scroll-area hidden-desktop">
+        <h3 class="sort-section-title">SORT BY</h3>
+        <div class="sort-radio-group">
+            <label class="sort-radio-label">
+                <input type="radio" name="sort" value="relevance"> 
+                <span>Relevance</span>
+            </label>
+            <label class="sort-radio-label">
+                <input type="radio" name="sort" value="price_asc"> 
+                <span>Price (low to high)</span>
+            </label>
+            <label class="sort-radio-label">
+                <input type="radio" name="sort" value="price_desc"> 
+                <span>Price (high to low)</span>
+            </label>
+            <label class="sort-radio-label">
+                <input type="radio" name="sort" value="name_asc"> 
+                <span>Product Name (A-Z)</span>
+            </label>
+            <label class="sort-radio-label">
+                <input type="radio" name="sort" value="name_desc"> 
+                <span>Product Name (Z-A)</span>
+            </label>
+        </div>
+
+        <h3 class="sort-section-title">Show</h3>
+        <div class="sort-radio-group mb-0">
+            <label class="sort-radio-label">
+                <input type="radio" name="per_page" value="24"> 
+                <span>24</span>
+            </label>
+            <label class="sort-radio-label">
+                <input type="radio" name="per_page" value="48"> 
+                <span>48</span>
+            </label>
+            <label class="sort-radio-label">
+                <input type="radio" name="per_page" value="96"> 
+                <span>96</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="mobile-modal-footer hidden-desktop">
+        <button type="button" class="btn-primary w-100 js-apply-filters">Show results</button>
+    </div>
+</div>
