@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordChangeView, PasswordResetView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy as _
 
 from accounts.forms import (
     AccountProfileForm,
@@ -55,7 +54,7 @@ def signup_submit(request):
     )
     django_login(request, user)
     messages.success(
-        request, _("Your account has been created and you are now signed in.")
+        request, "Your account has been created and you are now signed in."
     )
     return redirect(get_safe_redirect_target(request))
 
@@ -125,11 +124,15 @@ def update_profile(request):
             {
                 "account_user": request.user,
                 "profile_form": form,
+                "cellars": request.user.cellars.all(),
             },
         )
 
+    if not form.has_changed():
+        return redirect("accounts:detail")
+
     form.save()
-    messages.success(request, _("Your account details have been updated."))
+    messages.success(request, "Your account details have been updated.")
     return redirect("accounts:detail")
 
 
@@ -138,8 +141,16 @@ class AccountPasswordChangeView(PasswordChangeView):
     success_url = reverse_lazy("accounts:detail")
 
     def form_valid(self, form):
+        new_password = form.cleaned_data.get("new_password1")
+        if new_password and self.request.user.check_password(new_password):
+            form.add_error(
+                "new_password1",
+                "Your new password must be different from your current password.",
+            )
+            return self.form_invalid(form)
+
         messages.success(
-            request=self.request, message=_("Your password has been updated.")
+            request=self.request, message="Your password has been updated."
         )
         return super().form_valid(form)
 
