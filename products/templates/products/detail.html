@@ -40,7 +40,7 @@
                 {{ product.country }}{% if product.region %}, {{ product.region }}{% endif %}
             </h4>
             
-            <h4 class="detail-price">{{ product.price }}$</h4>
+            <h4 class="detail-price">${{ product.price }}</h4>
             
             {% if product.taste_tag %}
                 <p class="detail-taste-tag">{{ product.taste_tag }}</p>
@@ -81,7 +81,7 @@
                         <h4 class="section-title">{{ bottle.cellar.name }}</h4>
                         <div class="stock-controls">
                             <div class="stock-box">
-                                <span class="stock-number">{{ bottle.quantity }}</span> Bottle{{ bottle.quantity|pluralize }}
+                                <span class="stock-number">{{ bottle.quantity }}</span> bottle{{ bottle.quantity|pluralize }}
                             </div>
                             <a href="{% url 'cellars:cellar_detail' bottle.cellar.id %}" class="btn-primary no-underline stock-edit-btn">Edit</a>
                         </div>
