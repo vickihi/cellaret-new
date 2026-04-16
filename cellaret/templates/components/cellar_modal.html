@@ -21,7 +21,7 @@
                     <label for="cellar_{{ cellar.id }}">
                         <span class="name">{{ cellar.name }}</span>
                         <span class="count">
-                            {{ cellar.bottle_count|default:"0" }} Bottle{{ cellar.bottle_count|pluralize }}
+                            {{ cellar.bottle_count|default:"0" }} bottle{{ cellar.bottle_count|pluralize }}
                         </span>
                     </label>
                 </li>

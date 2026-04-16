@@ -28,7 +28,7 @@
                         <a href="{% url 'cellars:cellar_detail' cellar_id=sidebar_cellar.id %}" 
                            class="nav-link {% if sidebar_cellar.id == cellar.id %}active{% endif %}">
                             <span class="cellar-name">{{ sidebar_cellar.name }}</span>
-                            <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottle{{ sidebar_cellar.bottle_count|pluralize }}</span>
+                            <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} bottle{{ sidebar_cellar.bottle_count|pluralize }}</span>
                         </a>
                     </li>
                     {% empty %}
@@ -116,7 +116,7 @@
                         {% endif %}
 
                         <footer class="card-footer-alt view-mode">
-                            <span class="bottle-count-label">{{ bottle.quantity|default:'1' }} Bottle{{ bottle.quantity|pluralize }}</span>
+                            <span class="bottle-count-label">{{ bottle.quantity|default:'1' }} bottle{{ bottle.quantity|pluralize }}</span>
                             <button type="button" class="btn-edit-toggle js-edit-btn">Edit</button>
                         </footer>
 
