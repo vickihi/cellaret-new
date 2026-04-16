@@ -6,42 +6,43 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 
-<div class="dashboard-wrapper">
-    <h1>Manage My Account</h1>
-    <div class="dashboard-section">
-        <h2>Account Details</h2>
-        <hr>
-        <form method="post" action="{% url 'accounts:update_profile' %}" class="profile-form">
+<div class="auth-wrapper">
+    <div class="form-header">
+        <h1>Account details</h1>
+        <p>Manage your account</p>
+    </div>
+        <div class="auth-form">
+        <form method="post" action="{% url 'accounts:update_profile' %}" class="js-account-details-form">
             {% csrf_token %}
 
-            <div>
+            <div class="account-label-row">
                 <label for="{{ profile_form.username.id_for_label }}" class="username">Username</label>
-                <p>
-                    {{ profile_form.username }}
-                    <button type="submit" class="btn-link account-btn-edit">
-                        <i class="fa-solid fa-pencil"></i>
-                    </button>
-                </p>
-                {% if profile_form.username.errors %}
-                    <div class="form-error">{{ profile_form.username.errors }}</div>
-                {% endif %}
             </div>
+            <p>
+                {{ profile_form.username }}
+            </p>
+            {% if profile_form.username.errors %}
+                <div class="form-error">{{ profile_form.username.errors }}</div>
+            {% endif %}
 
-            <div>
-                <label for="{{ profile_form.email.id_for_label }}" class="username">Email Address</label>
-                <p>
-                    {{ profile_form.email }}
-                    <button type="submit" class="btn-link account-btn-edit">
-                        <i class="fa-solid fa-pencil"></i>
-                    </button>
-                </p>
-                {% if profile_form.email.errors %}
-                    <div class="form-error">{{ profile_form.email.errors }}</div>
-                {% endif %}
+            <div class="account-label-row">
+                <label for="{{ profile_form.email.id_for_label }}">Email</label>
             </div>
+            <p class="account-field-row">
+                {{ profile_form.email }}
+            </p>
+            {% if profile_form.email.errors %}
+                <div class="form-error">{{ profile_form.email.errors }}</div>
+            {% endif %}
 
-            <div>
-                <label class="username">Password</label>
+            <button type="button" class="btn-primary btn-secondary js-inline-edit-toggle">
+                Change account details
+            </button>
+        </form>
+        <hr class="detail-divider">
+        <div class="account-label-row">
+            <label class="username">Password</label>
+        </div>
                 <p>
                     <input
                         type="password"
@@ -51,53 +52,8 @@
                         readonly
                     >
                 </p>
-            </div>
 
-            <a href="{% url 'accounts:change_password' %}" class="btn-primary">Change Password</a>
-        </form>
+            <a href="{% url 'accounts:change_password' %}" class="btn-primary btn-secondary">Change password</a>
+        </div>
     </div>
-
-    <div class="dashboard-section">
-        <h2>Manage My Cellars</h2>
-        <hr>
-        {% if cellars %}
-        <ul class="cellar-list">
-            {% for cellar in cellars %}
-            <li>
-                <div class="cellar-details default-cellar">
-                    <form method="post" action="{% url 'cellars:cellar_update' cellar.id %}" class="cellar-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{% url 'accounts:detail' %}">
-
-                    <label for="cellar-name-{{ cellar.id }}" class="cellar-title">Cellar Name</label>
-                    <p><input type="text" name="name" id="cellar-name-{{ cellar.id }}" class="cellar-name" value="{{ cellar.name }}"></p>
-                    <label for="cellar-description-{{ cellar.id }}" class="cellar-title">Description</label>
-                    <p><textarea name="description" id="cellar-description-{{ cellar.id }}" class="cellar-description" rows="4" cols="50" wrap="soft">{{ cellar.description }}</textarea></p>
-                    <div class="cellar-edit">
-                        <span class="cellar-default-checkbox">Default cellar</span>
-
-                        <div class="cellar-buttons">
-                            <button type="submit" formaction="{% url 'cellars:cellar_delete' cellar.id %}" class="btn-link account-btn-delete">
-                                <i class="fa-solid fa-trash"></i>Delete
-                            </button>
-                            
-                            <button type="submit" class="btn-link account-btn-save">
-                                <i class="fa-solid fa-floppy-disk"></i>Save
-                            </button>
-                        </div>
-                    </div>
-                    </form>
-                </div>
-            </li>
-            {% endfor %}
-            {% else %}
-            <li>
-                <div class="cellar-details default-cellar">
-                    <p>You have not created a cellar yet. <a href="{% url 'cellars:cellars' %}">Create one here</a></p>
-                </div>
-            </li>
-            {% endif %}
-        </ul>
-    </div>
-</div>
 {% endblock %}

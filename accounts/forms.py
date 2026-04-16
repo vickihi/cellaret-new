@@ -67,12 +67,14 @@ class AccountProfileForm(forms.ModelForm):
             {
                 "id": "username",
                 "placeholder": "Enter username...",
+                "readonly": "readonly",
             }
         )
         self.fields["email"].widget.attrs.update(
             {
                 "id": "user-email",
                 "placeholder": "No email provided",
+                "readonly": "readonly",
             }
         )
 
