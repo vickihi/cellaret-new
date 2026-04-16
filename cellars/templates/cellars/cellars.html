@@ -6,12 +6,7 @@
 {% block content %}
 <div class="cellars-layout">
     
-    <aside class="cellars-sidebar">
-        <div class="sidebar-user-info">
-            <p class="user-name">{{ user.username|default:"USER NAME" }}</p>
-            <p class="user-tier">Premium Member</p>
-        </div>
-
+    <aside class="cellars-sidebar hidden-mobile">
         <div class="sidebar-nav">
             <h3 class="nav-title">Your Cellars</h3>
             <ul class="nav-list">
@@ -42,6 +37,9 @@
                 </span>
                 <h1 class="main-title">Cellars</h1>
             </div>
+            <a href="{% url 'cellars:cellar_create' %}" class="btn-primary hidden-desktop mobile-new-cellar-btn">
+                <i class="fa-solid fa-plus"></i> New cellar
+            </a>
         </header>
 
         <div class="cellars-grid main">
@@ -51,14 +49,16 @@
                     <div class="cellar-image-wrapper">
                         {% cycle 'images/mockup1.jpg' 'images/mockup2.jpg' 'images/mockup3.jpg' 'images/mockup4.jpg' as current_image silent %}
                         <img src="{% static current_image %}" alt="{{ cellar.name }}">
-                        
                     </div>
                     
                     <div class="cellar-info">
-                        <div class="info-header">
+                        
+                        <h2 class="cellar-name">{{ cellar.name }}</h2>
+                        <p class="cellar-desc">{{ cellar.description }}</p>
+                        <footer class="info-footer">
                             <span class="bottle-count">{{ cellar.bottle_count|default:"0" }} Bottle{{ cellar.bottle_count|pluralize }}</span>
                             
-                            <button type="button" class="btn-icon js-open-edit-cellar"
+                            <button type="button" class="btn-edit-toggle js-open-edit-cellar"
                                     data-cellar-name="{{ cellar.name }}"
                                     data-cellar-desc="{{ cellar.description }}"
                                     data-bottle-count="{{ cellar.bottle_count|default:'0' }}"
@@ -67,9 +67,7 @@
                                     data-delete-url="{% url 'cellars:cellar_delete' cellar.id %}">
                                 Edit
                             </button>
-                        </div>
-                        <h2 class="cellar-name">{{ cellar.name }}</h2>
-                        <p class="cellar-desc">{{ cellar.description }}</p>
+                        </footer>
                     </div>
                 </a>
             </article>
@@ -85,5 +83,6 @@
         </div>
     </section>
 </div>
+
 {% include 'components/manage_cellar_modals.html' %}
 {% endblock %}

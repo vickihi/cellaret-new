@@ -181,6 +181,13 @@
         text-decoration: none;
     }
 
+    .btn-mobile-auth-outline {
+        background-color: #ffffff;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        margin-bottom: 16px;
+    }
+
     .mobile-menu-links { 
         list-style: none; 
         padding: 0 20px; 

@@ -37,7 +37,14 @@
         <aside class="cellars-sidebar" id="mobile-filter-modal">
             <div class="mobile-modal-header hidden-desktop">
                 <h2>FILTERS</h2>
-                <button type="button" class="close-mobile-modal js-close-filter"><i class="fa-solid fa-xmark"></i></button>
+                <div class="mobile-header-actions">
+                    {% if active_filters.category_path or active_filters.category or active_filters.country or active_filters.taste_tag or active_filters.size %}
+                        <a href="{{ request.path }}" class="mobile-clear-btn">Clear all</a>
+                    {% endif %}
+                    <button type="button" class="close-mobile-modal js-close-filter">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
             </div>
             
             <div class="filter-scroll-area">
