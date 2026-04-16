@@ -107,3 +107,25 @@
     white-space: nowrap;
     border-width: 0;
 }
+
+/* === TABLET RESPONSIVE DESIGN (max-width: 1024px) === */
+@media (max-width: 1024px) {
+    .catalog-top-bar {
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: flex-end;
+    }
+
+    .results-text {
+        text-align: right;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .controls-right {
+        flex: 1 1 auto;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 15px;
+    }
+}

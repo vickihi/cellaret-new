@@ -385,6 +385,7 @@
 .btn-edit-toggle:hover {
     background-color: var(--primary-color-hover);
 }
+
 /* --- Edit Mode --- */
 .card-footer-alt.edit-mode {
     display: none;
@@ -421,14 +422,14 @@
 }
 
 .qty-plus {
-    margin-left: -10px;
+    margin-left: -12px;
 }
 
 .qty-input {
     font-size: 14px;
     font-weight: 700;
     display: block;
-    width: 30px;
+    width: 26px;
     text-align: center;
 }
 
@@ -460,6 +461,36 @@
 
 .btn-save:hover {
     background-color: var(--primary-color-hover);
+}
+
+/* === TABLET RESPONSIVE DESIGN (max-width: 1024px) === */
+@media (max-width: 1024px) and (min-width: 769px) {
+    
+    .cellars-sidebar {
+        width: 30%;
+    }
+
+    .cellars-main {
+        width: 70%;
+    }
+
+    .cellars-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .product-detail-container {
+        gap: 32px;
+        padding: 0 24px;
+    }
+
+    .bottle-quantity-controls {
+        gap: 6px;
+    }
+
+    .qty-plus {
+        margin-left: -2px;
+        margin-right: 6px;
+    }
 }
 
 /* === MOBILE RESPONSIVE DESIGN (max-width: 768px) === */
@@ -573,6 +604,10 @@
     .bottle-quantity-controls { 
         width: 100%; 
         justify-content: flex-start; 
+    }
+
+    .qty-plus {
+        margin-left: -2px;
     }
 
     .btn-save { 

@@ -62,7 +62,7 @@
                 <div class="detail-section">
                     <h4 class="section-title">Cellar stock</h4>
                     <div class="stock-controls">
-                        <a href="{% url 'cellars:cellar_create' %}" class="btn-primary no-underline">Create a cellar</a>
+                        <a href="{% url 'cellars:cellar_create' %}" class="btn-primary no-underline w-100-mobile">Create a cellar</a>
                     </div>
                 </div>
 
@@ -70,21 +70,24 @@
                 <div class="detail-section">
                     <h4 class="section-title">Cellar stock</h4>
                     <div class="stock-controls">
-                        <button type="button" class="btn-primary js-add-to-cellar-btn" data-product-sku="{{ product.sku }}" data-product-name="{{ product.name }}">Add to cellar</button>
+                        <button type="button" class="btn-primary js-add-to-cellar-btn w-100-mobile" data-product-sku="{{ product.sku }}" data-product-name="{{ product.name }}">Add to cellar</button>
                     </div>
                 </div>
 
             {% else %}
-                {% for bottle in product_bottles %}
-                <div class="detail-section {% if not forloop.last %}mb-20{% endif %}">
-                    <h4 class="section-title">{{ bottle.cellar.name }}</h4>
-                    <div class="stock-controls">
-                        <div class="stock-box">{{ bottle.quantity }} Bottles</div>
-                        <a href="{% url 'cellars:cellar_detail' bottle.cellar.id %}" class="btn-primary no-underline">Edit</a>
+                <div class="cellar-stock-list">
+                    {% for bottle in product_bottles %}
+                    <div class="detail-section stock-item-row {% if not forloop.last %}mb-20{% endif %}">
+                        <h4 class="section-title">{{ bottle.cellar.name }}</h4>
+                        <div class="stock-controls">
+                            <div class="stock-box">
+                                <span class="stock-number">{{ bottle.quantity }}</span> Bottle{{ bottle.quantity|pluralize }}
+                            </div>
+                            <a href="{% url 'cellars:cellar_detail' bottle.cellar.id %}" class="btn-primary no-underline stock-edit-btn">Edit</a>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-
             {% endif %}
 
             <hr class="detail-divider">
@@ -94,7 +97,7 @@
                 
                 {% if product.description %}
                     <div class="detail-description">
-                        {{ product.description }}
+                        {{ product.description|safe }}
                     </div>
                 {% endif %}
 

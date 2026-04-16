@@ -199,9 +199,6 @@
   .mb-20 {
     margin-bottom: calc(var(--spacing) * 20);
   }
-  .ml-10 {
-    margin-left: calc(var(--spacing) * 10);
-  }
   .block {
     display: block;
   }
@@ -210,12 +207,6 @@
   }
   .hidden {
     display: none;
-  }
-  .inline {
-    display: inline;
-  }
-  .inline-flex {
-    display: inline-flex;
   }
   .table {
     display: table;
@@ -226,11 +217,11 @@
   .w-full {
     width: 100%;
   }
-  .flex-1 {
-    flex: 1;
-  }
   .flex-shrink {
     flex-shrink: 1;
+  }
+  .flex-grow {
+    flex-grow: 1;
   }
   .border-collapse {
     border-collapse: collapse;
