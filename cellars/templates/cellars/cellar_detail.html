@@ -6,42 +6,54 @@
 {% block content %}
 <div class="cellars-layout">
     
-    <aside class="cellars-sidebar">
-        <div class="sidebar-user-info">
-            <p class="user-name">{{ user.username|default:"USER NAME" }}</p>
-            <p class="user-tier">Premium Member</p>
+    <aside class="cellars-sidebar" id="mobile-filter-modal">
+        <div class="mobile-modal-header hidden-desktop">
+            <h2>FILTERS</h2>
+            <div class="mobile-header-actions">
+                {% if active_filters.category_path or active_filters.category or active_filters.country or active_filters.taste_tag or active_filters.size %}
+                    <a href="{{ request.path }}" class="mobile-clear-btn">Clear all</a>
+                {% endif %}
+                <button type="button" class="close-mobile-modal js-close-filter">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
         </div>
 
-        <div class="sidebar-nav detail-sidebar-nav">
-            <h3 class="nav-title no-border">Your Cellars</h3>
-            <ul class="nav-list detail-nav-list">
-                {% for sidebar_cellar in cellars %}
-                <li>
-                    <a href="{% url 'cellars:cellar_detail' cellar_id=sidebar_cellar.id %}" 
-                    class="nav-link {% if sidebar_cellar.id == cellar.id %}active{% endif %}">
-                        
-                        <span class="cellar-name">{{ sidebar_cellar.name }}</span>
-                        <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottle{{ sidebar_cellar.bottle_count|pluralize }}</span>
+        <div class="filter-scroll-area">
+            <div class="sidebar-nav detail-sidebar-nav hidden-mobile">
+                <h3 class="nav-title no-border">Your Cellars</h3>
+                <ul class="nav-list detail-nav-list">
+                    {% for sidebar_cellar in cellars %}
+                    <li>
+                        <a href="{% url 'cellars:cellar_detail' cellar_id=sidebar_cellar.id %}" 
+                           class="nav-link {% if sidebar_cellar.id == cellar.id %}active{% endif %}">
+                            <span class="cellar-name">{{ sidebar_cellar.name }}</span>
+                            <span class="cellar-count">{{ sidebar_cellar.bottle_count|default:"0" }} Bottle{{ sidebar_cellar.bottle_count|pluralize }}</span>
+                        </a>
+                    </li>
+                    {% empty %}
+                    <li class="nav-empty">No cellars yet.</li>
+                    {% endfor %}
+                    
+                    <a href="{% url 'cellars:cellar_create' %}" class="btn-primary btn-sidebar">
+                        <i class="fa-solid fa-plus"></i> New cellar
                     </a>
-                </li>
-                {% empty %}
-                <li class="nav-empty">No cellars yet.</li>
-                {% endfor %}
-                
-                <a href="{% url 'cellars:cellar_create' %}" class="btn-primary btn-sidebar">
-                    <i class="fa-solid fa-plus"></i> New cellar
-                </a>
-            </ul>
+                </ul>
+            </div>
+
+            {% include 'components/filter_sidebar.html' %}
         </div>
 
-        {% include 'components/filter_sidebar.html' %}
+        <div class="mobile-modal-footer hidden-desktop">
+            <button type="button" class="btn-primary w-100 js-apply-filters">Show results</button>
+        </div>
     </aside>
 
     <section class="cellars-main">
         
         <header class="cellars-header detail-header">
             <div class="header-titles">
-                <span class="inventory-label">CELLAR</span>
+                <a href="{% url 'cellars:cellars' %}" class="inventory-label">CELLAR</a>
                 <h1 class="main-title">{{ cellar.name }}</h1>
                 <p class="detail-desc">{{ cellar.description }}</p>
             </div>
@@ -51,8 +63,20 @@
             </a>
         </header>
 
-        <div class="controls-bar-wrapper">
+        <div class="controls-bar-wrapper hidden-mobile">
             {% include 'components/controls_bar.html' with is_cellar=True total_bottles=total_bottles cellar_name=cellar.name search_placeholder="Search products in cellar" %}
+        </div>
+
+        <div class="mobile-controls-wrapper hidden-desktop">
+            <div class="mobile-controls-icons">
+                <button type="button" class="mobile-icon-btn js-open-filter">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+                <button type="button" class="mobile-icon-btn js-open-sort">
+                    <i class="fa-solid fa-arrow-down-a-z"></i>
+                </button>
+            </div>
+            <p class="mobile-results-text">Showing {{ bottles|length }} results</p>
         </div>
 
         <div class="cellars-grid">
@@ -79,6 +103,9 @@
                                 {% endif %}
                                 {% if bottle.product.size_display %}
                                     <span>{{ bottle.product.size_display }}</span>
+                                {% endif %}
+                                {% if bottle.product.price %}
+                                    <span>${{ bottle.product.price }}</span>
                                 {% endif %}
                             </p>
                         {% endif %}
@@ -113,12 +140,10 @@
             {% empty %}
             <div class="empty-state">
                 <i class="fa-solid fa-wine-bottle empty-icon"></i>
-                
                 {% if active_filters or search_query %}
                     <h2 class="empty-title">No matching bottles</h2>
                     <p class="empty-desc">We couldn't find any bottles in this cellar matching your current filters.</p>
                     <a href="{{ request.path }}" class="btn-primary btn-secondary">Clear Filters</a>
-                
                 {% else %}
                     <h2 class="empty-title">This cellar is empty</h2>
                     <p class="empty-desc">Head over to the catalog to find some great wines to add to your collection.</p>
@@ -131,5 +156,5 @@
     </section>
 </div>
 
-
+{% include 'components/sort_modal.html' %}
 {% endblock %}

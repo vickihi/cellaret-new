@@ -35,7 +35,7 @@
                                     <label class="saq-checkbox-label">
                                         <input type="radio" name="category" value="{{ sub }}" 
                                                class="js-sub-category-radio"
-                                               {% if sub in active_filters.category %}checked{% endif %}>
+                                               {% if active_filters.category == sub and active_filters.category_path == path.value %}checked="checked"{% endif %}>
                                         <span class="custom-box"></span>
                                         <span class="filter-text">{{ sub }}</span>
                                     </label>
@@ -55,10 +55,10 @@
             <button type="button" class="saq-filter-toggle js-filter-toggle">
                 COUNTRY <span class="toggle-icon">+</span>
             </button>
-            <div class="saq-filter-content" style="display: none;">
-                <ul class="saq-filter-list">
+            <div class="saq-filter-content">
+                <ul class="saq-filter-list" data-filter-group="country">
                     {% for country in available_filters.countries %}
-                    <li>
+                    <li class="saq-filter-item {% if forloop.counter > 5 %}hidden-filter-item{% endif %}">
                         <label class="saq-checkbox-label">
                             <input type="checkbox" name="country" value="{{ country.value }}" 
                                    {% if country.value in active_filters.country %}checked{% endif %}>
@@ -68,6 +68,9 @@
                     </li>
                     {% endfor %}
                 </ul>
+                {% if available_filters.countries|length > 5 %}
+                <button type="button" class="btn-show-more js-toggle-show-more" data-target="country">Show more</button>
+                {% endif %}
             </div>
         </div>
 
@@ -75,10 +78,10 @@
             <button type="button" class="saq-filter-toggle js-filter-toggle">
                 TASTE TAG <span class="toggle-icon">+</span>
             </button>
-            <div class="saq-filter-content" style="display: none;">
-                <ul class="saq-filter-list">
+            <div class="saq-filter-content">
+                <ul class="saq-filter-list" data-filter-group="taste">
                     {% for tag in available_filters.taste_tags %}
-                    <li>
+                    <li class="saq-filter-item {% if forloop.counter > 5 %}hidden-filter-item{% endif %}">
                         <label class="saq-checkbox-label">
                             <input type="checkbox" name="taste_tag" value="{{ tag.value }}" 
                                    {% if tag.value in active_filters.taste_tag %}checked{% endif %}>
@@ -89,6 +92,9 @@
                     </li>
                     {% endfor %}
                 </ul>
+                {% if available_filters.taste_tags|length > 5 %}
+                <button type="button" class="btn-show-more js-toggle-show-more" data-target="taste">Show more</button>
+                {% endif %}
             </div>
         </div>
 
@@ -96,20 +102,24 @@
             <button type="button" class="saq-filter-toggle js-filter-toggle">
                 SIZE <span class="toggle-icon">+</span>
             </button>
-            <div class="saq-filter-content" style="display: none;">
-                <ul class="saq-filter-list">
+            <div class="saq-filter-content">
+                <ul class="saq-filter-list" data-filter-group="size">
                     {% for size in available_filters.sizes %}
-                    <li>
+                    <li class="saq-filter-item {% if forloop.counter > 5 %}hidden-filter-item{% endif %}">
                         <label class="saq-checkbox-label">
                             <input type="checkbox" name="size" value="{{ size.value }}" 
                                    {% if size.value in active_filters.size %}checked{% endif %}>
                             <span class="custom-box"></span>
-                            <span class="filter-text">{{ size.value }}&nbsp;</span>
+                            <span class="filter-text js-format-size" data-value="{{ size.value }}">{{ size.value }}</span>
+                            &nbsp;
                             <span class="filter-count">({{ size.count }})</span>
                         </label>
                     </li>
                     {% endfor %}
                 </ul>
+                {% if available_filters.sizes|length > 5 %}
+                <button type="button" class="btn-show-more js-toggle-show-more" data-target="size">Show more</button>
+                {% endif %}
             </div>
         </div>
     </form>

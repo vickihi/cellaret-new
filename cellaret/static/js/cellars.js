@@ -156,15 +156,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const content = this.nextElementSibling;
             const icon = this.querySelector('.toggle-icon');
 
-            if (content.style.display === 'none') {
-                content.style.display = 'block';
+            content.classList.toggle('is-open');
+            
+            if (content.classList.contains('is-open')) {
                 icon.textContent = '-';
             } else {
-                content.style.display = 'none';
                 icon.textContent = '+';
             }
         });
     });
+
+    const categoryContent = document.querySelector('.saq-filter-group:first-child .saq-filter-content');
+    if (categoryContent) {
+        categoryContent.classList.add('is-open');
+    }
 
     const toggleBtns = document.querySelectorAll('.js-toggle-mobile-menu');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -191,9 +196,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    const sizeElements = document.querySelectorAll('.js-format-size');
+    sizeElements.forEach(el => {
+        const val = parseFloat(el.getAttribute('data-value'));
+        
+        if (!isNaN(val)) {
+            if (val >= 1000) {
+                // 1500 -> 1.5 L
+                el.innerHTML = `${val / 1000} <span class="filter-unit">L</span>`;
+            } else {
+                // 750 -> 750 ml
+                el.innerHTML = `${val} <span class="filter-unit">ml</span>`;
+            }
+        }
+    });
+
     const catalogContainer = document.querySelector('.cellars-layout');
 
     if (catalogContainer) {
+
+        const showMoreBtns = document.querySelectorAll('.js-toggle-show-more');
+        showMoreBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const list = document.querySelector(`.saq-filter-list[data-filter-group="${targetId}"]`);
+                const allItems = list.querySelectorAll('.saq-filter-item');
+
+                if (this.textContent === 'Show more') {
+                    allItems.forEach(item => item.classList.remove('hidden-filter-item'));
+                    this.textContent = 'Show less';
+                } else {
+                    allItems.forEach((item, index) => {
+                        if (index >= 5) item.classList.add('hidden-filter-item');
+                    });
+                    this.textContent = 'Show more';
+                }
+            });
+        });
         
         const mainCategoryRadios = document.querySelectorAll('.js-main-category-radio');
         const subCategoryGroups = document.querySelectorAll('.js-sub-category-group');
