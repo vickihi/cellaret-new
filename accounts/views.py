@@ -13,6 +13,7 @@ from accounts.forms import (
 from accounts.services.auth_service import (
     create_user_account,
 )
+from cellars.services import create_cellar
 from accounts.utils import get_safe_redirect_target, store_signup_redirect_target
 
 
@@ -53,6 +54,7 @@ def signup_submit(request):
         password=form.cleaned_data["password1"],
     )
     django_login(request, user)
+    create_cellar(name="Sample Cellar", description="This is a sample cellar ...", user=user)
     messages.success(
         request, "Your account has been created and you are now signed in."
     )
