@@ -294,6 +294,7 @@ aside {
 
 .btn-add:hover {
     background-color: var(--primary-link-dark-hover);
+    cursor: pointer;
 }
 
 .btn-add i {
