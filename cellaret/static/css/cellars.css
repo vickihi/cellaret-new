@@ -54,6 +54,10 @@
     gap: 14px;
 }
 
+.detail-sidebar-nav {
+    padding-bottom: 20px;
+}
+
 .nav-list {
     display: flex;
     flex-direction: column;
@@ -152,11 +156,16 @@
     color: var(--primary-text-light);
 }
 
+.btn-sidebar {
+    margin-top: 8px;
+}
+
 /* Cellar Grid */
 .cellars-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
+    margin-bottom: 48px;
 }
 
 .cellars-grid.main {
