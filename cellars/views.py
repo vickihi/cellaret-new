@@ -98,7 +98,11 @@ def cellar_delete(request, cellar_id):
     delete_cellar(cellar=cellar)
     messages.success(request, f"Your cellar {cellar.name} has been deleted.")
 
-    return redirect("accounts:detail")
+    redirect_to = request.POST.get("next")
+    if redirect_to:
+        return redirect(redirect_to)
+
+    return redirect("cellars:cellars")
 
 
 @login_required
