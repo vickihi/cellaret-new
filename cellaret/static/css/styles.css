@@ -582,6 +582,10 @@ aside {
 }
 
 /* --- Filter Sidebar --- */
+.filter-scroll-area {
+    margin-bottom: 42px;
+}
+
 .sub-category-group {
     display: none;
 }
